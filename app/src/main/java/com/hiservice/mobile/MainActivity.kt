@@ -70,10 +70,14 @@ fun HiService(
                 })
             }
             composable(Screen.Login.route) {
-                LoginContent()
+                LoginContent(navToRegister = {
+                    navController.navigate("register")
+                })
             }
             composable(Screen.Register.route) {
-                RegisterContent()
+                RegisterContent(navToLogin = {
+                    navController.navigate("login")
+                })
             }
             composable(Screen.Dashboard.route) {
                 DashboardContent()

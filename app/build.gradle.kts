@@ -66,6 +66,7 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("com.google.android.gms:play-services-analytics:18.0.4")
     implementation("com.google.firebase:firebase-auth:22.3.0")
+    implementation("androidx.compose.animation:animation-graphics-android:1.5.4")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -82,6 +83,7 @@ dependencies {
     implementation("com.google.accompanist:accompanist-pager:0.20.0")
     implementation("androidx.compose.ui:ui-util-android:1.5.4")
     implementation("io.coil-kt:coil-compose:2.2.2")
+    implementation("io.coil-kt:coil-gif:2.1.0")
 
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")

@@ -33,6 +33,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.hiservice.mobile.ViewModelFactory
 import com.hiservice.mobile.components.ButtonBig
 import com.hiservice.mobile.components.EmailInputText
+import com.hiservice.mobile.components.LoadingComponent
 import com.hiservice.mobile.components.PasswordInputText
 import com.hiservice.mobile.data.Repository
 import com.hiservice.mobile.data.localstorage.UserPref
@@ -50,12 +51,15 @@ fun LoginScreen(
 @Composable
 fun LoginContent(
     modifier: Modifier = Modifier,
+    navToRegister: () -> Unit
 ){
     val current = LocalContext.current
     val viewModelFactory = remember { ViewModelFactory.getInstance(current) }
     val viewModel: LoginViewModel = viewModel(factory = viewModelFactory)
     val scrollState = rememberScrollState()
-
+    val emailText by viewModel.email
+    val passwordText by viewModel.password
+    val loading by viewModel.loading
     Column (
         modifier = modifier
             .verticalScroll(scrollState)
@@ -87,10 +91,10 @@ fun LoginContent(
         )
 
         Spacer(modifier = modifier.height(36.dp))
-        val emailText by viewModel.email
+
         EmailInputText(text = emailText, onQueryChange = viewModel::emailText)
         Spacer(modifier = modifier.height(16.dp))
-        PasswordInputText()
+        PasswordInputText(text = passwordText, onQueryChange = viewModel::passwordText)
 
         Spacer(modifier = modifier.height(100.dp))
 
@@ -100,20 +104,21 @@ fun LoginContent(
                 color = GreyDark
             )
             Text(text = "Register", fontWeight = FontWeight.Bold,modifier = Modifier.clickable {
-
+                navToRegister()
             })
         }
         Spacer(modifier = modifier.height(16.dp))
         ButtonBig(text = "Sign In", onClick = {
-
+            viewModel.loginFunction()
         })
     }
+    LoadingComponent(loading,{})
 }
 
 @Composable
 @Preview(showBackground = true)
 fun LoginContentPreview() {
     HiServiceTheme {
-        LoginContent()
+        LoginContent(navToRegister = {})
     }
 }

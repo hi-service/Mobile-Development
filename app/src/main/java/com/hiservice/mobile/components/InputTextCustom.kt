@@ -79,8 +79,7 @@ fun inputTextLarge(modifier: Modifier = Modifier, onQueryChange: (String) -> Uni
 
 
 @Composable
-fun PasswordInputText(modifier: Modifier = Modifier, onQueryChange: (String) -> Unit) {
-    var password by rememberSaveable  { mutableStateOf("") }
+fun PasswordInputText(modifier: Modifier = Modifier,text: String, onQueryChange: (String) -> Unit) {
     var isError by rememberSaveable  { mutableStateOf(false) }
     var passwordVisibility by rememberSaveable  { mutableStateOf(false) }
 
@@ -95,9 +94,9 @@ fun PasswordInputText(modifier: Modifier = Modifier, onQueryChange: (String) -> 
         )
     }
     TextField(
-        value = password,
+        value = text,
         onValueChange = { newPassword ->
-            password = newPassword
+            onQueryChange(newPassword)
             isError = newPassword.length < 8 // Cek panjang password
         },
         label = { Text("Password") },
@@ -204,6 +203,8 @@ fun EmailInputTextPreview() {
 @Preview(showBackground = true)
 fun PasswordInputTextPreview() {
     HiServiceTheme {
-        PasswordInputText(Modifier, TODO())
+        PasswordInputText(Modifier,"", {
+
+        })
     }
 }

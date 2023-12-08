@@ -1,5 +1,6 @@
 package com.hiservice.mobile.screen.authentication.register
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,15 +17,22 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.hiservice.mobile.ViewModelFactory
 import com.hiservice.mobile.components.ButtonBig
 import com.hiservice.mobile.components.EmailInputText
 import com.hiservice.mobile.components.InputTextCustom
+import com.hiservice.mobile.components.LoadingComponent
 import com.hiservice.mobile.components.PasswordInputText
+import com.hiservice.mobile.screen.authentication.login.LoginViewModel
 import com.hiservice.mobile.ui.theme.GreyDark
 import com.hiservice.mobile.ui.theme.HiServiceTheme
 
@@ -37,8 +45,15 @@ fun RegisterScreen(
 
 @Composable
 fun RegisterContent(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navToLogin : () -> Unit
 ){
+    val current = LocalContext.current
+    val viewModelFactory = remember { ViewModelFactory.getInstance(current) }
+    val viewModel: RegisterViewModel = viewModel(factory = viewModelFactory)
+    val emailText by viewModel.email
+    val passwordText by viewModel.password
+    val loading by viewModel.loading
     val scrollState = rememberScrollState()
     Column (
         modifier = modifier
@@ -72,13 +87,14 @@ fun RegisterContent(
 
         Spacer(modifier = modifier.height(36.dp))
 
-        InputTextCustom(
-            hint = "Full name"
-        )
+/*        InputTextCustom(
+            hint = "Full name",
+
+        )*/
         Spacer(modifier = modifier.height(16.dp))
-        //EmailInputText()
+        EmailInputText(text = emailText, onQueryChange = viewModel::emailText)
         Spacer(modifier = modifier.height(16.dp))
-        PasswordInputText()
+        PasswordInputText(text = passwordText, onQueryChange = viewModel::passwordText)
 
         Spacer(modifier = modifier.height(85.dp))
         Row(modifier = modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center){
@@ -86,10 +102,16 @@ fun RegisterContent(
                 text = "Already have an account? ",
                 color = GreyDark
             )
-            Text(text = "Sign In", fontWeight = FontWeight.Bold)
+            Text(text = "Sign In", fontWeight = FontWeight.Bold , modifier = Modifier.clickable{
+                navToLogin()
+            })
+
         }
         Spacer(modifier = modifier.height(16.dp))
-        ButtonBig(text = "Register"){}
+        ButtonBig(text = "Register", onClick = {
+            viewModel.registerFunction()
+        })
+        LoadingComponent(loading,{})
     }
 }
 
@@ -97,6 +119,6 @@ fun RegisterContent(
 @Preview(showBackground = true)
 fun RegisterContentPreview() {
     HiServiceTheme {
-        RegisterContent()
+        RegisterContent(navToLogin ={})
     }
 }

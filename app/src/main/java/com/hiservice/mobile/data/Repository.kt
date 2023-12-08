@@ -1,6 +1,8 @@
 package com.hiservice.mobile.data
 
 import androidx.lifecycle.LiveData
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import com.hiservice.mobile.data.localstorage.UserPref
 import com.hiservice.mobile.data.model.UserModel
 import kotlinx.coroutines.flow.Flow
@@ -21,6 +23,12 @@ class Repository private constructor(
     suspend fun logout() {
         preference.logout()
     }
+    val auth = Firebase.auth
+
+    val email = "user@example.com"
+    val password = "password"
+
+
 
     companion object {
         @Volatile
