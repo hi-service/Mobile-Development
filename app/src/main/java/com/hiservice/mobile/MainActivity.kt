@@ -18,6 +18,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 import com.hiservice.mobile.screen.afterlogin.dashboard.DashboardContent
 import com.hiservice.mobile.screen.afterlogin.services.first_page_detail.FirstPageDetail
 import com.hiservice.mobile.screen.authentication.login.LoginContent
@@ -27,9 +30,11 @@ import com.hiservice.mobile.ui.theme.HiServiceTheme
 import com.services.finalsubmissionjetpackcompose.ui.navigation.Screen
 
 @Suppress("DEPRECATION")
+private lateinit var auth: FirebaseAuth
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        auth = Firebase.auth
         if (Build.VERSION.SDK_INT < 16) {
             window.setFlags(
                 WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -57,7 +62,7 @@ fun HiService(
     ) {
         NavHost(
             navController = navController,
-            startDestination = Screen.Service_Detail.route
+            startDestination = Screen.Login.route
         ) {
             composable(Screen.OnBoard.route) {
                 OnBoardingScreen(navToLogin = {

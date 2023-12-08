@@ -1,5 +1,6 @@
 package com.hiservice.mobile.screen.authentication.login
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,14 +17,26 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.hiservice.mobile.ViewModelFactory
 import com.hiservice.mobile.components.ButtonBig
 import com.hiservice.mobile.components.EmailInputText
 import com.hiservice.mobile.components.PasswordInputText
+import com.hiservice.mobile.data.Repository
+import com.hiservice.mobile.data.localstorage.UserPref
+import com.hiservice.mobile.data.localstorage.dataStore
 import com.hiservice.mobile.ui.theme.GreyDark
 import com.hiservice.mobile.ui.theme.HiServiceTheme
 
@@ -36,9 +49,13 @@ fun LoginScreen(
 
 @Composable
 fun LoginContent(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ){
+    val current = LocalContext.current
+    val viewModelFactory = remember { ViewModelFactory.getInstance(current) }
+    val viewModel: LoginViewModel = viewModel(factory = viewModelFactory)
     val scrollState = rememberScrollState()
+
     Column (
         modifier = modifier
             .verticalScroll(scrollState)
@@ -70,8 +87,8 @@ fun LoginContent(
         )
 
         Spacer(modifier = modifier.height(36.dp))
-
-        EmailInputText()
+        val emailText by viewModel.email
+        EmailInputText(text = emailText, onQueryChange = viewModel::emailText)
         Spacer(modifier = modifier.height(16.dp))
         PasswordInputText()
 
@@ -82,10 +99,14 @@ fun LoginContent(
                 text = "Don't have an account? ",
                 color = GreyDark
             )
-            Text(text = "Register", fontWeight = FontWeight.Bold)
+            Text(text = "Register", fontWeight = FontWeight.Bold,modifier = Modifier.clickable {
+
+            })
         }
         Spacer(modifier = modifier.height(16.dp))
-        ButtonBig(text = "Sign In"){}
+        ButtonBig(text = "Sign In", onClick = {
+
+        })
     }
 }
 

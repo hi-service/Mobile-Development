@@ -133,8 +133,9 @@ fun PasswordInputText(modifier: Modifier = Modifier) {
 
 
 @Composable
-fun EmailInputText(modifier: Modifier = Modifier) {
-    var text by rememberSaveable  { mutableStateOf("") }
+fun EmailInputText(modifier: Modifier = Modifier,
+                   text: String,
+                   onQueryChange: (String) -> Unit) {
     var isError by rememberSaveable  { mutableStateOf(false) }
 
     val emailRegex = Regex("[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}")
@@ -150,8 +151,8 @@ fun EmailInputText(modifier: Modifier = Modifier) {
     TextField(
         value = text,
         onValueChange = { newText ->
-            text = newText
-            isError = !newText.matches(emailRegex) // Cek validitas email
+            onQueryChange(newText)
+            isError = !newText.matches(emailRegex)
         },
         label = { Text("Email") },
         modifier = modifier
@@ -194,7 +195,8 @@ fun InputTextCustomPreview() {
 @Preview(showBackground = true)
 fun EmailInputTextPreview() {
     HiServiceTheme {
-        EmailInputText()
+        EmailInputText(Modifier,"ricky",{
+        })
     }
 }
 

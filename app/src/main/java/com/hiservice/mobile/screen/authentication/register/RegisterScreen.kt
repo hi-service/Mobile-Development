@@ -76,12 +76,11 @@ fun RegisterContent(
             hint = "Full name"
         )
         Spacer(modifier = modifier.height(16.dp))
-        EmailInputText()
+        //EmailInputText()
         Spacer(modifier = modifier.height(16.dp))
         PasswordInputText()
 
         Spacer(modifier = modifier.height(85.dp))
-
         Row(modifier = modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center){
             Text(
                 text = "Already have an account? ",
