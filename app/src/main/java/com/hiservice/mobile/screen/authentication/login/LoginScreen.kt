@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.outlined.KeyboardArrowLeft
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -19,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -31,6 +33,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.hiservice.mobile.ViewModelFactory
+import com.hiservice.mobile.components.AlertDialogComponent
 import com.hiservice.mobile.components.ButtonBig
 import com.hiservice.mobile.components.EmailInputText
 import com.hiservice.mobile.components.LoadingComponent
@@ -60,6 +63,7 @@ fun LoginContent(
     val emailText by viewModel.email
     val passwordText by viewModel.password
     val loading by viewModel.loading
+    //val openAlertDialog = remember { mutableStateOf(false) }
     Column (
         modifier = modifier
             .verticalScroll(scrollState)
@@ -110,7 +114,18 @@ fun LoginContent(
         Spacer(modifier = modifier.height(16.dp))
         ButtonBig(text = "Sign In", onClick = {
             viewModel.loginFunction()
+            //openAlertDialog.value = true
         })
+
+//        if (openAlertDialog.value) {
+//            AlertDialogComponent(
+//                onDismissRequest = { openAlertDialog.value = false },
+//                onConfirmation = { openAlertDialog.value = false },
+//                dialogTitle = "Login Berhasil",
+//                dialogText = "Klik tombol Oke untuk lanjut ke Dashboard.",
+//                icon = Icons.Filled.CheckCircle
+//            )
+//        }
     }
     LoadingComponent(loading,{})
 }
