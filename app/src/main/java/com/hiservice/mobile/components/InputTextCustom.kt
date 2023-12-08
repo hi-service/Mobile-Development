@@ -27,7 +27,7 @@ import com.hiservice.mobile.ui.theme.HiServiceTheme
 
 
 @Composable
-fun InputTextCustom(hint: String,modifier: Modifier = Modifier){
+fun InputTextCustom(hint: String,modifier: Modifier = Modifier, onQueryChange: (String) -> Unit){
     var text by rememberSaveable  { mutableStateOf("") }
 
     TextField(
@@ -53,7 +53,7 @@ fun InputTextCustom(hint: String,modifier: Modifier = Modifier){
 
 
 @Composable
-fun inputTextLarge(modifier: Modifier = Modifier){
+fun inputTextLarge(modifier: Modifier = Modifier, onQueryChange: (String) -> Unit){
     var text by rememberSaveable  { mutableStateOf("") }
 
     TextField(
@@ -79,7 +79,7 @@ fun inputTextLarge(modifier: Modifier = Modifier){
 
 
 @Composable
-fun PasswordInputText(modifier: Modifier = Modifier) {
+fun PasswordInputText(modifier: Modifier = Modifier, onQueryChange: (String) -> Unit) {
     var password by rememberSaveable  { mutableStateOf("") }
     var isError by rememberSaveable  { mutableStateOf(false) }
     var passwordVisibility by rememberSaveable  { mutableStateOf(false) }
@@ -187,7 +187,7 @@ fun EmailInputText(modifier: Modifier = Modifier,
 @Preview(showBackground = true)
 fun InputTextCustomPreview() {
     HiServiceTheme {
-        InputTextCustom(hint = "Full name")
+        InputTextCustom(hint = "Full name",Modifier, TODO())
     }
 }
 
@@ -204,6 +204,6 @@ fun EmailInputTextPreview() {
 @Preview(showBackground = true)
 fun PasswordInputTextPreview() {
     HiServiceTheme {
-        PasswordInputText()
+        PasswordInputText(Modifier, TODO())
     }
 }
