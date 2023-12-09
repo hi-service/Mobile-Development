@@ -53,6 +53,7 @@ fun RegisterContent(
     val viewModel: RegisterViewModel = viewModel(factory = viewModelFactory)
     val emailText by viewModel.email
     val passwordText by viewModel.password
+    val nameText by viewModel.name
     val loading by viewModel.loading
     val scrollState = rememberScrollState()
     Column (
@@ -87,10 +88,10 @@ fun RegisterContent(
 
         Spacer(modifier = modifier.height(36.dp))
 
-/*        InputTextCustom(
-            hint = "Full name",
+       InputTextCustom(
+            hint = "Full name", text = nameText, onQueryChange = viewModel::nameText
 
-        )*/
+        )
         Spacer(modifier = modifier.height(16.dp))
         EmailInputText(text = emailText, onQueryChange = viewModel::emailText)
         Spacer(modifier = modifier.height(16.dp))
@@ -111,7 +112,7 @@ fun RegisterContent(
         ButtonBig(text = "Register", onClick = {
             viewModel.registerFunction()
         })
-        LoadingComponent(loading,{})
+        LoadingComponent(modifier,loading,{})
     }
 }
 

@@ -9,14 +9,24 @@ import com.google.firebase.auth.auth
 import com.hiservice.mobile.data.Repository
 
 class RegisterViewModel(private val repository: Repository) : ViewModel() {
+    private val _loading = mutableStateOf(false)
+    val loading: State<Boolean> get() = _loading
     val auth = Firebase.auth
+
+
     private val _email = mutableStateOf("")
     val email: State<String> get() = _email
     fun emailText(newText: String) {
         _email.value = newText
     }
-    private val _loading = mutableStateOf(false)
-    val loading: State<Boolean> get() = _loading
+
+    private val _name = mutableStateOf("")
+    val name: State<String> get() = _name
+    fun nameText(newText: String) {
+        _name.value = newText
+    }
+
+
     private val _password = mutableStateOf("")
     val password: State<String> get() = _password
     fun passwordText(newText: String) {
@@ -30,9 +40,10 @@ class RegisterViewModel(private val repository: Repository) : ViewModel() {
             .addOnCompleteListener { task ->
                 _loading.value = false
                 if (task.isSuccessful) {
-                    Log.d("We","Benar")
+
+                    Log.e("User ID",task.getResult().getUser()?.getUid().toString())
                 } else {
-                    Log.d("We","Salah")
+                    Log.d("We",task.exception.toString())
                 }
             }
     }

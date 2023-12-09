@@ -16,8 +16,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredHeight
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -69,6 +72,7 @@ fun GifImage(
 
 @Composable
 fun LoadingComponent(
+    modifier: Modifier = Modifier,
     showDialog: Boolean,
     onDismiss: () -> Unit
 ) {
@@ -78,15 +82,14 @@ fun LoadingComponent(
             properties = DialogProperties(
                 dismissOnClickOutside = false,
                 dismissOnBackPress = false
-            )
+            ),
+
         ) {
             Box(
-                modifier = Modifier
+                modifier = modifier
                     .fillMaxSize()
                     .background(Color.Transparent)
                     .padding(16.dp)
-                    .fillMaxWidth()
-                    .fillMaxSize()
                 ,  contentAlignment = Alignment.Center
             ) {
                 GifImage()

@@ -27,12 +27,11 @@ import com.hiservice.mobile.ui.theme.HiServiceTheme
 
 
 @Composable
-fun InputTextCustom(hint: String,modifier: Modifier = Modifier, onQueryChange: (String) -> Unit){
-    var text by rememberSaveable  { mutableStateOf("") }
+fun InputTextCustom(hint: String,modifier: Modifier = Modifier,text: String, onQueryChange: (String) -> Unit){
 
     TextField(
         value = text,
-        onValueChange = { newText -> text = newText},
+        onValueChange = { newText -> onQueryChange(newText)},
         label = {Text(hint)},
         modifier = modifier
             .height(54.dp)
@@ -182,13 +181,6 @@ fun EmailInputText(modifier: Modifier = Modifier,
     )
 }
 
-@Composable
-@Preview(showBackground = true)
-fun InputTextCustomPreview() {
-    HiServiceTheme {
-        InputTextCustom(hint = "Full name",Modifier, TODO())
-    }
-}
 
 @Composable
 @Preview(showBackground = true)

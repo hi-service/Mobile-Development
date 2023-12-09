@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class Repository private constructor(
-    private val preference: UserPref,
+    private val preference: UserPref
 ) {
 
     suspend fun saveSession(user: UserModel) {
@@ -23,10 +23,6 @@ class Repository private constructor(
     suspend fun logout() {
         preference.logout()
     }
-    val auth = Firebase.auth
-
-    val email = "user@example.com"
-    val password = "password"
 
 
 

@@ -127,7 +127,7 @@ fun LoginContent(
 //            )
 //        }
     }
-    LoadingComponent(loading,{})
+    LoadingComponent(modifier,loading,{})
 }
 
 @Composable
