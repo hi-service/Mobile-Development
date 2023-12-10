@@ -12,12 +12,5 @@ import kotlin.system.exitProcess
 
 class HiServiceApps : Application() {
 
-    override fun onCreate() {
-        super.onCreate()
-    }
 
-
-    override fun onLowMemory() {
-        super.onLowMemory()
-    }
 }

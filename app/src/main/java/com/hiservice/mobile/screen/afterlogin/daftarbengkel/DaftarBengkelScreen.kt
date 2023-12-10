@@ -25,31 +25,41 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.hiservice.mobile.components.CardDaftarBengkel
 import com.hiservice.mobile.components.TopHeadBar
+import com.hiservice.mobile.data.fake_data.BengkelFakeData.listBengkel
+import com.hiservice.mobile.data.fake_data.BengkelFakeData.listBengkel2
 import com.hiservice.mobile.data.fake_data.FakeData1
 import com.hiservice.mobile.data.fake_data.fakeDataSet1
 import com.hiservice.mobile.data.fake_data.fakeDataSet2
+import com.hiservice.mobile.data.model.BengkelModel
 import com.hiservice.mobile.data.model.TabModel
 import com.hiservice.mobile.screen.afterlogin.services.daftar_keluhan.DaftarKeluhanContent
 import com.hiservice.mobile.screen.afterlogin.services.daftar_keluhan.simpleVerticalScrollbar
 import com.hiservice.mobile.ui.theme.DarkCyan
 import com.hiservice.mobile.ui.theme.GreyDark
 import com.hiservice.mobile.ui.theme.YellowGold
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.launch
 
 @Composable
 fun DaftarBengkel() {
     var selectedTabIndex by remember {
         mutableIntStateOf(0) // or use mutableStateOf(0)
     }
+
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         TopHeadBar(text = "Pilih Bengkel", isBack = true)
         Row(
@@ -65,7 +75,7 @@ fun DaftarBengkel() {
                         .width(100.dp)
                         .fillMaxHeight()
                 )
-                Row() {
+                Row {
                     Box(
                         Modifier
                             .width(150.dp)
@@ -94,8 +104,18 @@ fun DaftarBengkel() {
         val scrollState = rememberScrollState()
         val lazyListStateFake1 = rememberLazyListState()
         val lazyListStateFake2 = rememberLazyListState()
-        val fakeDataList = if (selectedTabIndex == 0) fakeDataSet1 else fakeDataSet2
+        val coroutineScope = rememberCoroutineScope()
+        val fakeDataList = if (selectedTabIndex == 0) listBengkel else listBengkel2
         val fakeDataState = if (selectedTabIndex == 0) lazyListStateFake1 else lazyListStateFake2
+        LaunchedEffect(fakeDataState) {
+            snapshotFlow { fakeDataState.firstVisibleItemIndex }
+                .distinctUntilChanged()
+                .collect { index ->
+                    coroutineScope.launch {
+                        fakeDataState.animateScrollToItem(index)
+                    }
+                }
+        }
         Column(
             modifier = Modifier.verticalScroll(scrollState)
                 .padding(start = 26.dp, end = 26.dp, bottom = 26.dp)
@@ -104,17 +124,9 @@ fun DaftarBengkel() {
         }
     }
 }
+
 @Composable
-fun CardDaftarBengkel(
-    DaftarBengkel : FakeData1,
-){
-    Column {
-        Text(text = DaftarBengkel.name)
-        Text(text = DaftarBengkel.email)
-    }
-}
-@Composable
-fun DaftarBengkelList( lazyListState: LazyListState, List : List<FakeData1>){
+fun DaftarBengkelList( lazyListState: LazyListState, List : List<BengkelModel>){
     LazyColumn (state = lazyListState,modifier = Modifier
         .height(400.dp)
         .simpleVerticalScrollbar(lazyListState)
