@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -28,35 +30,31 @@ import com.hiservice.mobile.ui.theme.HiServiceTheme
 import com.hiservice.mobile.ui.theme.YellowGold
 
 @Composable
-fun CardDaftarBengkel(
+fun ReviewerCard(
     daftarBengkel: BengkelModel,
-    linkPhotoBengkel: String,
-    namaBengkel:String,
-    rateNumber: Double,
-    descBengkel: String,
-    modifier:Modifier = Modifier
+    linkPhotoReviewer: String,
+    namaReviewer:String,
+    isiReview: String,
+    modifier: Modifier = Modifier
 ){
     var iconColor = YellowGold
-    Row {
+    Row{
         AsyncImage(
-            model = linkPhotoBengkel,
+            model = linkPhotoReviewer,
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = modifier
-                .width(100.dp)
-                .height(100.dp)
+                .width(50.dp)
+                .height(50.dp)
                 .clip(RoundedCornerShape(15))
         )
         Spacer(modifier = modifier.width(8.dp))
         Column {
-            Text(
-                text = namaBengkel,
-                fontWeight = FontWeight.Medium,
-                fontSize = 18.sp
-            )
             Row {
-                Text(text = rateNumber.toString())
-                Spacer(modifier = modifier.width(8.dp))
+                Text(
+                    text = namaReviewer,
+                    fontWeight = FontWeight.Bold,
+                )
                 LazyRow(
                     content = {
                         items(5) { index ->
@@ -68,27 +66,27 @@ fun CardDaftarBengkel(
                             Icon(
                                 Icons.Outlined.Star,
                                 contentDescription = "Rating ",
-                                tint = iconColor
+                                tint = iconColor,
+                                modifier = Modifier.size(height = 10.dp, width = 10.dp)
                             )
                         }
                     }
                 )
             }
-            Text(text = descBengkel, color = GreyDark)
+            Text(text = isiReview, color = GreyDark)
         }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun CardDaftarBengkelPreview() {
+fun ReviewerCardPreview() {
     HiServiceTheme {
-        CardDaftarBengkel(
+        ReviewerCard(
             daftarBengkel = BengkelFakeData.listBengkel[0],
-            linkPhotoBengkel = "https://unsplash.com/photos/brown-wooden-table-with-chairs-ngLt4Y1vI_Q",
-            namaBengkel = "Bengkel Bapak Udin",
-            rateNumber = 4.7,
-            descBengkel = "Tenpat service motor dan ganti ban"
+            linkPhotoReviewer = "https://unsplash.com/photos/brown-wooden-table-with-chairs-ngLt4Y1vI_Q",
+            namaReviewer = "Bengkel Bapak Udin",
+            isiReview = "Sangatlah mantap"
         )
     }
 }

@@ -1,8 +1,6 @@
 package com.hiservice.mobile.screen.afterlogin.daftarbengkel
 
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -22,7 +20,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -35,20 +32,13 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.hiservice.mobile.components.CardDaftarBengkel
 import com.hiservice.mobile.components.TopHeadBar
 import com.hiservice.mobile.data.fake_data.BengkelFakeData.listBengkel
 import com.hiservice.mobile.data.fake_data.BengkelFakeData.listBengkel2
-import com.hiservice.mobile.data.fake_data.FakeData1
-import com.hiservice.mobile.data.fake_data.fakeDataSet1
-import com.hiservice.mobile.data.fake_data.fakeDataSet2
 import com.hiservice.mobile.data.model.BengkelModel
-import com.hiservice.mobile.data.model.TabModel
-import com.hiservice.mobile.screen.afterlogin.services.daftar_keluhan.DaftarKeluhanContent
 import com.hiservice.mobile.screen.afterlogin.services.daftar_keluhan.simpleVerticalScrollbar
-import com.hiservice.mobile.ui.theme.DarkCyan
 import com.hiservice.mobile.ui.theme.GreyDark
 import com.hiservice.mobile.ui.theme.YellowGold
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -132,7 +122,13 @@ fun DaftarBengkelList( lazyListState: LazyListState, List : List<BengkelModel>){
         .simpleVerticalScrollbar(lazyListState)
     ){
         itemsIndexed(List) { index, list ->
-            CardDaftarBengkel(DaftarBengkel = list)
+            CardDaftarBengkel(
+                daftarBengkel = list,
+                linkPhotoBengkel = "https://unsplash.com/photos/brown-wooden-table-with-chairs-ngLt4Y1vI_Q",
+                namaBengkel = "Bengkel Bapak Udin",
+                rateNumber = 4.7,
+                descBengkel = "Tenpat service motor dan ganti ban"
+            )
         }
     }
 }
