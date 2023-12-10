@@ -4,6 +4,6 @@ import android.widget.CheckBox
 
 data class Keluhan (
     val id: String,
-    val namaKeluhan: String,
-    val isChecklist: Boolean,
+    var namaKeluhan: String,
+    var isChecklist: Boolean,
 )

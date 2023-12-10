@@ -1,6 +1,9 @@
 package com.hiservice.mobile.screen.authentication.login
 
 import android.util.Log
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.outlined.Add
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
@@ -11,6 +14,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.hiservice.mobile.ViewModelFactory
 import com.hiservice.mobile.data.Repository
+import com.hiservice.mobile.data.model.AlertData
 import com.hiservice.mobile.data.model.UserModel
 import kotlinx.coroutines.launch
 
@@ -18,6 +22,14 @@ class LoginViewModel(private val repository: Repository) : ViewModel() {
     val auth = Firebase.auth
     private val _email = mutableStateOf("")
     val email: State<String> get() = _email
+    private val _alert = mutableStateOf(false)
+    val alert: State<Boolean> get() = _alert
+
+    private val _alertData = mutableStateOf(AlertData("Default","Default", Icons.Outlined.Add))
+    val alertData: State<AlertData> get() = _alertData
+    fun alertStatus(newStatus: Boolean) {
+        _alert.value = newStatus
+    }
     fun emailText(newText: String) {
         _email.value = newText
     }
@@ -32,15 +44,34 @@ class LoginViewModel(private val repository: Repository) : ViewModel() {
 
     fun loginFunction() {
         _loading.value = true
-        auth.signInWithEmailAndPassword(_email.value, _password.value)
-            .addOnCompleteListener { task ->
-                _loading.value = false
-                if (task.isSuccessful) {
-                    Log.d("We","Benar")
-                } else {
-                    Log.d("We","Salah")
+        try{
+            auth.signInWithEmailAndPassword(_email.value, _password.value)
+                .addOnCompleteListener { task ->
+                    _loading.value = false
+                    var message = ""
+                    if (task.isSuccessful) {
+                    } else {
+                        if(task.exception.toString().contains("The email address is badly formatted.")){
+                            message = "Format email tidak sesuai"
+                        }else if(task.exception.toString().contains("There is no user record corresponding to this identifier.")){
+                            message = "Email dan Password Salah"
+                        }else if(task.exception.toString().contains("The supplied auth credential is incorrect, malformed or has expired.")){
+                            message = "Email dan Password Salah"
+                        }else if(task.exception.toString().contains("We have blocked all requests from this device due to unusual activity. Try again later.")){
+                            message = "Akses anda di block sementara, coba beberapa saat lagi"
+                        }else{
+                            message = "Error tidak ditemukan dengan kode " + task.exception.toString()
+                        }
+                        _alertData.value = AlertData("Failed!",message,Icons.Filled.Warning)
+                        _alert.value = true
+                    }
                 }
-            }
+        }catch (e : Exception){
+            _alertData.value = AlertData("Failed!","Username / Password tidak boleh kosong",Icons.Filled.Warning)
+            _alert.value = true
+            _loading.value = false
+        }
+
     }
 
 

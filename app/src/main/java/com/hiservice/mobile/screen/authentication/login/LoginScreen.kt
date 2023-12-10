@@ -13,6 +13,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material.icons.outlined.KeyboardArrowLeft
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -63,7 +64,8 @@ fun LoginContent(
     val emailText by viewModel.email
     val passwordText by viewModel.password
     val loading by viewModel.loading
-    //val openAlertDialog = remember { mutableStateOf(false) }
+    val alert by viewModel.alert
+    val alertData by viewModel.alertData
     Column (
         modifier = modifier
             .verticalScroll(scrollState)
@@ -117,15 +119,16 @@ fun LoginContent(
             //openAlertDialog.value = true
         })
 
-//        if (openAlertDialog.value) {
-//            AlertDialogComponent(
-//                onDismissRequest = { openAlertDialog.value = false },
-//                onConfirmation = { openAlertDialog.value = false },
-//                dialogTitle = "Login Berhasil",
-//                dialogText = "Klik tombol Oke untuk lanjut ke Dashboard.",
-//                icon = Icons.Filled.CheckCircle
-//            )
-//        }
+
+    }
+    if (alert) {
+        AlertDialogComponent(
+            onDismissRequest = { viewModel.alertStatus(true) },
+            onConfirmation = { viewModel.alertStatus(false) },
+            dialogTitle = alertData.status,
+            dialogText = alertData.message,
+            icon = alertData.icon
+        )
     }
     LoadingComponent(modifier,loading,{})
 }

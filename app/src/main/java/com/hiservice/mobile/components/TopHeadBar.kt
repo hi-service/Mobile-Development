@@ -1,8 +1,6 @@
 package com.hiservice.mobile.components
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -23,7 +21,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -31,13 +28,10 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.hiservice.mobile.R
-import com.hiservice.mobile.screen.afterlogin.dashboard.BoxMenuComponent
 import com.hiservice.mobile.ui.theme.DarkCyan
-import com.hiservice.mobile.ui.theme.HiServiceTheme
 
 @Composable
 fun TopHeadBar(modifier: Modifier = Modifier,onClick: ()-> Unit = {}, isBack : Boolean = false,text : String) {
@@ -51,7 +45,7 @@ fun TopHeadBar(modifier: Modifier = Modifier,onClick: ()-> Unit = {}, isBack : B
                 Icon(
                     painter = painterResource(R.drawable.back_btn),
                     contentDescription = stringResource(id = R.string.bus_content_description),
-                    modifier = modifier.clickable { onClick.invoke() }
+                    modifier = modifier.clickable { onClick() }
                 )
             }else{
                 Box(
@@ -69,7 +63,7 @@ fun TopHeadBar(modifier: Modifier = Modifier,onClick: ()-> Unit = {}, isBack : B
                         contentDescription = null,
                         modifier = Modifier
                             .size(48.dp)
-                            .clip(CircleShape),
+                            .clip(CircleShape).clickable { onClick() },
                         contentScale = ContentScale.Crop
                     )
                 }

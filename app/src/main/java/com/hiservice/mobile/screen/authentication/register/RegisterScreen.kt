@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.hiservice.mobile.ViewModelFactory
+import com.hiservice.mobile.components.AlertDialogComponent
 import com.hiservice.mobile.components.ButtonBig
 import com.hiservice.mobile.components.EmailInputText
 import com.hiservice.mobile.components.InputTextCustom
@@ -56,6 +57,8 @@ fun RegisterContent(
     val nameText by viewModel.name
     val loading by viewModel.loading
     val scrollState = rememberScrollState()
+    val alert by viewModel.alert
+    val alertData by viewModel.alertData
     Column (
         modifier = modifier
             .verticalScroll(scrollState)
@@ -110,9 +113,19 @@ fun RegisterContent(
         }
         Spacer(modifier = modifier.height(16.dp))
         ButtonBig(text = "Register", onClick = {
-            viewModel.registerFunction()
+            viewModel.setPostTest()
         })
+
         LoadingComponent(modifier,loading,{})
+    }
+    if (alert) {
+        AlertDialogComponent(
+            onDismissRequest = { viewModel.alertStatus(true) },
+            onConfirmation = { viewModel.alertStatus(false) },
+            dialogTitle = alertData.status,
+            dialogText = alertData.message,
+            icon = alertData.icon
+        )
     }
 }
 

@@ -3,6 +3,7 @@ package com.hiservice.mobile.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
@@ -33,7 +34,7 @@ fun AlertDialogComponent(
     dialogText: String,
     icon: ImageVector,
 ) {
-    Box(modifier = Modifier.fillMaxSize().background(Color.Black.copy(0.1f)), contentAlignment = Alignment.Center){
+    Box(modifier = Modifier.fillMaxSize().background(Color.Black.copy(0.3f)), contentAlignment = Alignment.Center){
         AlertDialog(
             icon = {
                 Icon(
@@ -46,7 +47,7 @@ fun AlertDialogComponent(
                 Text(text = dialogTitle)
             },
             text = {
-                Text(text = dialogText, textAlign = TextAlign.Center)
+                Text(text = dialogText, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
             },
             onDismissRequest = {
                 onDismissRequest()
