@@ -23,6 +23,7 @@ import androidx.navigation.compose.rememberNavController
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import com.hiservice.mobile.screen.afterlogin.daftarbengkel.DaftarBengkel
 import com.hiservice.mobile.screen.afterlogin.dashboard.DashboardContent
 import com.hiservice.mobile.screen.afterlogin.dashboard.NavigationDrawerM3
 import com.hiservice.mobile.screen.afterlogin.services.daftar_keluhan.DaftarKeluhan
@@ -72,7 +73,7 @@ fun HiService(
         NavHost(
             navController = navController,
             startDestination = if(isOnline(context)){
-                Screen.Login.route
+                Screen.Dashboard.route
             }else{
                 Screen.NoConnection.route
             }
@@ -93,7 +94,7 @@ fun HiService(
                 })
             }
             composable(Screen.Dashboard.route) {
-                NavigationDrawerM3()
+                DaftarBengkel()
             }
             composable(Screen.Service_Detail.route) {
                 FirstPageDetail()
