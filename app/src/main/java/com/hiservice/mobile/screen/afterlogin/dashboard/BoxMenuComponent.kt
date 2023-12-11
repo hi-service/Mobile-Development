@@ -19,6 +19,8 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,15 +32,17 @@ import androidx.compose.ui.unit.dp
 import com.hiservice.mobile.R
 import com.hiservice.mobile.ui.theme.HiServiceTheme
 import com.hiservice.mobile.ui.theme.YellowGold
+import kotlinx.coroutines.launch
 
 @Composable
-fun BoxMenuComponent(modifier: Modifier = Modifier, image: Int, text : String){
+fun BoxMenuComponent(modifier: Modifier = Modifier, image: Int, text : String,onClick : () -> Unit = {}){
     Card(
         modifier = modifier
             .width(145.dp)
             .height(145.dp)
             .clip(RoundedCornerShape(15.dp))
             .clickable {
+                       onClick()
             },
         elevation = CardDefaults.cardElevation(defaultElevation =  6.dp),
 

@@ -19,6 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -26,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.hiservice.mobile.ViewModelFactory
 import com.hiservice.mobile.components.AlertDialogComponent
 import com.hiservice.mobile.components.ButtonBig
@@ -33,22 +35,17 @@ import com.hiservice.mobile.components.EmailInputText
 import com.hiservice.mobile.components.InputTextCustom
 import com.hiservice.mobile.components.LoadingComponent
 import com.hiservice.mobile.components.PasswordInputText
-import com.hiservice.mobile.screen.authentication.login.LoginViewModel
 import com.hiservice.mobile.ui.theme.GreyDark
 import com.hiservice.mobile.ui.theme.HiServiceTheme
+import kotlinx.coroutines.launch
 
-@Composable
-fun RegisterScreen(
-    modifier: Modifier = Modifier,
-){
-
-}
 
 @Composable
 fun RegisterContent(
     modifier: Modifier = Modifier,
-    navToLogin : () -> Unit
+    navigator: NavHostController
 ){
+    val coroutineScope = rememberCoroutineScope()
     val current = LocalContext.current
     val viewModelFactory = remember { ViewModelFactory.getInstance(current) }
     val viewModel: RegisterViewModel = viewModel(factory = viewModelFactory)
@@ -65,7 +62,7 @@ fun RegisterContent(
             .padding(start = 32.dp, end = 32.dp, top = 44.dp, bottom = 44.dp)
     ){
         IconButton(
-            onClick = { /*TODO*/ },
+            onClick = { navigator.popBackStack() },
             modifier = modifier
         ) {
             Icon(
@@ -107,7 +104,9 @@ fun RegisterContent(
                 color = GreyDark
             )
             Text(text = "Sign In", fontWeight = FontWeight.Bold , modifier = Modifier.clickable{
-                navToLogin()
+                coroutineScope.launch {
+                    navigator.navigate("login")
+                }
             })
 
         }
@@ -133,6 +132,6 @@ fun RegisterContent(
 @Preview(showBackground = true)
 fun RegisterContentPreview() {
     HiServiceTheme {
-        RegisterContent(navToLogin ={})
+
     }
 }

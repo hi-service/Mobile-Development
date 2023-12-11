@@ -1,6 +1,6 @@
 package com.services.finalsubmissionjetpackcompose.ui.navigation
 
-sealed class Screen(val route: String) {
+sealed class Screen(override val route: String) : NavigationDestination {
 
     /* No Connection Screen */
     object NoConnection : Screen("no-connection")
@@ -13,6 +13,21 @@ sealed class Screen(val route: String) {
     //After Login Page
     object Dashboard : Screen("dashboard")
 
+    /*Navigation Drawer Screen*/
+    object Profile : Screen("profile")
+    object About : Screen("about")
+    object Setting : Screen("setting")
+
     /* Service Screen */
     object Service_Detail : Screen("service/detail")
+    object Service_Keluhan_User : Screen("service/keluhan")
+    object Service_Daftar_Bengkel : Screen("service/daftar-bengkel")
+    object Service_Konfirmasi_Order : Screen("service/konfirmasi-order")
+    object Service_Status_Order : Screen("service/status-order")
+}
+
+interface NavigationDestination {
+
+    val route: String
+
 }

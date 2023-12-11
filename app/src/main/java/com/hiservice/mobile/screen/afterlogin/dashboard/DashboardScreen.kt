@@ -16,10 +16,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Face
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ModalDrawerSheet
@@ -42,6 +38,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.hiservice.mobile.R
 import com.hiservice.mobile.components.TopHeadBar
 import com.hiservice.mobile.ui.theme.DarkCyan
@@ -54,7 +51,7 @@ data class DrawerItem(
     val secondaryLabel: String
 )
 @Composable
-fun NavigationDrawerM3() {
+fun DashboardScreen(navigator: NavHostController) {
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -158,14 +155,17 @@ fun NavigationDrawerM3() {
         content = {
 
             DashboardContent(
-                openNavDrawer = { scope.launch { drawerState.open() } }
+                openNavDrawer = { scope.launch { drawerState.open() } },
+                navigator = navigator
             )
         }
     )
 }
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun DashboardContent(modifier : Modifier = Modifier,openNavDrawer: () -> Unit){
+fun DashboardContent(modifier : Modifier = Modifier,navigator: NavHostController,openNavDrawer: () -> Unit){
+    val coroutineScope = rememberCoroutineScope()
+
     Column(modifier = modifier.fillMaxSize()) {
         TopHeadBar(text = "Dashboard", onClick = {
             openNavDrawer()
@@ -180,7 +180,12 @@ fun DashboardContent(modifier : Modifier = Modifier,openNavDrawer: () -> Unit){
         Row(modifier = modifier
             .fillMaxWidth()
             .padding(start = 16.dp, end = 16.dp),horizontalArrangement = Arrangement.SpaceEvenly) {
-            BoxMenuComponent(image = R.drawable.reminder_menu, text = "Riwayat Service")
+            BoxMenuComponent(image = R.drawable.reminder_menu, text = "Riwayat Service", onClick =
+            {
+                    coroutineScope.launch {
+                        navigator.navigate("login")
+                }
+            })
             BoxMenuComponent(image = R.drawable.consult_menu, text = "E - Consult")
         }
         Spacer(modifier = modifier.height(24.dp))
@@ -194,6 +199,6 @@ fun DashboardContent(modifier : Modifier = Modifier,openNavDrawer: () -> Unit){
 @Composable
 fun GetPrev() {
     HiServiceTheme {
-        NavigationDrawerM3()
+
     }
 }

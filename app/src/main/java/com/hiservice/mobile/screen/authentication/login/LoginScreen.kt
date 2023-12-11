@@ -12,50 +12,37 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material.icons.outlined.KeyboardArrowLeft
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.hiservice.mobile.ViewModelFactory
 import com.hiservice.mobile.components.AlertDialogComponent
 import com.hiservice.mobile.components.ButtonBig
 import com.hiservice.mobile.components.EmailInputText
 import com.hiservice.mobile.components.LoadingComponent
 import com.hiservice.mobile.components.PasswordInputText
-import com.hiservice.mobile.data.Repository
-import com.hiservice.mobile.data.localstorage.UserPref
-import com.hiservice.mobile.data.localstorage.dataStore
 import com.hiservice.mobile.ui.theme.GreyDark
 import com.hiservice.mobile.ui.theme.HiServiceTheme
+import kotlinx.coroutines.launch
 
-@Composable
-fun LoginScreen(
-    modifier: Modifier = Modifier
-){
-
-}
 
 @Composable
 fun LoginContent(
     modifier: Modifier = Modifier,
-    navToRegister: () -> Unit
+    navigator: NavHostController
 ){
     val current = LocalContext.current
     val viewModelFactory = remember { ViewModelFactory.getInstance(current) }
@@ -66,6 +53,7 @@ fun LoginContent(
     val loading by viewModel.loading
     val alert by viewModel.alert
     val alertData by viewModel.alertData
+    val coroutineScope = rememberCoroutineScope()
     Column (
         modifier = modifier
             .verticalScroll(scrollState)
@@ -110,13 +98,14 @@ fun LoginContent(
                 color = GreyDark
             )
             Text(text = "Register", fontWeight = FontWeight.Bold,modifier = Modifier.clickable {
-                navToRegister()
+                coroutineScope.launch {
+                    navigator.navigate("register")
+                }
             })
         }
         Spacer(modifier = modifier.height(16.dp))
         ButtonBig(text = "Sign In", onClick = {
             viewModel.loginFunction()
-            //openAlertDialog.value = true
         })
 
 
@@ -137,6 +126,6 @@ fun LoginContent(
 @Preview(showBackground = true)
 fun LoginContentPreview() {
     HiServiceTheme {
-        LoginContent(navToRegister = {})
+
     }
 }

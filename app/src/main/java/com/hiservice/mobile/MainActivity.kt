@@ -11,28 +11,22 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
-import com.hiservice.mobile.screen.afterlogin.daftarbengkel.DaftarBengkel
-import com.hiservice.mobile.screen.afterlogin.dashboard.DashboardContent
-import com.hiservice.mobile.screen.afterlogin.dashboard.NavigationDrawerM3
-import com.hiservice.mobile.screen.afterlogin.services.daftar_keluhan.DaftarKeluhan
+import com.hiservice.mobile.screen.afterlogin.dashboard.DashboardScreen
 import com.hiservice.mobile.screen.afterlogin.services.first_page_detail.FirstPageDetail
 import com.hiservice.mobile.screen.authentication.login.LoginContent
 import com.hiservice.mobile.screen.authentication.register.RegisterContent
 import com.hiservice.mobile.screen.no_connection.NoConnection
 import com.hiservice.mobile.screen.on_board.OnBoardingScreen
-import com.hiservice.mobile.screen.statusorder.StatusOrderScreen
 import com.hiservice.mobile.ui.theme.HiServiceTheme
 import com.hiservice.mobile.util.Connection.Companion.isOnline
 import com.services.finalsubmissionjetpackcompose.ui.navigation.Screen
@@ -67,7 +61,6 @@ class MainActivity : ComponentActivity() {
 }
 @Composable
 fun HiService(
-    modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     context: Context = LocalContext.current
     ) {
@@ -85,17 +78,13 @@ fun HiService(
                 })
             }
             composable(Screen.Login.route) {
-                LoginContent(navToRegister = {
-                    navController.navigate("register")
-                })
+                LoginContent(navigator = navController)
             }
             composable(Screen.Register.route) {
-                RegisterContent(navToLogin = {
-                    navController.navigate("login")
-                })
+                RegisterContent(navigator = navController)
             }
             composable(Screen.Dashboard.route) {
-                DaftarBengkel()
+                DashboardScreen(navigator = navController)
             }
             composable(Screen.Service_Detail.route) {
                 FirstPageDetail()
