@@ -27,7 +27,9 @@ fun ButtonBig(
     text: String,
     modifier: Modifier = Modifier.fillMaxWidth(),
     enabled: Boolean = true,
-    onClick: () -> Unit
+    buttonColors : Color = YellowGold,
+    textColor : Color = DarkCyan,
+    onClick: () -> Unit,
 ){
     Button(
         onClick = onClick,
@@ -36,7 +38,7 @@ fun ButtonBig(
             .height(54.dp)
             .clip(RoundedCornerShape(15.dp))
             .fillMaxWidth()
-            .background(color = YellowGold),
+            .background(color = buttonColors),
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Transparent
         )
@@ -49,7 +51,7 @@ fun ButtonBig(
                 fontSize = 16.sp
             ),
             modifier = Modifier.align(Alignment.CenterVertically),
-            color = DarkCyan,
+            color = textColor,
         )
     }
 }

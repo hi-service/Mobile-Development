@@ -32,6 +32,7 @@ import com.hiservice.mobile.screen.authentication.login.LoginContent
 import com.hiservice.mobile.screen.authentication.register.RegisterContent
 import com.hiservice.mobile.screen.no_connection.NoConnection
 import com.hiservice.mobile.screen.on_board.OnBoardingScreen
+import com.hiservice.mobile.screen.statusorder.StatusOrderScreen
 import com.hiservice.mobile.ui.theme.HiServiceTheme
 import com.hiservice.mobile.util.Connection.Companion.isOnline
 import com.services.finalsubmissionjetpackcompose.ui.navigation.Screen

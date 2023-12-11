@@ -20,6 +20,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -47,7 +48,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun DaftarBengkel() {
     var selectedTabIndex by remember {
-        mutableIntStateOf(0) // or use mutableStateOf(0)
+        mutableIntStateOf(0)
     }
 
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
@@ -91,7 +92,7 @@ fun DaftarBengkel() {
             }
 
         }
-        val scrollState = rememberScrollState()
+        Spacer(modifier = Modifier.height(10.dp))
         val lazyListStateFake1 = rememberLazyListState()
         val lazyListStateFake2 = rememberLazyListState()
         val coroutineScope = rememberCoroutineScope()
@@ -107,7 +108,7 @@ fun DaftarBengkel() {
                 }
         }
         Column(
-            modifier = Modifier.verticalScroll(scrollState)
+            modifier = Modifier
                 .padding(start = 26.dp, end = 26.dp, bottom = 26.dp)
         ) {
             DaftarBengkelList(fakeDataState,fakeDataList)
@@ -118,17 +119,19 @@ fun DaftarBengkel() {
 @Composable
 fun DaftarBengkelList( lazyListState: LazyListState, List : List<BengkelModel>){
     LazyColumn (state = lazyListState,modifier = Modifier
-        .height(400.dp)
+        .fillMaxHeight(1f)
         .simpleVerticalScrollbar(lazyListState)
     ){
         itemsIndexed(List) { index, list ->
             CardDaftarBengkel(
                 daftarBengkel = list,
-                linkPhotoBengkel = "https://unsplash.com/photos/brown-wooden-table-with-chairs-ngLt4Y1vI_Q",
+                linkPhotoBengkel = "https://media.istockphoto.com/id/1347150429/id/foto/mekanik-profesional-bekerja-pada-mesin-mobil-di-garasi.jpg?s=612x612&w=0&k=20&c=Uw7QwBTEc98rrQPg6j5lmWRe-HHmf7vbiKlZ0WphJHM=",
                 namaBengkel = "Bengkel Bapak Udin",
                 rateNumber = 4.7,
                 descBengkel = "Tenpat service motor dan ganti ban"
             )
+            Divider()
+            Spacer(modifier = Modifier.height(5.dp))
         }
     }
 }
