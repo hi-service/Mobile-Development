@@ -67,7 +67,7 @@ fun HiService(
         NavHost(
             navController = navController,
             startDestination = if(isOnline(context)){
-                Screen.Dashboard.route
+                Screen.Login.route
             }else{
                 Screen.NoConnection.route
             }
