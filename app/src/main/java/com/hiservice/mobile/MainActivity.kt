@@ -23,6 +23,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.hiservice.mobile.screen.afterlogin.dashboard.DashboardScreen
+import com.hiservice.mobile.screen.afterlogin.profil.ProfilScreen
 import com.hiservice.mobile.screen.afterlogin.services.first_page_detail.FirstPageDetail
 import com.hiservice.mobile.screen.authentication.login.LoginContent
 import com.hiservice.mobile.screen.authentication.register.RegisterContent
@@ -91,6 +92,9 @@ fun HiService(
             }
             composable(Screen.Dashboard.route) {
                 DashboardScreen(navigator = navController)
+            }
+            composable(Screen.Profile.route) {
+                ProfilScreen(linkPhotoUser = "https://media.licdn.com/dms/image/D4E03AQEbGPRR9eGXLQ/profile-displayphoto-shrink_800_800/0/1694487158984?e=1707955200&v=beta&t=MGU0GsaG-PW8kZJdvWNIXsLNEP8Yvf_extevTCAfYRQ",nama = "Ricky Triyoga Wardhhana", nomorHp = "082131029815")
             }
             composable(Screen.Service_Detail.route) {
                 FirstPageDetail()

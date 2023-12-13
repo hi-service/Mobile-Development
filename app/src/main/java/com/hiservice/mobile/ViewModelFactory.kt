@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.hiservice.mobile.data.Repository
 import com.hiservice.mobile.data.injection.Injection
+import com.hiservice.mobile.screen.afterlogin.dashboard.DashboardViewModel
+import com.hiservice.mobile.screen.afterlogin.profil.ProfilViewModel
 import com.hiservice.mobile.screen.authentication.login.LoginViewModel
 import com.hiservice.mobile.screen.authentication.register.RegisterViewModel
 import com.hiservice.mobile.screen.splash.SplashScreenViewModel
@@ -19,6 +21,10 @@ class ViewModelFactory(private val repository: Repository) :
             return RegisterViewModel(repository) as T
         }else if (modelClass.isAssignableFrom(SplashScreenViewModel::class.java)) {
             return SplashScreenViewModel(repository) as T
+        }else if (modelClass.isAssignableFrom(ProfilViewModel::class.java)) {
+            return ProfilViewModel(repository) as T
+        }else if (modelClass.isAssignableFrom(DashboardViewModel::class.java)) {
+            return DashboardViewModel(repository) as T
         }
 
         throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)

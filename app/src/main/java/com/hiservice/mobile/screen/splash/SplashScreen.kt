@@ -9,6 +9,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,6 +22,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.LinearProgressIndicator
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
@@ -36,7 +38,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.hiservice.mobile.R
@@ -70,11 +77,11 @@ fun SplashScreenAnimation(navigator: NavHostController) {
         showProgressBar.value = true
         if(session.value?.isLogin == true){
             navigator.navigate("dashboard"){
-                popUpTo("dashboard") { inclusive = true }
+                popUpTo("splash") { inclusive = true }
             }
         }else{
             navigator.navigate("on-board"){
-                popUpTo("on-board") { inclusive = true }
+                popUpTo("splash") { inclusive = true }
             }
         }
     }
@@ -96,7 +103,19 @@ fun SplashScreenAnimation(navigator: NavHostController) {
                 )
             }
         }
-
+        Box(modifier = Modifier.fillMaxSize()){
+            Column(Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+                Spacer(modifier = Modifier.weight(1f))
+                Text(
+                    text = "V.1.0.0",
+                    fontFamily = FontFamily(Font(R.font.poppins_regular)),
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 18.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+        }
     }
 
 }

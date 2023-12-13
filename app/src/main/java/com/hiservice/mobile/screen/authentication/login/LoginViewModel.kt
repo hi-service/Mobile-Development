@@ -32,8 +32,6 @@ class LoginViewModel(private val repository: Repository) : ViewModel() {
     private val _alert = mutableStateOf(false)
     val alert: State<Boolean> get() = _alert
 
-    private val _isLogin = mutableStateOf(false)
-    val isLogin: State<Boolean> get() = _isLogin
 
     private val _alertData = mutableStateOf(AlertData("Default","Default", Icons.Outlined.Add))
     val alertData: State<AlertData> get() = _alertData

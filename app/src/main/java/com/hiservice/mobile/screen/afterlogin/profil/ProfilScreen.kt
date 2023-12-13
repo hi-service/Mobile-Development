@@ -48,13 +48,16 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.size.Scale
+import com.hiservice.mobile.ViewModelFactory
 import com.hiservice.mobile.components.InputTextCustom
 import com.hiservice.mobile.components.InputTextNoBG
 import com.hiservice.mobile.components.TopHeadBar
 import com.hiservice.mobile.screen.afterlogin.dashboard.CarouselCard
+import com.hiservice.mobile.screen.authentication.login.LoginViewModel
 import com.hiservice.mobile.ui.theme.GreyDark
 import com.hiservice.mobile.ui.theme.HiServiceTheme
 import com.hiservice.mobile.ui.theme.WhiteReal
@@ -64,11 +67,15 @@ import com.hiservice.mobile.ui.theme.YellowGold
 @Composable
 fun ProfilScreen(
     linkPhotoUser: String,
-    email: String,
     nama: String,
     nomorHp: String,
     modifier: Modifier = Modifier
 ){
+
+    val current = LocalContext.current
+    val viewModelFactory = remember { ViewModelFactory.getInstance(current) }
+    val viewModel: ProfilViewModel = viewModel(factory = viewModelFactory)
+    val email by viewModel.email
 
     val sheetState = rememberModalBottomSheetState()
     var isSheetOpen by rememberSaveable {
@@ -194,7 +201,6 @@ fun ProfilScreenPreview(){
     HiServiceTheme {
         ProfilScreen(
             linkPhotoUser = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Keanu_Reeves_%28crop_and_levels%29_%28cropped%29.jpg/330px-Keanu_Reeves_%28crop_and_levels%29_%28cropped%29.jpg",
-            email = "ajatkarburator14@gmail.com",
             nama = "Ajat Karburator",
             nomorHp = "+6289700059872"
         )

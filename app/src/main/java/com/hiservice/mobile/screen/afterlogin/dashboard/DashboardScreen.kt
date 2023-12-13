@@ -25,12 +25,14 @@ import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -38,9 +40,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.hiservice.mobile.R
+import com.hiservice.mobile.ViewModelFactory
 import com.hiservice.mobile.components.TopHeadBar
+import com.hiservice.mobile.screen.authentication.login.LoginViewModel
 import com.hiservice.mobile.ui.theme.DarkCyan
 import com.hiservice.mobile.ui.theme.HiServiceTheme
 import kotlinx.coroutines.launch
@@ -48,20 +53,37 @@ import kotlinx.coroutines.launch
 data class DrawerItem(
     val icon: Int,
     val label: String,
-    val secondaryLabel: String
+    val secondaryLabel: String,
+    val clickFunc : () -> Unit
 )
 @Composable
 fun DashboardScreen(navigator: NavHostController) {
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+    val current = LocalContext.current
+    val viewModelFactory = remember { ViewModelFactory.getInstance(current) }
+    val viewModel: DashboardViewModel = viewModel(factory = viewModelFactory)
     val items = listOf(
-        DrawerItem(icon = R.drawable.person_icon, label = "Account", secondaryLabel = ""),
-        DrawerItem(icon = R.drawable.info, label = "About", secondaryLabel = ""),
-        DrawerItem(icon = 0, label = "", secondaryLabel = ""),
-        DrawerItem(icon = R.drawable.settings, label = "Settings", secondaryLabel = ""),
-        DrawerItem(icon = R.drawable.logout, label = "Logout", secondaryLabel = ""),
-        DrawerItem(icon = 1, label = "", secondaryLabel = ""),
+        DrawerItem(icon = R.drawable.person_icon, label = "Account", secondaryLabel = ""){
+            navigator.navigate("profile")
+        },
+        DrawerItem(icon = R.drawable.info, label = "About", secondaryLabel = ""){
+            navigator.navigate("")
+        },
+        DrawerItem(icon = 0, label = "", secondaryLabel = ""){
+
+        },
+        DrawerItem(icon = R.drawable.settings, label = "Settings", secondaryLabel = ""){
+            navigator.navigate("settings")
+        },
+        DrawerItem(icon = R.drawable.logout, label = "Logout", secondaryLabel = ""){
+            viewModel.logout()
+            navigator.navigate("on-board")
+        },
+        DrawerItem(icon = 1, label = "", secondaryLabel = ""){
+
+        },
     )
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -124,7 +146,8 @@ fun DashboardScreen(navigator: NavHostController) {
                                 label = { Text(text = item.label) },
                                 selected = false,
                                 onClick = {
-                                    scope.launch { drawerState.close() }
+                                    scope.launch { drawerState.close()
+                                    item.clickFunc()}
                                 },
                                 icon = {
                                     if(item.icon!=1){
