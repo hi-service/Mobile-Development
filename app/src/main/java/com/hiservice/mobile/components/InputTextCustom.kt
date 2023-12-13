@@ -24,6 +24,7 @@ import com.hiservice.mobile.ui.theme.DarkCyan
 import com.hiservice.mobile.ui.theme.GreyDark
 import com.hiservice.mobile.ui.theme.GreyLight
 import com.hiservice.mobile.ui.theme.HiServiceTheme
+import com.hiservice.mobile.ui.theme.YellowGold
 
 
 @Composable
@@ -55,6 +56,28 @@ fun InputTextCustom(hint: String,modifier: Modifier = Modifier,text: String, onQ
     )
 }
 
+@Composable
+fun InputTextNoBG(hint: String,modifier: Modifier = Modifier,text: String, onQueryChange: (String) -> Unit){
+
+    TextField(
+        value = text,
+        onValueChange = { newText -> onQueryChange(newText)},
+        modifier = modifier
+            .height(54.dp)
+            .clip(RoundedCornerShape(10.dp))
+            .fillMaxWidth(),
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = Color.Transparent,
+            unfocusedContainerColor = Color.Transparent,
+            disabledContainerColor = GreyLight,
+            cursorColor = DarkCyan,
+            focusedIndicatorColor = YellowGold,
+            unfocusedIndicatorColor = YellowGold,
+            focusedLabelColor = GreyDark,
+            unfocusedLabelColor = GreyDark,
+        )
+    )
+}
 
 @Composable
 fun inputTextLarge(modifier: Modifier = Modifier, onQueryChange: (String) -> Unit){
