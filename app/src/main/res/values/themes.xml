@@ -2,4 +2,7 @@
 <resources>
 
     <style name="Theme.HiService" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.RemoveSplashScreenTheme" parent="@style/Theme.HiService">
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
 </resources>

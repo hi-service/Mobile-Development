@@ -33,6 +33,7 @@ fun InputTextCustom(hint: String,modifier: Modifier = Modifier,text: String, onQ
         value = text,
         onValueChange = { newText -> onQueryChange(newText)},
         label = {Text(hint)},
+        maxLines = 1,
         modifier = modifier
             .height(54.dp)
             .clip(RoundedCornerShape(10.dp))
@@ -46,7 +47,11 @@ fun InputTextCustom(hint: String,modifier: Modifier = Modifier,text: String, onQ
             unfocusedIndicatorColor = Color.Transparent,
             focusedLabelColor = GreyDark,
             unfocusedLabelColor = GreyDark,
+        ),
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Done,
         )
+
     )
 }
 

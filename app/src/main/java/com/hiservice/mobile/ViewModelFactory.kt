@@ -7,6 +7,7 @@ import com.hiservice.mobile.data.Repository
 import com.hiservice.mobile.data.injection.Injection
 import com.hiservice.mobile.screen.authentication.login.LoginViewModel
 import com.hiservice.mobile.screen.authentication.register.RegisterViewModel
+import com.hiservice.mobile.screen.splash.SplashScreenViewModel
 
 class ViewModelFactory(private val repository: Repository) :
     ViewModelProvider.NewInstanceFactory() {
@@ -16,6 +17,8 @@ class ViewModelFactory(private val repository: Repository) :
             return LoginViewModel(repository) as T
         }else if (modelClass.isAssignableFrom(RegisterViewModel::class.java)) {
             return RegisterViewModel(repository) as T
+        }else if (modelClass.isAssignableFrom(SplashScreenViewModel::class.java)) {
+            return SplashScreenViewModel(repository) as T
         }
 
         throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)

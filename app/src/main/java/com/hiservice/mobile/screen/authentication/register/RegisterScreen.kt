@@ -112,7 +112,7 @@ fun RegisterContent(
         }
         Spacer(modifier = modifier.height(16.dp))
         ButtonBig(text = "Register", onClick = {
-            viewModel.setPostTest()
+            viewModel.registerFunction()
         })
 
         LoadingComponent(modifier,loading,{})
@@ -120,7 +120,10 @@ fun RegisterContent(
     if (alert) {
         AlertDialogComponent(
             onDismissRequest = { viewModel.alertStatus(true) },
-            onConfirmation = { viewModel.alertStatus(false) },
+            onConfirmation = { viewModel.alertStatus(false)
+                             navigator.navigate("login"){
+                                 popUpTo("login") { inclusive = true }
+                             }},
             dialogTitle = alertData.status,
             dialogText = alertData.message,
             icon = alertData.icon

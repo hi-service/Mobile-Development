@@ -7,6 +7,7 @@ import android.view.View
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -27,6 +28,7 @@ import com.hiservice.mobile.screen.authentication.login.LoginContent
 import com.hiservice.mobile.screen.authentication.register.RegisterContent
 import com.hiservice.mobile.screen.no_connection.NoConnection
 import com.hiservice.mobile.screen.on_board.OnBoardingScreen
+import com.hiservice.mobile.screen.splash.SplashScreenAnimation
 import com.hiservice.mobile.ui.theme.HiServiceTheme
 import com.hiservice.mobile.util.Connection.Companion.isOnline
 import com.services.finalsubmissionjetpackcompose.ui.navigation.Screen
@@ -59,6 +61,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun HiService(
     navController: NavHostController = rememberNavController(),
@@ -67,11 +70,14 @@ fun HiService(
         NavHost(
             navController = navController,
             startDestination = if(isOnline(context)){
-                Screen.Login.route
+                Screen.Splash.route
             }else{
                 Screen.NoConnection.route
             }
         ) {
+            composable(Screen.Splash.route) {
+                SplashScreenAnimation(navController)
+            }
             composable(Screen.OnBoard.route) {
                 OnBoardingScreen(navToLogin = {
                     navController.navigate("login")

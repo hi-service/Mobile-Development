@@ -18,6 +18,5 @@ class KeluhanViewModel : ViewModel() {
             }else{
                 _itemsState[index] = _itemsState[index].copy(isChecklist = true)
             }
-
     }
 }

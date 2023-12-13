@@ -1,5 +1,6 @@
 package com.hiservice.mobile.data.retrofit
 
+import com.hiservice.mobile.data.retrofit.gson.LoginResponse
 import com.hiservice.mobile.data.retrofit.gson.PostResponse
 import com.hiservice.mobile.data.retrofit.gson.RegisterResponse
 import retrofit2.Call
@@ -11,13 +12,16 @@ import retrofit2.http.Query
 
 interface ApiService {
     @FormUrlEncoded
-    @POST("create")
-    suspend fun registerUserId(
-        @Field("name") name: String,
-        @Field("age") age: String,
-        @Field("salary") salary: String,
-
-    ): PostResponse
+    @POST("login")
+    suspend fun loginRequest(
+        @Field("user_id") user_id: String,
+    ): LoginResponse
+    @FormUrlEncoded
+    @POST("register")
+    suspend fun registerRequest(
+        @Field("user_id") user_id: String,
+        @Field("user_name") user_name: String,
+        ): LoginResponse
 
 
 }

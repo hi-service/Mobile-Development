@@ -1,7 +1,8 @@
 package com.services.finalsubmissionjetpackcompose.ui.navigation
 
 sealed class Screen(override val route: String) : NavigationDestination {
-
+    /* Splash Screen */
+    object Splash : Screen("splash")
     /* No Connection Screen */
     object NoConnection : Screen("no-connection")
 

@@ -51,11 +51,11 @@ class RegisterViewModel(private val repository: Repository) : ViewModel() {
     fun passwordText(newText: String) {
         _password.value = newText
     }
-    private suspend fun registerToApi(){
+    private suspend fun registerToApi(user_id:String){
         _loading.value = true
         try {
-            val response = ApiConfig.getApiService().registerUserId("Ricky","Ricky","RIcky")
-            _alertData.value = AlertData("Sukses !", response.message!!,Icons.Filled.CheckCircle)
+            val response = ApiConfig.getApiService().registerRequest(user_id,_name.value)
+            _alertData.value = AlertData("Sukses !", response.success.toString(),Icons.Filled.CheckCircle)
             _alert.value = true
         } catch (e: HttpException) {
             _alertData.value = AlertData("Failed!",e.message(),Icons.Filled.Warning)
@@ -66,31 +66,6 @@ class RegisterViewModel(private val repository: Repository) : ViewModel() {
             _loading.value = false
         }
         }
-    fun setPostTest(){
-
-
-        viewModelScope.launch {
-            registerToApi()
-        }
-
-    }
-   /* private suspend fun registerToApi(){
-        try {
-            val response = ApiConfig.getApiService().registerUserId()
-            if(response.success == true){
-                _alertData.value = AlertData("Sukses !","User Berhasil Ditambahkan !",Icons.Filled.CheckCircle)
-                _alert.value = true
-            }else{
-                _alertData.value = AlertData("Failed!",response.toString(),Icons.Filled.Warning)
-                _alert.value = true
-            }
-        } catch (e: HttpException) {
-            _alertData.value = AlertData("Failed!",e.message(),Icons.Filled.Warning)
-            _alert.value = true
-        } catch (e: Exception) {
-            e.message?.let { Log.e("Exception", it) }
-        }
-    }*/
     fun registerFunction() {
         _loading.value = true
         auth.createUserWithEmailAndPassword(_email.value, _password.value)
@@ -98,7 +73,9 @@ class RegisterViewModel(private val repository: Repository) : ViewModel() {
                 _loading.value = false
                 var message = ""
                 if (task.isSuccessful) {
-
+                    viewModelScope.launch {
+                        registerToApi(task.result.user!!.uid)
+                    }
                 } else {
                     RegisterAlertMessages(task.exception.toString())
                     _alertData.value = AlertData("Failed!",message,Icons.Filled.Warning)
