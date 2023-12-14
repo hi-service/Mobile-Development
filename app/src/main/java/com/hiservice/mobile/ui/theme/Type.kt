@@ -17,6 +17,15 @@ val myFont = FontFamily(
     Font(R.font.poppins_semibold, FontWeight.SemiBold),
 )
 
+val tipografi = Typography(
+    bodyLarge = TextStyle(
+        fontFamily = myFont,
+        fontWeight = FontWeight.Medium,
+        fontSize = 16.sp,
+        letterSpacing = 0.5.sp
+    )
+)
+
 val Typography = Typography(
     bodyLarge = TextStyle(
         fontFamily = myFont,

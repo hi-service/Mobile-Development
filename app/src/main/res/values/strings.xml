@@ -3,4 +3,5 @@
     <string name="onBoardDesc">On Board 1</string>
     <string name="bus_content_description">Icon Back</string>
     <string name="api_key">AIzaSyB2VWma2FEOVgx9KiHJgSkuTrEBIIMJ0VM</string>
+    <string name="part_price">Rp%d</string>
 </resources>

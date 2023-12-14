@@ -100,7 +100,6 @@ fun ProfilScreen(
                     contentDescription = null
                 )
                 Column(modifier = modifier
-                    .padding(10.dp)
                     .clip(CircleShape)
                     .background(color = YellowGold)
                     .size(height = 40.dp, width = 40.dp),
