@@ -23,7 +23,7 @@ import com.hiservice.mobile.ui.theme.HiServiceTheme
 import kotlinx.coroutines.flow.flowOf
 
 @Composable
-fun ExploreShopScreen(
+fun ExploreShopContent(
     partSel: List<PartShopModelWrapper>,
     modifier: Modifier = Modifier,
     navigateToDetail: (Long) -> Unit
@@ -68,7 +68,7 @@ fun generateDummyData(): List<PartShopModelWrapper> {
 fun ExploreShopContentPreview(){
     val dummyData = generateDummyData()
     HiServiceTheme {
-        ExploreShopScreen(
+        ExploreShopContent(
             partSel = dummyData,
             navigateToDetail = {}
         )

@@ -33,7 +33,7 @@ fun PartSellItem(
     val formattedAmount = String.format("Rp%,d", harga)
     Column(
         modifier = modifier
-            .border(width = 1.dp, color = DarkCyan, RoundedCornerShape(10.dp))
+            .border(width = 1.dp, color = DarkCyan, RoundedCornerShape(15.dp))
 //            .background(color = GreyLight, RoundedCornerShape(10.dp))
     ){
         AsyncImage(
@@ -44,7 +44,7 @@ fun PartSellItem(
                 .padding(top = 8.dp, start = 8.dp, end = 8.dp)
                 .fillMaxWidth()
                 .height(130.dp)
-                .clip(RoundedCornerShape(10.dp))
+                .clip(RoundedCornerShape(15.dp))
 //                .clip(RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp))
 //                .size(height = 108.dp, width = 140.dp)
         )

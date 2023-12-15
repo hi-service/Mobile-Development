@@ -1,6 +1,7 @@
 package com.hiservice.mobile.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -57,9 +58,87 @@ fun ButtonBig(
 }
 
 @Composable
+fun ButtonNormal(
+    text: String,
+    enabled: Boolean = true,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+){
+    Button(
+        onClick = onClick,
+        enabled = enabled,
+        modifier = modifier
+            .height(54.dp)
+            .clip(RoundedCornerShape(15.dp))
+            .fillMaxWidth()
+            .background(color = YellowGold),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color.Transparent
+        )
+    ) {
+        Text(
+            text = text,
+            style = TextStyle(
+                fontFamily = myFont,
+                fontWeight = FontWeight.Medium,
+                fontSize = 16.sp
+            ),
+            modifier = Modifier.align(Alignment.CenterVertically),
+            color = DarkCyan,
+        )
+    }
+}
+
+@Composable
+fun ButtonNormalOutlined(
+    text: String,
+    enabled: Boolean = true,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+){
+    Button(
+        onClick = onClick,
+        enabled = enabled,
+        modifier = modifier
+            .height(54.dp)
+            .fillMaxWidth()
+            .border(width = 1.dp, color = DarkCyan, RoundedCornerShape(15.dp)),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color.Transparent
+        )
+    ) {
+        Text(
+            text = text,
+            style = TextStyle(
+                fontFamily = myFont,
+                fontWeight = FontWeight.Medium,
+                fontSize = 16.sp
+            ),
+            modifier = Modifier.align(Alignment.CenterVertically),
+            color = DarkCyan,
+        )
+    }
+}
+
+@Composable
 @Preview(showBackground = true)
 fun ButtonBigPreview(){
     HiServiceTheme {
         ButtonBig(text = "Register", onClick = {})
+    }
+}
+
+@Composable
+@Preview(showBackground = true)
+fun ButtonNormalPreview(){
+    HiServiceTheme {
+        ButtonNormalOutlined(text = "Register", onClick = {})
+    }
+}
+@Composable
+@Preview(showBackground = true)
+fun ButtonNormalOutlinedPreview(){
+    HiServiceTheme {
+        ButtonNormalOutlined(text = "Register", onClick = {})
     }
 }
