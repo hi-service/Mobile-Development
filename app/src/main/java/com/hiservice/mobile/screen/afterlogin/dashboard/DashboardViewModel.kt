@@ -1,8 +1,6 @@
 package com.hiservice.mobile.screen.afterlogin.dashboard
 
 import android.util.Log
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -10,17 +8,15 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.hiservice.mobile.data.Repository
-import com.hiservice.mobile.data.model.AlertData
 import com.hiservice.mobile.data.model.UserModel
 import com.hiservice.mobile.data.retrofit.ApiConfig
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
 class DashboardViewModel(val repository: Repository) : ViewModel() {
 
-    private val _session = MutableStateFlow<UserModel?>(null)
+
     private val _userName = mutableStateOf("XXXXXXXXX")
     val userName: State<String> get() = _userName
 
@@ -30,13 +26,13 @@ class DashboardViewModel(val repository: Repository) : ViewModel() {
     val loading: State<Boolean> get() = _loading
     private val _buyStatus = mutableStateOf("XXXXXXXXX")
     val buyStatus: State<String> get() = _buyStatus
+    private val _session = MutableStateFlow<UserModel?>(null)
     init {
         viewModelScope.launch {
             repository.getSession().collect { userModel ->
                 if (_session.value != userModel) {
                     _session.value = userModel
                     getUserData()
-                    Log.d("rr",_session.value.toString())
                 }
             }
 

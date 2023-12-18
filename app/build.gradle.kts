@@ -55,7 +55,7 @@ dependencies {
     implementation("com.google.maps.android:maps-compose-utils:4.3.0")
     implementation("com.google.maps.android:maps-compose-widgets:4.3.0")
     implementation("androidx.core:core-ktx:1.12.0")
-    //implementation("androidx.core:core-ktx:1.9.0")
+    implementation("com.vanniktech:android-image-cropper:4.5.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.activity:activity-compose:1.8.1")
     implementation("androidx.datastore:datastore-preferences:1.0.0")

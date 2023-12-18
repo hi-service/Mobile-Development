@@ -17,7 +17,7 @@ sealed class Screen(override val route: String) : NavigationDestination {
     /*Navigation Drawer Screen*/
     object Profile : Screen("profile")
     object About : Screen("about")
-    object Setting : Screen("setting")
+    object Setting : Screen("settings")
 
     /* Service Screen */
     object Service_Detail : Screen("service/detail")
@@ -27,6 +27,7 @@ sealed class Screen(override val route: String) : NavigationDestination {
         fun createRoute(idBengkel: Int) = "service/konfirmasi-order/$idBengkel"
     }
     object Service_Status_Order : Screen("service/status-order")
+    object Service_Chat_Order : Screen("service/chat-order")
 }
 
 interface NavigationDestination {

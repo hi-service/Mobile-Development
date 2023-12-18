@@ -17,9 +17,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,16 +36,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.Navigator
 import com.hiservice.mobile.MainViewModel
 import com.hiservice.mobile.ViewModelFactory
 import com.hiservice.mobile.components.CardDaftarBengkel
 import com.hiservice.mobile.components.TopHeadBar
-import com.hiservice.mobile.data.fake_data.BengkelFakeData.listBengkel
-import com.hiservice.mobile.data.fake_data.BengkelFakeData.listBengkel2
-import com.hiservice.mobile.data.model.BengkelModel
 import com.hiservice.mobile.data.retrofit.gson.DataListBengkel
-import com.hiservice.mobile.screen.afterlogin.services.daftar_keluhan.KeluhanViewModel
 import com.hiservice.mobile.screen.afterlogin.services.daftar_keluhan.simpleVerticalScrollbar
 import com.hiservice.mobile.ui.theme.GreyDark
 import com.hiservice.mobile.ui.theme.YellowGold

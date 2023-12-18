@@ -25,9 +25,10 @@ import androidx.navigation.navArgument
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
-import com.hiservice.mobile.data.retrofit.gson.DetailBengkel
+import com.hiservice.mobile.data.model.SharedData
 import com.hiservice.mobile.screen.afterlogin.daftarbengkel.DaftarBengkel
 import com.hiservice.mobile.screen.afterlogin.dashboard.DashboardScreen
+import com.hiservice.mobile.screen.afterlogin.profil.ImageSelectorAndCropper
 import com.hiservice.mobile.screen.afterlogin.profil.ProfilScreen
 import com.hiservice.mobile.screen.afterlogin.services.daftar_keluhan.DaftarKeluhan
 import com.hiservice.mobile.screen.afterlogin.services.detail_bengkel.DetailBengkelScreen
@@ -37,7 +38,7 @@ import com.hiservice.mobile.screen.authentication.register.RegisterContent
 import com.hiservice.mobile.screen.no_connection.NoConnection
 import com.hiservice.mobile.screen.on_board.OnBoardingScreen
 import com.hiservice.mobile.screen.splash.SplashScreenAnimation
-import com.hiservice.mobile.screen.statusorder.AlertRating
+import com.hiservice.mobile.screen.statusorder.ChatOrder
 import com.hiservice.mobile.screen.statusorder.StatusOrderScreen
 import com.hiservice.mobile.ui.theme.HiServiceTheme
 import com.hiservice.mobile.util.Connection.Companion.isOnline
@@ -86,9 +87,6 @@ fun HiService(
                 Screen.NoConnection.route
             }
         ) {
-            composable(Screen.About.route){
-
-            }
             composable(Screen.Splash.route) {
                 SplashScreenAnimation(navController)
             }
@@ -105,12 +103,16 @@ fun HiService(
             }
             composable(Screen.Dashboard.route) {
                 DashboardScreen(navigator = navController)
+                viewModel.setShareData(SharedData("","",0.0,0.0,""))
             }
             composable(Screen.Service_Status_Order.route) {
                 StatusOrderScreen(navigator = navController)
             }
+            composable(Screen.Service_Chat_Order.route) {
+                ChatOrder(navigator = navController)
+            }
             composable(Screen.Profile.route) {
-                ProfilScreen(linkPhotoUser = "https://media.licdn.com/dms/image/D4E03AQEbGPRR9eGXLQ/profile-displayphoto-shrink_800_800/0/1694487158984?e=1707955200&v=beta&t=MGU0GsaG-PW8kZJdvWNIXsLNEP8Yvf_extevTCAfYRQ",nama = "Ricky Triyoga Wardhhana", nomorHp = "082131029815", navigator = navController)
+                ProfilScreen(linkPhotoUser = "https://t3.ftcdn.net/jpg/02/99/04/20/360_F_299042079_vGBD7wIlSeNl7vOevWHiL93G4koMM967.jpg",navigator = navController)
             }
             composable(Screen.Service_Detail.route) {
                 FirstPageDetail(navController,viewModel)
@@ -132,6 +134,9 @@ fun HiService(
                 NoConnection {
                     navController.navigate("splash")
                 }
+            }
+            composable(Screen.Setting.route) {
+                ImageSelectorAndCropper()
             }
         }
     }

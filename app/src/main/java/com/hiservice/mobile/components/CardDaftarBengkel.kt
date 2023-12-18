@@ -22,8 +22,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.hiservice.mobile.data.fake_data.BengkelFakeData
-import com.hiservice.mobile.data.model.BengkelModel
 import com.hiservice.mobile.data.retrofit.gson.DataListBengkel
 import com.hiservice.mobile.ui.theme.GreyDark
 import com.hiservice.mobile.ui.theme.HiServiceTheme

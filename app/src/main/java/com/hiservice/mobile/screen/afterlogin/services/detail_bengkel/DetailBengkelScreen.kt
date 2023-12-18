@@ -7,18 +7,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -35,18 +34,14 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.hiservice.mobile.MainViewModel
 import com.hiservice.mobile.ViewModelFactory
+import com.hiservice.mobile.components.AlertDialogComponent
 import com.hiservice.mobile.components.ButtonBig
 import com.hiservice.mobile.components.LoadingComponent
 import com.hiservice.mobile.components.ReviewerCard
 import com.hiservice.mobile.components.TopHeadBar
 import com.hiservice.mobile.data.fake_data.BengkelFakeData
-import com.hiservice.mobile.data.model.BengkelModel
-import com.hiservice.mobile.data.retrofit.gson.DeskripsiBengkelItem
-import com.hiservice.mobile.screen.afterlogin.services.first_page_detail.FirstPageViewModel
 import com.hiservice.mobile.ui.theme.GreyDark
-import com.hiservice.mobile.ui.theme.HiServiceTheme
 import com.hiservice.mobile.ui.theme.YellowGold
-import kotlinx.coroutines.flow.MutableStateFlow
 
 @Composable
 fun DetailBengkelScreen(
@@ -62,7 +57,9 @@ fun DetailBengkelScreen(
     val scrollState = rememberScrollState()
     val dataBengkelItem by viewModel.dataBengkelItem.collectAsState()
     val loading by viewModel.loading
+    val alert by viewModel.isSuccess
     var iconColor = YellowGold
+    val message by viewModel.message
 
         if(dataBengkel != null){
             Column {
@@ -140,7 +137,21 @@ fun DetailBengkelScreen(
             LoadingComponent(showDialog = loading, onDismiss = {})
         }else{
             viewModel.setDataBengkel(id)
+
         }
+    if(alert){
+        AlertDialogComponent(
+            onDismissRequest = {             navigator.navigate("dashboard"){
+                popUpTo("splash") { inclusive = true }
+            } },
+            onConfirmation = {             navigator.navigate("dashboard"){
+                popUpTo("splash") { inclusive = true }
+            } },
+            dialogTitle = "Status Pesanan Telah Diterima",
+            dialogText = message,
+            icon = Icons.Filled.CheckCircle
+        )
+    }
     }
 
 @Preview(showBackground = true)

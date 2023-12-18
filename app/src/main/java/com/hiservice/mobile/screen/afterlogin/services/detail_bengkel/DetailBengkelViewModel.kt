@@ -9,10 +9,8 @@ import com.hiservice.mobile.data.Repository
 import com.hiservice.mobile.data.model.SharedData
 import com.hiservice.mobile.data.model.UserModel
 import com.hiservice.mobile.data.retrofit.ApiConfig
-import com.hiservice.mobile.data.retrofit.gson.DataListBengkel
 import com.hiservice.mobile.data.retrofit.gson.DeskripsiBengkelItem
 import com.hiservice.mobile.data.retrofit.gson.DetailBengkel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -24,6 +22,10 @@ class DetailBengkelViewModel(private val repository: Repository) : ViewModel() {
     private val _dataBengkelItem = MutableStateFlow<List<DeskripsiBengkelItem>>(mutableListOf())
     val dataBengkelItem: StateFlow<List<DeskripsiBengkelItem>> get() = _dataBengkelItem
 
+    private val _isSuccess = mutableStateOf(false)
+    val isSuccess: State<Boolean> get() = _isSuccess
+    private val _message = mutableStateOf("")
+    val message: State<String> get() = _message
     private val _loading = mutableStateOf(false)
     val loading: State<Boolean> get() = _loading
 
@@ -48,7 +50,7 @@ class DetailBengkelViewModel(private val repository: Repository) : ViewModel() {
         _loading.value = true
         try {
             val response = ApiConfig.getApiService(_session.value!!.token).getDesc(id)
-            _dataBengkel.value = response!!
+            _dataBengkel.value = response
             _dataBengkelItem.value = response.data!!
         } catch (e: HttpException) {
         } catch (e: Exception) {
@@ -63,7 +65,8 @@ class DetailBengkelViewModel(private val repository: Repository) : ViewModel() {
         viewModelScope.launch {
         try {
             val response = ApiConfig.getApiService(_session.value!!.token).setOrder(id,dataOrder.deskripsiMasalah,dataOrder.noHp,dataOrder.lat,dataOrder.lng,dataOrder.alamat)
-
+            _message.value = response.message!!
+            _isSuccess.value = true
         } catch (e: HttpException) {
         } catch (e: Exception) {
             e.message?.let { Log.e("Exception", it) }

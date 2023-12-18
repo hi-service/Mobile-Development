@@ -1,24 +1,16 @@
 package com.hiservice.mobile.screen.afterlogin.services.first_page_detail
 
 import android.util.Log
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hiservice.mobile.data.Repository
-import com.hiservice.mobile.data.model.AlertData
-import com.hiservice.mobile.data.model.Keluhan
 import com.hiservice.mobile.data.model.UserModel
 import com.hiservice.mobile.data.retrofit.ApiConfig
-
 import com.hiservice.mobile.data.retrofit.gson.DataListBengkel
-import com.hiservice.mobile.data.retrofit.gson.ListBengkel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 

@@ -10,11 +10,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,12 +28,10 @@ import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
 import coil.request.ImageRequest
 import coil.size.Size
-import com.google.android.gms.maps.model.LatLng
 import com.hiservice.mobile.R
 import com.hiservice.mobile.components.ButtonBig
 import com.hiservice.mobile.components.LoadingComponent
 import com.hiservice.mobile.util.Connection.Companion.isOnline
-import java.nio.file.Files.size
 
 @Composable
 fun NoConnection(navToLogin : ()-> Unit){

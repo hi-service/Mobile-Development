@@ -14,13 +14,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hiservice.mobile.components.PartSellItem
 import com.hiservice.mobile.components.SearchBarCustom
-import com.hiservice.mobile.components.TopHeadBar
 import com.hiservice.mobile.components.TopHeadBarPartShop
 import com.hiservice.mobile.data.fake_data.PartShopFakeData
-import com.hiservice.mobile.data.fake_data.fakeDataSet1
 import com.hiservice.mobile.data.model.PartShopModelWrapper
 import com.hiservice.mobile.ui.theme.HiServiceTheme
-import kotlinx.coroutines.flow.flowOf
 
 @Composable
 fun ExploreShopContent(

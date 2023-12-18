@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
-class DaftarBengkelViewModel (private val repository: Repository): ViewModel(){
+class DaftarBengkelViewModel (private val repository: Repository): ViewModel() {
     private val _bengkelRekomendasi = MutableStateFlow<List<DataListBengkel>>(mutableListOf())
     val bengkelRekomendasi: StateFlow<List<DataListBengkel>> get() = _bengkelRekomendasi
 
@@ -25,7 +25,7 @@ class DaftarBengkelViewModel (private val repository: Repository): ViewModel(){
     private val _loading = mutableStateOf(false)
     val loading: State<Boolean> get() = _loading
     private val _session = MutableStateFlow<UserModel?>(null)
-    fun initViewModel(viewModel: MainViewModel){
+    fun initViewModel(viewModel: MainViewModel) {
         viewModelScope.launch {
             repository.getSession().collect { userModel ->
                 if (_session.value != userModel) {
@@ -36,40 +36,26 @@ class DaftarBengkelViewModel (private val repository: Repository): ViewModel(){
                             viewModel.sharedData.value!!.lng
                         )
                     )
-                    getDataBengkelTerdekat(
-                        latLng = LatLng(
-                            viewModel.sharedData.value!!.lat,
-                            viewModel.sharedData.value!!.lng
-                        )
-                    )
                 }
             }
         }
     }
-    private suspend fun getDataRekomendasi(latLng: LatLng){
+
+    private suspend fun getDataRekomendasi(latLng: LatLng) {
         _loading.value = true
         try {
-            val response = ApiConfig.getApiService(_session.value!!.token).getLocBengkel(latLng.latitude,latLng.longitude)
+            val response = ApiConfig.getApiService(_session.value!!.token)
+                .getLocBengkel(latLng.latitude, latLng.longitude)
             _bengkelRekomendasi.value = response.data!!
-            _bengkelTerdekat.value.sortedBy { it.rating }
-        } catch (e: HttpException) {
-        } catch (e: Exception) {
-            e.message?.let { Log.e("Exception", it) }
-        }finally {
-            _loading.value = false
-        }
-    }
-    private suspend fun getDataBengkelTerdekat(latLng: LatLng){
-        _loading.value = true
-        try {
-            val response = ApiConfig.getApiService("e098cf39-4786-417b-a7c2-8c2119228cb6").getLocBengkel(latLng.latitude,latLng.longitude)
-            _bengkelTerdekat.value = response.data!!
+            _bengkelTerdekat.value = response.data
+            val bengkelRekomendasi = _bengkelRekomendasi.value.sortedByDescending  { it.rating }
+            _bengkelRekomendasi.value = bengkelRekomendasi
             val bengkelTerdekatSorted = _bengkelTerdekat.value.sortedBy { it.jarak }
             _bengkelTerdekat.value = bengkelTerdekatSorted
         } catch (e: HttpException) {
         } catch (e: Exception) {
             e.message?.let { Log.e("Exception", it) }
-        }finally {
+        } finally {
             _loading.value = false
         }
     }

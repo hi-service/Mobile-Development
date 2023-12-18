@@ -1,7 +1,6 @@
 package com.hiservice.mobile.screen.statusorder
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Warning
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -29,9 +30,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.hiservice.mobile.R
 import com.hiservice.mobile.ViewModelFactory
-import com.hiservice.mobile.components.ButtonBig
+import com.hiservice.mobile.components.AlertDialogComponent
 import com.hiservice.mobile.components.ButtonNormal
-import com.hiservice.mobile.components.ButtonNormalOutlined
 import com.hiservice.mobile.components.TopHeadBar
 import com.hiservice.mobile.data.model.StatusOrderModel
 import com.hiservice.mobile.ui.theme.DarkCyan
@@ -57,6 +57,7 @@ fun StatusOrderScreen(navigator : NavHostController,modifier : Modifier = Modifi
     val count by viewModel.countRating
     val ratingInput by viewModel.isFinished
     val textRating by viewModel.textPenilaian
+    val cancelOrder by viewModel.isCancel
     Column {
         TopHeadBar(text = "Status Order", isBack = true, onClick = {navigator.popBackStack()
         })
@@ -108,7 +109,9 @@ fun StatusOrderScreen(navigator : NavHostController,modifier : Modifier = Modifi
             )
             ButtonNormal(
                 text = "Chat Bengkel",
-                onClick = { },
+                onClick = {
+                    navigator.navigate("service/chat-order")
+                },
                 modifier = modifier
                     .fillMaxWidth()
                     .weight(1f)
@@ -117,10 +120,35 @@ fun StatusOrderScreen(navigator : NavHostController,modifier : Modifier = Modifi
 
 
     }
+    if(cancelOrder){
+        AlertDialogComponent(
+            onDismissRequest = { viewModel.setCancel() },
+            onConfirmation = { viewModel.setOrderStatusStatus("canceled")
+                viewModel.setCancel()
+                navigator.navigate("dashboard"){
+                    popUpTo("service/status-order") { inclusive = true }
+                }},
+            dialogTitle = "Membatalkan pesanan",
+            dialogText = "Apakah anda yakin untuk membatalkan pesanan?",
+            icon = Icons.Outlined.Warning,
+            isCancel = true
+        )
+    }
+
     if(ratingInput){
         AlertRating(count = count, counter = viewModel::setCountRating, onCommentChange = viewModel::setTextPenilaian, commentText = textRating, onDismiss = {
-             viewModel.inTerface()
+             viewModel.setFinish()
+            viewModel.setOrderStatusStatus("finished")
+            navigator.navigate("dashboard"){
+                popUpTo("service/status-order") { inclusive = true }
+            }
+        }, onClickedSend = {
+            viewModel.setOrderRating()
+            navigator.navigate("dashboard"){
+                popUpTo("service/status-order") { inclusive = true }
+            }
         })
     }
+
 
 }

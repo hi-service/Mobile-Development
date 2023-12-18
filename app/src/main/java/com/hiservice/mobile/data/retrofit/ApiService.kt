@@ -1,5 +1,6 @@
 package com.hiservice.mobile.data.retrofit
 
+import com.hiservice.mobile.data.retrofit.gson.ChatOrderResponse
 import com.hiservice.mobile.data.retrofit.gson.DetailBengkel
 import com.hiservice.mobile.data.retrofit.gson.GetOrderData
 import com.hiservice.mobile.data.retrofit.gson.GetUserResponse
@@ -8,6 +9,7 @@ import com.hiservice.mobile.data.retrofit.gson.ListBengkel
 import com.hiservice.mobile.data.retrofit.gson.LoginResponse
 import com.hiservice.mobile.data.retrofit.gson.OrderResponse
 import com.hiservice.mobile.data.retrofit.gson.OrderStatusPost
+import com.hiservice.mobile.data.retrofit.gson.RatingResponse
 import com.hiservice.mobile.data.retrofit.gson.RegisterResponse
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -63,5 +65,15 @@ interface ApiService {
         @Field("address") address: String
     ): OrderResponse
 
-
+    @FormUrlEncoded
+    @POST("setOrderRating")
+    suspend fun setRating(
+        @Field("rating") rating: Int,
+        @Field("id_bengkel") id_bengkel: String,
+        @Field("statement") statement: String
+    ): RatingResponse
+    @GET("getOrderChat/{orderId}")
+    suspend fun getChat(
+        @Path("orderId") orderId : Int
+    ): ChatOrderResponse
 }

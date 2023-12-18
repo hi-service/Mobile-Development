@@ -11,12 +11,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
-import com.google.gson.Gson
 import com.hiservice.mobile.data.Repository
 import com.hiservice.mobile.data.model.AlertData
 import com.hiservice.mobile.data.retrofit.ApiConfig
 import com.hiservice.mobile.util.AlertMessages.Companion.RegisterAlertMessages
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 

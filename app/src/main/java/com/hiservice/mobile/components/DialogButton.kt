@@ -2,12 +2,12 @@ package com.hiservice.mobile.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -33,8 +33,11 @@ fun AlertDialogComponent(
     dialogTitle: String,
     dialogText: String,
     icon: ImageVector,
+    isCancel : Boolean = false
 ) {
-    Box(modifier = Modifier.fillMaxSize().background(Color.Black.copy(0.3f)), contentAlignment = Alignment.Center){
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .background(Color.Black.copy(0.3f)), contentAlignment = Alignment.Center){
         AlertDialog(
             icon = {
                 Icon(
@@ -53,6 +56,19 @@ fun AlertDialogComponent(
                 onDismissRequest()
             },
             confirmButton = {
+                Row {
+
+                    if(isCancel){
+                        TextButton(
+                            onClick = {
+                                onDismissRequest()
+                            }
+                        ) {
+                            Text("Cancel")
+                        }
+                    }
+
+                }
                 TextButton(
                     onClick = {
                         onConfirmation()

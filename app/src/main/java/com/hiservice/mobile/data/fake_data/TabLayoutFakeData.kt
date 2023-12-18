@@ -1,7 +1,5 @@
 package com.hiservice.mobile.data.fake_data
 
-import androidx.compose.ui.graphics.vector.ImageVector
-
 data class FakeData1(
     val name: String,
     val age: Int,

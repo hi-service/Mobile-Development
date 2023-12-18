@@ -1,11 +1,9 @@
 package com.hiservice.mobile.screen.afterlogin.services.daftar_keluhan
 
-import android.util.Log
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,7 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
@@ -23,11 +20,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Checkbox
 import androidx.compose.material.CheckboxDefaults
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,7 +29,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
@@ -49,13 +42,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.hiservice.mobile.ViewModelFactory
-import com.hiservice.mobile.components.AlertDialogComponent
 import com.hiservice.mobile.components.ButtonBig
 import com.hiservice.mobile.components.LoadingComponent
 import com.hiservice.mobile.components.TopHeadBar
-import com.hiservice.mobile.data.fake_data.KeluhanFakeData
 import com.hiservice.mobile.data.model.Keluhan
-import com.hiservice.mobile.screen.afterlogin.services.first_page_detail.FirstPageViewModel
 import com.hiservice.mobile.ui.theme.DarkCyan
 import com.hiservice.mobile.ui.theme.HiServiceTheme
 import com.hiservice.mobile.ui.theme.YellowGold
@@ -65,7 +55,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun Modifier.simpleVerticalScrollbar(
     state: LazyListState,
-    width: Dp = 8.dp
+    width: Dp = 8.dp,
+    color:Color = YellowGold
 ): Modifier {
     val targetAlpha = if (state.isScrollInProgress) 1f else 0.5f
     val duration = if (state.isScrollInProgress) 0 else 500
@@ -84,7 +75,7 @@ fun Modifier.simpleVerticalScrollbar(
             val scrollbarOffsetY = firstVisibleElementIndex * elementHeight
             val scrollbarHeight = (state.layoutInfo.visibleItemsInfo.size * elementHeight) - 20
             drawRoundRect(
-                color = YellowGold,
+                color = color,
                 topLeft = Offset(this.size.width - width.toPx(), scrollbarOffsetY),
                 size = Size(width.toPx(), scrollbarHeight),
                 cornerRadius = CornerRadius(8.dp.toPx(), 8.dp.toPx()), // Mengatur radius lengkung atas dan bawah
