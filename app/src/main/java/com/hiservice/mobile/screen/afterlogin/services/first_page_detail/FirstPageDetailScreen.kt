@@ -61,6 +61,7 @@ import com.hiservice.mobile.R
 import com.hiservice.mobile.ViewModelFactory
 import com.hiservice.mobile.components.ButtonBig
 import com.hiservice.mobile.components.InputTextCustom
+import com.hiservice.mobile.components.LoadingComponent
 import com.hiservice.mobile.components.TopHeadBar
 import com.hiservice.mobile.components.inputTextLarge
 import com.hiservice.mobile.data.model.SharedData
@@ -82,7 +83,8 @@ fun FirstPageDetail(navigator : NavHostController,mainViewModel: MainViewModel){
     val current = LocalContext.current
     val viewModelFactory = remember { ViewModelFactory.getInstance(current) }
     val viewModel: FirstPageViewModel = viewModel(factory = viewModelFactory)
-
+    val loading by viewModel.loading
+    LoadingComponent(showDialog = loading, onDismiss = {})
     Column {
         MapComponent(context  = current, viewModel = viewModel, mainViewModel = mainViewModel, navigator = navigator)
     }

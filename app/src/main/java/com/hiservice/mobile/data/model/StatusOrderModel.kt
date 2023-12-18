@@ -1,5 +1,7 @@
 package com.hiservice.mobile.data.model
 
+import androidx.compose.ui.graphics.Color
+
 data class StatusOrderModel(
     val statusOrder: String,
     val idOrder: String,
@@ -8,4 +10,7 @@ data class StatusOrderModel(
     val text: String,
     val subText: String,
     val isButton: Boolean,
+    val buttonClick: () -> Unit,
+    val buttonText: String,
+    val buttonColor: Color,
 )

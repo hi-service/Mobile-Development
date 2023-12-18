@@ -39,16 +39,22 @@ class FirstPageViewModel(val repository: Repository) : ViewModel() {
     fun noHpText(newText: String) {
         _noHp.value = newText
     }
+    private val _session = MutableStateFlow<UserModel?>(null)
     init {
         viewModelScope.launch {
-            getDataBengkel()
+            repository.getSession().collect { userModel ->
+                if (_session.value != userModel) {
+                    _session.value = userModel
+                    getDataBengkel()
+                }
             }
 
+        }
     }
     private suspend fun getDataBengkel(){
         _loading.value = true
         try {
-            val response = ApiConfig.getApiService("e098cf39-4786-417b-a7c2-8c2119228cb6").getLocBengkel(0.0,0.0)
+            val response = ApiConfig.getApiService(_session.value!!.token).getLocBengkel(0.0,0.0)
             _itemsStateFlow.value = response.data!!
             _itemsStateFlow.value.sortedBy { it.rating }
         } catch (e: HttpException) {

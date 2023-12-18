@@ -67,7 +67,7 @@ fun DaftarBengkel(navigator: NavHostController,mainViewModel: MainViewModel) {
     val listBengkelTerdekat by viewModel.bengkelTerdekat.collectAsState()
     viewModel.initViewModel(mainViewModel)
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
-        TopHeadBar(text = "Pilih Bengkel", isBack = true)
+        TopHeadBar(text = "Pilih Bengkel", isBack = true, onClick = {navigator.popBackStack()})
         Row(
             Modifier
                 .fillMaxWidth()

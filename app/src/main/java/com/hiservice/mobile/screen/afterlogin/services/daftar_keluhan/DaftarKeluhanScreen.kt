@@ -51,6 +51,7 @@ import androidx.navigation.NavHostController
 import com.hiservice.mobile.ViewModelFactory
 import com.hiservice.mobile.components.AlertDialogComponent
 import com.hiservice.mobile.components.ButtonBig
+import com.hiservice.mobile.components.LoadingComponent
 import com.hiservice.mobile.components.TopHeadBar
 import com.hiservice.mobile.data.fake_data.KeluhanFakeData
 import com.hiservice.mobile.data.model.Keluhan
@@ -101,6 +102,7 @@ fun DaftarKeluhan(modifier: Modifier = Modifier,navigator: NavHostController){
     val lazyListState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
     val counter = remember{mutableStateOf(0)}
+    val loading by viewModel.loading
     LaunchedEffect(lazyListState) {
         snapshotFlow { lazyListState.firstVisibleItemIndex }
             .distinctUntilChanged()
@@ -133,6 +135,7 @@ fun DaftarKeluhan(modifier: Modifier = Modifier,navigator: NavHostController){
             ButtonBig(text = "Lanjut") {
                 navigator.navigate("service/daftar-bengkel")
             }
+            LoadingComponent(showDialog = loading, onDismiss = {})
 
         }
     }

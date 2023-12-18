@@ -49,6 +49,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.size.Scale
@@ -69,7 +70,8 @@ fun ProfilScreen(
     linkPhotoUser: String,
     nama: String,
     nomorHp: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navigator : NavHostController
 ){
 
     val current = LocalContext.current
@@ -83,7 +85,7 @@ fun ProfilScreen(
     }
 
     Column{
-        TopHeadBar(text = "Profil", onClick = {}, isBack = true)
+        TopHeadBar(text = "Profil", onClick = {navigator.popBackStack()}, isBack = true)
 
         Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier
             .fillMaxWidth()
@@ -197,11 +199,6 @@ fun ProfilScreen(
 @Preview(showBackground = true)
 @Composable
 fun ProfilScreenPreview(){
-    HiServiceTheme {
-        ProfilScreen(
-            linkPhotoUser = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Keanu_Reeves_%28crop_and_levels%29_%28cropped%29.jpg/330px-Keanu_Reeves_%28crop_and_levels%29_%28cropped%29.jpg",
-            nama = "Ajat Karburator",
-            nomorHp = "+6289700059872"
-        )
-    }
+
+
 }

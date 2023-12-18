@@ -24,6 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.hiservice.mobile.R
 import com.hiservice.mobile.ViewModelFactory
 import com.hiservice.mobile.components.ButtonBig
@@ -33,7 +34,7 @@ import com.hiservice.mobile.ui.theme.DarkCyan
 import com.hiservice.mobile.ui.theme.GreyDark
 
 @Composable
-fun StatusOrderScreen(){
+fun StatusOrderScreen(navigator : NavHostController){
     val current = LocalContext.current
     val viewModelFactory = remember { ViewModelFactory.getInstance(current) }
     val viewModel: StatusOrderViewModel = viewModel(factory = viewModelFactory)
@@ -44,11 +45,13 @@ fun StatusOrderScreen(){
         image = R.drawable.statusorder_waiting,
         text = "",
         subText = "",
-        isButton = false
+        isButton = false,
+        buttonText = "",
+        buttonColor = Color.Red,
+        buttonClick = {}
     ))
     Column {
-        TopHeadBar(text = "Status Order", isBack = true, onClick = {
-
+        TopHeadBar(text = "Status Order", isBack = true, onClick = {navigator.popBackStack()
         })
         Text(
             text =  "#${statusOrder.idOrder} - ${statusOrder.time}",
@@ -81,8 +84,9 @@ fun StatusOrderScreen(){
             modifier = Modifier.fillMaxWidth()
         )
         if(statusOrder.isButton){
-            ButtonBig(text = "Batalkan", onClick = {
-            }, buttonColors = Color.Red, modifier = Modifier.padding(40.dp), textColor = Color.White)
+            ButtonBig(text = statusOrder.buttonText, onClick = {
+                                                               statusOrder.buttonClick.invoke()
+            }, buttonColors = statusOrder.buttonColor, modifier = Modifier.padding(40.dp), textColor = Color.White)
         }
 
     }

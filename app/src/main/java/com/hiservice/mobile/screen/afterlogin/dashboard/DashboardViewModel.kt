@@ -26,6 +26,8 @@ class DashboardViewModel(val repository: Repository) : ViewModel() {
 
     private val _orderStatus = mutableStateOf("XXXXXXXXX")
     val orderStatus: State<String> get() = _orderStatus
+    private val _loading = mutableStateOf(false)
+    val loading: State<Boolean> get() = _loading
     private val _buyStatus = mutableStateOf("XXXXXXXXX")
     val buyStatus: State<String> get() = _buyStatus
     init {
@@ -39,8 +41,9 @@ class DashboardViewModel(val repository: Repository) : ViewModel() {
 
         }
     }
-    private suspend fun getUserData(){
+     suspend fun getUserData(){
             try {
+                _loading.value = true
                 val response = ApiConfig.getApiService(_session.value!!.token).getUserData()
                 _userName.value = response.data!!.nama!!
                 _buyStatus.value = response.data.statusBuyOrder!!
@@ -53,6 +56,7 @@ class DashboardViewModel(val repository: Repository) : ViewModel() {
             } catch (e: Exception) {
                 e.message?.let { Log.e("Exception", it) }
             }finally {
+                _loading.value = false
             }
     }
      fun logout(){

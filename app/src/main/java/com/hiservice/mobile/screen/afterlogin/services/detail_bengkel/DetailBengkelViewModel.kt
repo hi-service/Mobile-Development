@@ -28,9 +28,6 @@ class DetailBengkelViewModel(private val repository: Repository) : ViewModel() {
     val loading: State<Boolean> get() = _loading
 
     private val _session = MutableStateFlow<UserModel?>(null)
-    val session: Flow<UserModel?> get() = _session
-    private val _userName = mutableStateOf("XXXXXXXXX")
-
     init {
         viewModelScope.launch {
             repository.getSession().collect { userModel ->

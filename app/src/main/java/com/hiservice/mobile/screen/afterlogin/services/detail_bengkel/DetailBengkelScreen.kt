@@ -36,6 +36,7 @@ import coil.compose.AsyncImage
 import com.hiservice.mobile.MainViewModel
 import com.hiservice.mobile.ViewModelFactory
 import com.hiservice.mobile.components.ButtonBig
+import com.hiservice.mobile.components.LoadingComponent
 import com.hiservice.mobile.components.ReviewerCard
 import com.hiservice.mobile.components.TopHeadBar
 import com.hiservice.mobile.data.fake_data.BengkelFakeData
@@ -58,89 +59,89 @@ fun DetailBengkelScreen(
     val viewModelFactory = remember { ViewModelFactory.getInstance(current) }
     val viewModel: DetailBengkelViewModel = viewModel(factory = viewModelFactory)
     val dataBengkel by viewModel.dataBengkel
-    val session by viewModel.session.collectAsState(null)
     val scrollState = rememberScrollState()
     val dataBengkelItem by viewModel.dataBengkelItem.collectAsState()
+    val loading by viewModel.loading
     var iconColor = YellowGold
-    if(session != null){
-        viewModel.setDataBengkel(id)
-    }
-    if(dataBengkel != null){
-        Column {
-            TopHeadBar(text = "Order Confirm", onClick = {
-            }, isBack = true)
-            Column(modifier = modifier
-                .fillMaxSize()
-                .verticalScroll(scrollState)) {
 
-                Column (modifier.padding(horizontal = 32.dp)){
-                    AsyncImage(
-                        model = dataBengkelItem[0].urlGambar,
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop,
-                        modifier = modifier
-                            .fillMaxWidth()
-                            .height(200.dp)
-                            .clip(RoundedCornerShape(15))
-                    )
-                    Spacer(modifier = modifier.height(8.dp))
-                    Row {
-                        Text(text = "Nama : ")
-                        Text(text = dataBengkelItem[0].namaBengkel!!, fontWeight = FontWeight.Medium)
-                    }
-                    Row {
-                        Text(text = "Rating : ")
-                        Text(text = dataBengkel?.rating.toString(), fontWeight = FontWeight.Medium)
-                        LazyRow(
-                            content = {
-                                items(5) { index ->
-                                    if(index < dataBengkel!!.rating as Double){
-                                        iconColor = YellowGold
-                                    }else{
-                                        iconColor = Color(0xFFD9D9D9)
-                                    }
-                                    Icon(
-                                        Icons.Outlined.Star,
-                                        contentDescription = "Rating ",
-                                        tint = iconColor
-                                    )
-                                }
-                            }
+        if(dataBengkel != null){
+            Column {
+                TopHeadBar(text = "Order Confirm", onClick = {navigator.popBackStack()
+                }, isBack = true)
+                Column(modifier = modifier
+                    .fillMaxSize()
+                    .verticalScroll(scrollState)) {
+
+                    Column (modifier.padding(horizontal = 32.dp)){
+                        AsyncImage(
+                            model = dataBengkelItem[0].urlGambar,
+                            contentDescription = null,
+                            contentScale = ContentScale.Crop,
+                            modifier = modifier
+                                .fillMaxWidth()
+                                .height(200.dp)
+                                .clip(RoundedCornerShape(15))
                         )
+                        Spacer(modifier = modifier.height(8.dp))
+                        Row {
+                            Text(text = "Nama : ")
+                            Text(text = dataBengkelItem[0].namaBengkel!!, fontWeight = FontWeight.Medium)
+                        }
+                        Row {
+                            Text(text = "Rating : ")
+                            Text(text = dataBengkel?.rating.toString(), fontWeight = FontWeight.Medium)
+                            LazyRow(
+                                content = {
+                                    items(5) { index ->
+                                        if(index < dataBengkel!!.rating as Double){
+                                            iconColor = YellowGold
+                                        }else{
+                                            iconColor = Color(0xFFD9D9D9)
+                                        }
+                                        Icon(
+                                            Icons.Outlined.Star,
+                                            contentDescription = "Rating ",
+                                            tint = iconColor
+                                        )
+                                    }
+                                }
+                            )
+                        }
+                        Divider(color = GreyDark, modifier = modifier.padding(vertical = 12.dp))
+                        Text(text = dataBengkelItem[0].deskripsiBengkel!!)
+                        Row {
+                            Text(text = "Pemilik : ")
+                            Text(text = dataBengkelItem[0].pemilikBengkel!!, fontWeight = FontWeight.Medium)
+                        }
+                        Row {
+                            Text(text = "Alamat : ")
+                            Text(text = dataBengkelItem[0].alamatBengkel!!, fontWeight = FontWeight.Medium)
+                        }
+                        Row {
+                            Text(text = "Jam Buka : ")
+                            Text(text ="${dataBengkelItem[0].jamBuka!!} -  ${dataBengkelItem[0].jamTutup!!}", fontWeight = FontWeight.Medium)
+                        }
+                        Divider(color = GreyDark, modifier = modifier.padding(vertical = 12.dp))
+                        ReviewerCard(
+                            daftarBengkel = BengkelFakeData.listBengkel[0],
+                            linkPhotoReviewer = "https://unsplash.com/photos/brown-wooden-table-with-chairs-ngLt4Y1vI_Q",
+                            namaReviewer = "Bengkel Bapak Udin",
+                            isiReview = "Sangatlah mantap"
+                        )
+                        Spacer(modifier = modifier.height(24.dp))
+                        ButtonBig(text = "Lanjut") {
+                            viewModel.setOrder(id,mainViewModel.sharedData.value!!.copy())
+                        }
+                        Spacer(modifier = modifier.height(24.dp))
+
                     }
-                    Divider(color = GreyDark, modifier = modifier.padding(vertical = 12.dp))
-                    Text(text = dataBengkelItem[0].deskripsiBengkel!!)
-                    Row {
-                        Text(text = "Pemilik : ")
-                        Text(text = dataBengkelItem[0].pemilikBengkel!!, fontWeight = FontWeight.Medium)
-                    }
-                    Row {
-                        Text(text = "Alamat : ")
-                        Text(text = dataBengkelItem[0].alamatBengkel!!, fontWeight = FontWeight.Medium)
-                    }
-                    Row {
-                        Text(text = "Jam Buka : ")
-                        Text(text ="${dataBengkelItem[0].jamBuka!!} -  ${dataBengkelItem[0].jamTutup!!}", fontWeight = FontWeight.Medium)
-                    }
-                    Divider(color = GreyDark, modifier = modifier.padding(vertical = 12.dp))
-                    ReviewerCard(
-                        daftarBengkel = BengkelFakeData.listBengkel[0],
-                        linkPhotoReviewer = "https://unsplash.com/photos/brown-wooden-table-with-chairs-ngLt4Y1vI_Q",
-                        namaReviewer = "Bengkel Bapak Udin",
-                        isiReview = "Sangatlah mantap"
-                    )
-                    Spacer(modifier = modifier.height(24.dp))
-                    ButtonBig(text = "Lanjut") {
-                        viewModel.setOrder(id,mainViewModel.sharedData.value!!.copy())
-                    }
-                    Spacer(modifier = modifier.height(24.dp))
                 }
             }
+            LoadingComponent(showDialog = loading, onDismiss = {})
+        }else{
+            viewModel.setDataBengkel(id)
         }
-
     }
-
-}
 
 @Preview(showBackground = true)
 @Composable

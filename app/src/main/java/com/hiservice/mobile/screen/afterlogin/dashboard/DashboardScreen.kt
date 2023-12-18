@@ -25,6 +25,7 @@ import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -46,6 +47,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.hiservice.mobile.R
 import com.hiservice.mobile.ViewModelFactory
+import com.hiservice.mobile.components.LoadingComponent
 import com.hiservice.mobile.components.TopHeadBar
 import com.hiservice.mobile.screen.authentication.login.LoginViewModel
 import com.hiservice.mobile.ui.theme.DarkCyan
@@ -68,6 +70,11 @@ fun DashboardScreen(navigator: NavHostController) {
     val name by viewModel.userName
     val order_status by viewModel.orderStatus
     val buy_status by viewModel.buyStatus
+    val loading by viewModel.loading
+
+    LaunchedEffect(Unit) {
+        viewModel.getUserData()
+    }
     val items = listOf(
         DrawerItem(icon = R.drawable.person_icon, label = "Account", secondaryLabel = ""){
             navigator.navigate("profile")
@@ -188,6 +195,7 @@ fun DashboardScreen(navigator: NavHostController) {
             )
         }
     )
+    LoadingComponent(showDialog = loading, onDismiss = {})
 }
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -231,6 +239,7 @@ fun DashboardContent(modifier : Modifier = Modifier,navigator: NavHostController
             })
             BoxMenuComponent(image = R.drawable.consult_menu, text = "E - Consult")
         }
+
         Spacer(modifier = modifier.height(24.dp))
         Text(text = "Artikel Terkait", fontWeight = FontWeight.SemiBold, fontSize = 22.sp, modifier = Modifier.padding(start = 32.dp, end = 32.dp))
         Spacer(modifier = modifier.height(6.dp))

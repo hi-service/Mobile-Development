@@ -7,6 +7,7 @@ import com.hiservice.mobile.data.retrofit.gson.KeluhanResponse
 import com.hiservice.mobile.data.retrofit.gson.ListBengkel
 import com.hiservice.mobile.data.retrofit.gson.LoginResponse
 import com.hiservice.mobile.data.retrofit.gson.OrderResponse
+import com.hiservice.mobile.data.retrofit.gson.OrderStatusPost
 import com.hiservice.mobile.data.retrofit.gson.RegisterResponse
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -42,6 +43,11 @@ interface ApiService {
     @GET("getOrderStatus")
     suspend fun getOrderStatus(
     ): GetOrderData
+    @FormUrlEncoded
+    @POST("setOrderStatusDone")
+    suspend fun setOrderStatusDone(
+        @Field("orderstatus") status: String,
+    ): OrderStatusPost
     @GET("getBengkelDesc/{id}")
     suspend fun getDesc(
         @Path("id") id : Int

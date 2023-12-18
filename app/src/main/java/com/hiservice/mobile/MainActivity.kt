@@ -103,10 +103,10 @@ fun HiService(
                 DashboardScreen(navigator = navController)
             }
             composable(Screen.Service_Status_Order.route) {
-                StatusOrderScreen()
+                StatusOrderScreen(navigator = navController)
             }
             composable(Screen.Profile.route) {
-                ProfilScreen(linkPhotoUser = "https://media.licdn.com/dms/image/D4E03AQEbGPRR9eGXLQ/profile-displayphoto-shrink_800_800/0/1694487158984?e=1707955200&v=beta&t=MGU0GsaG-PW8kZJdvWNIXsLNEP8Yvf_extevTCAfYRQ",nama = "Ricky Triyoga Wardhhana", nomorHp = "082131029815")
+                ProfilScreen(linkPhotoUser = "https://media.licdn.com/dms/image/D4E03AQEbGPRR9eGXLQ/profile-displayphoto-shrink_800_800/0/1694487158984?e=1707955200&v=beta&t=MGU0GsaG-PW8kZJdvWNIXsLNEP8Yvf_extevTCAfYRQ",nama = "Ricky Triyoga Wardhhana", nomorHp = "082131029815", navigator = navController)
             }
             composable(Screen.Service_Detail.route) {
                 FirstPageDetail(navController,viewModel)
@@ -126,7 +126,7 @@ fun HiService(
             }
             composable(Screen.NoConnection.route) {
                 NoConnection {
-                    navController.navigate("login")
+                    navController.navigate("splash")
                 }
             }
         }
