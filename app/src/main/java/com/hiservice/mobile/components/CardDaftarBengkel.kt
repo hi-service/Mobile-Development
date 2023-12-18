@@ -1,5 +1,6 @@
 package com.hiservice.mobile.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -23,23 +24,23 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.hiservice.mobile.data.fake_data.BengkelFakeData
 import com.hiservice.mobile.data.model.BengkelModel
+import com.hiservice.mobile.data.retrofit.gson.DataListBengkel
 import com.hiservice.mobile.ui.theme.GreyDark
 import com.hiservice.mobile.ui.theme.HiServiceTheme
 import com.hiservice.mobile.ui.theme.YellowGold
 
 @Composable
 fun CardDaftarBengkel(
-    daftarBengkel: BengkelModel,
-    linkPhotoBengkel: String,
-    namaBengkel:String,
-    rateNumber: Double,
-    descBengkel: String,
-    modifier:Modifier = Modifier
+    daftarBengkel: DataListBengkel,
+    modifier:Modifier = Modifier,
+    OnClick : () -> Unit
 ){
     var iconColor = YellowGold
-    Row {
+    Row(Modifier.clickable{
+        OnClick.invoke()
+    }) {
         AsyncImage(
-            model = linkPhotoBengkel,
+            model = daftarBengkel.url_photo,
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = modifier
@@ -50,17 +51,17 @@ fun CardDaftarBengkel(
         Spacer(modifier = modifier.width(8.dp))
         Column {
             Text(
-                text = namaBengkel,
+                text = daftarBengkel.namaBengkel!!,
                 fontWeight = FontWeight.Medium,
                 fontSize = 18.sp
             )
             Row {
-                Text(text = rateNumber.toString())
+                Text(text = daftarBengkel.rating.toString())
                 Spacer(modifier = modifier.width(8.dp))
                 LazyRow(
                     content = {
                         items(5) { index ->
-                            if(index < daftarBengkel.rating.toInt()){
+                            if(index < daftarBengkel.rating!!.toInt()){
                                 iconColor = YellowGold
                             }else{
                                 iconColor = Color(0xFFD9D9D9)
@@ -74,7 +75,7 @@ fun CardDaftarBengkel(
                     }
                 )
             }
-            Text(text = descBengkel, color = GreyDark)
+            Text(text = "Jarak : ${daftarBengkel.jarak!!.toInt()} Km", color = GreyDark)
         }
     }
 }
@@ -83,12 +84,5 @@ fun CardDaftarBengkel(
 @Composable
 fun CardDaftarBengkelPreview() {
     HiServiceTheme {
-        CardDaftarBengkel(
-            daftarBengkel = BengkelFakeData.listBengkel[0],
-            linkPhotoBengkel = "https://unsplash.com/photos/brown-wooden-table-with-chairs-ngLt4Y1vI_Q",
-            namaBengkel = "Bengkel Bapak Udin",
-            rateNumber = 4.7,
-            descBengkel = "Tenpat service motor dan ganti ban"
-        )
     }
 }

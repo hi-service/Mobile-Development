@@ -55,7 +55,7 @@ class RegisterViewModel(private val repository: Repository) : ViewModel() {
         _loading.value = true
         try {
             val response = ApiConfig.getApiService().registerRequest(user_id,_name.value)
-            _alertData.value = AlertData("Sukses !", response.success.toString(),Icons.Filled.CheckCircle)
+            _alertData.value = AlertData("Sukses !", response.message.toString(),Icons.Filled.CheckCircle)
             _alert.value = true
         } catch (e: HttpException) {
             _alertData.value = AlertData("Failed!",e.message(),Icons.Filled.Warning)

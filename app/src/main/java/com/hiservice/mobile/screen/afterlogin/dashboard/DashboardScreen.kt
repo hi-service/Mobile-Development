@@ -25,6 +25,7 @@ import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -58,12 +59,14 @@ data class DrawerItem(
 )
 @Composable
 fun DashboardScreen(navigator: NavHostController) {
-
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val current = LocalContext.current
     val viewModelFactory = remember { ViewModelFactory.getInstance(current) }
     val viewModel: DashboardViewModel = viewModel(factory = viewModelFactory)
+    val name by viewModel.userName
+    val order_status by viewModel.orderStatus
+    val buy_status by viewModel.buyStatus
     val items = listOf(
         DrawerItem(icon = R.drawable.person_icon, label = "Account", secondaryLabel = ""){
             navigator.navigate("profile")
@@ -72,7 +75,6 @@ fun DashboardScreen(navigator: NavHostController) {
             navigator.navigate("")
         },
         DrawerItem(icon = 0, label = "", secondaryLabel = ""){
-
         },
         DrawerItem(icon = R.drawable.settings, label = "Settings", secondaryLabel = ""){
             navigator.navigate("settings")
@@ -120,7 +122,7 @@ fun DashboardScreen(navigator: NavHostController) {
                         }
                         Spacer(modifier = Modifier.height(20.dp))
                         Text(
-                            text = "Ricky Triyoga Wardhana",
+                            text = name,
                             fontFamily = FontFamily(Font(R.font.poppins_semibold)),
                             fontSize = 16.sp,
                         )
@@ -179,14 +181,16 @@ fun DashboardScreen(navigator: NavHostController) {
 
             DashboardContent(
                 openNavDrawer = { scope.launch { drawerState.open() } },
-                navigator = navigator
+                navigator = navigator,
+                orderStatus = order_status,
+                buyStatus = buy_status
             )
         }
     )
 }
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun DashboardContent(modifier : Modifier = Modifier,navigator: NavHostController,openNavDrawer: () -> Unit){
+fun DashboardContent(modifier : Modifier = Modifier,navigator: NavHostController,openNavDrawer: () -> Unit,orderStatus : String,buyStatus : String){
     val coroutineScope = rememberCoroutineScope()
 
     Column(modifier = modifier.fillMaxSize()) {
@@ -196,7 +200,22 @@ fun DashboardContent(modifier : Modifier = Modifier,navigator: NavHostController
         Row(modifier = modifier
             .fillMaxWidth()
             .padding(start = 16.dp, end = 16.dp),horizontalArrangement = Arrangement.SpaceEvenly) {
-            BoxMenuComponent(image = R.drawable.service_menu, text = "Mulai Layanan")
+            if(orderStatus == "active"){
+                BoxMenuComponent(image = R.drawable.service_menu, isActive = true, text = "Lihat Status Order"){
+                    coroutineScope.launch {
+                        navigator.navigate("service/status-order")
+                    }
+
+                }
+            }else{
+                BoxMenuComponent(image = R.drawable.service_menu, text = "Mulai Layanan"){
+                    coroutineScope.launch {
+                        navigator.navigate("service/detail")
+                    }
+
+                }
+            }
+
             BoxMenuComponent(image = R.drawable.shop_menu, text = "Part Shop")
         }
         Spacer(modifier = modifier.height(16.dp))
@@ -206,7 +225,7 @@ fun DashboardContent(modifier : Modifier = Modifier,navigator: NavHostController
             BoxMenuComponent(image = R.drawable.reminder_menu, text = "Riwayat Service", onClick =
             {
                     coroutineScope.launch {
-                        navigator.navigate("login")
+                        navigator.navigate("service/status-order")
                 }
             })
             BoxMenuComponent(image = R.drawable.consult_menu, text = "E - Consult")

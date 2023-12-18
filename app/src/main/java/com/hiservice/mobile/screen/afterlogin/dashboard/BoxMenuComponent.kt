@@ -3,6 +3,7 @@ package com.hiservice.mobile.screen.afterlogin.dashboard
 import android.graphics.BlurMaskFilter.Blur
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,6 +21,8 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,6 +30,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hiservice.mobile.R
@@ -35,7 +39,13 @@ import com.hiservice.mobile.ui.theme.YellowGold
 import kotlinx.coroutines.launch
 
 @Composable
-fun BoxMenuComponent(modifier: Modifier = Modifier, image: Int, text : String,onClick : () -> Unit = {}){
+fun BoxMenuComponent(modifier: Modifier = Modifier, image: Int, text : String,isActive : Boolean = false,onClick : () -> Unit = {}){
+    val Color = remember {
+        mutableStateOf(YellowGold)
+    }
+    if(isActive) {
+        Color.value = Color(0xFFFFD200)
+    }
     Card(
         modifier = modifier
             .width(145.dp)
@@ -51,7 +61,7 @@ fun BoxMenuComponent(modifier: Modifier = Modifier, image: Int, text : String,on
                 modifier = modifier
                     .width(145.dp)
                     .height(145.dp)
-                    .background(YellowGold),
+                    .background(Color.value),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
@@ -66,7 +76,7 @@ fun BoxMenuComponent(modifier: Modifier = Modifier, image: Int, text : String,on
                 Spacer(modifier = Modifier
                     .height(2.dp)
                     .fillMaxWidth(0.7f))
-                Text(text = text)
+                Text(text = text,modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
             }
     }
 }

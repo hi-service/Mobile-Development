@@ -23,12 +23,12 @@ sealed class Screen(override val route: String) : NavigationDestination {
     object Service_Detail : Screen("service/detail")
     object Service_Keluhan_User : Screen("service/keluhan")
     object Service_Daftar_Bengkel : Screen("service/daftar-bengkel")
-    object Service_Konfirmasi_Order : Screen("service/konfirmasi-order")
+    object Service_Konfirmasi_Order : Screen("service/konfirmasi-order/{idBengkel}"){
+        fun createRoute(idBengkel: Int) = "service/konfirmasi-order/$idBengkel"
+    }
     object Service_Status_Order : Screen("service/status-order")
 }
 
 interface NavigationDestination {
-
     val route: String
-
 }

@@ -16,28 +16,61 @@ import android.location.Address
 import android.location.Geocoder
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.data.UiToolingDataApi
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.location.LocationManagerCompat.getCurrentLocation
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.Marker
+import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
+import com.google.maps.android.compose.rememberMarkerState
+import com.google.maps.android.ktx.utils.sphericalDistance
+import com.hiservice.mobile.MainViewModel
+import com.hiservice.mobile.R
+import com.hiservice.mobile.ViewModelFactory
+import com.hiservice.mobile.components.ButtonBig
+import com.hiservice.mobile.components.InputTextCustom
+import com.hiservice.mobile.components.TopHeadBar
+import com.hiservice.mobile.components.inputTextLarge
+import com.hiservice.mobile.data.model.SharedData
+import com.hiservice.mobile.screen.afterlogin.dashboard.DashboardViewModel
+import com.hiservice.mobile.ui.theme.DarkCyan
+import com.hiservice.mobile.ui.theme.GreyDark
+import com.hiservice.mobile.ui.theme.GreyLight
 import com.hiservice.mobile.util.MapsUtility
 import com.hiservice.mobile.util.MapsUtility.Companion.hasLocationPermission
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import java.util.Locale
@@ -45,17 +78,31 @@ import java.util.Locale
 
 @OptIn(UiToolingDataApi::class)
 @Composable
-fun FirstPageDetail(){
-    val context = LocalContext.current
+fun FirstPageDetail(navigator : NavHostController,mainViewModel: MainViewModel){
+    val current = LocalContext.current
+    val viewModelFactory = remember { ViewModelFactory.getInstance(current) }
+    val viewModel: FirstPageViewModel = viewModel(factory = viewModelFactory)
+
     Column {
-        MapComponent(context  = context)
+        MapComponent(context  = current, viewModel = viewModel, mainViewModel = mainViewModel, navigator = navigator)
     }
 }
 
 @Composable
-fun MapComponent(modifier: Modifier = Modifier, context: Context) {
+fun MapComponent(modifier: Modifier = Modifier, context: Context,viewModel: FirstPageViewModel,mainViewModel: MainViewModel,navigator: NavHostController) {
+    TopHeadBar(text = "Detail Order", isBack = true, onClick = {
+        navigator.popBackStack()
+    })
     val location = remember { mutableStateOf(LatLng(-6.200000, 106.816666)) }
     val coroutineScope = rememberCoroutineScope()
+    val currentLat = remember {
+        mutableStateOf(0.0)
+    }
+    val currentLng = remember {
+        mutableStateOf(0.0)
+
+    }
+    val itemMarker by viewModel.itemsStateFlow.collectAsState()
     val requestPermissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
         onResult = { isGranted: Boolean ->
@@ -66,6 +113,8 @@ fun MapComponent(modifier: Modifier = Modifier, context: Context) {
             }
         }
     )
+    val deskripsi by viewModel.deskripsi
+    val noHp by viewModel.noHp
 
     if (hasLocationPermission(context)) {
         MapsUtility.getCurrentLocation(context) { lat, long ->
@@ -92,13 +141,27 @@ fun MapComponent(modifier: Modifier = Modifier, context: Context) {
     }
 
     val listText = remember { mutableStateOf("Ricky") }
+    LaunchedEffect(cameraPositionState) {
+        snapshotFlow { cameraPositionState.position.target }
+            .debounce(200)
+            .collect {
+                currentLat.value = it.latitude
+                currentLng.value = it.longitude
+                try {
+                val geocoder = Geocoder(context, Locale("id", "Indonesia"))
+                val locationList = geocoder.getFromLocation(it.latitude, it.longitude, 1)
+                listText.value = locationList?.get(0)?.getAddressLine(0) ?: "Lokasi tidak ditemukan"
+            } catch (e: Exception) {
+                listText.value = "Tidak Ditemukan"
+            } }
+    }
     Column {
         Box(
             modifier = modifier
                 .fillMaxWidth()
-                .height(300.dp)
-                .padding(all = 20.dp)
-                .clip(RoundedCornerShape(15.dp))
+                .height(250.dp)
+                .padding(horizontal = 20.dp)
+                .clip(RoundedCornerShape(15.dp)), contentAlignment = Alignment.Center
         ) {
             GoogleMap(
                 modifier = Modifier.fillMaxSize(),
@@ -111,21 +174,71 @@ fun MapComponent(modifier: Modifier = Modifier, context: Context) {
                             ),
                             durationMs = 1000
                         )
-                    try {
-                        val geocoder = Geocoder(context, Locale("id", "Indonesia"))
-                        val locationList = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
-                        listText.value = locationList?.get(0)?.getAddressLine(0) ?: "Lokasi tidak ditemukan"
-                    } catch (e: Exception) {
-                        listText.value = "Tidak Ditemukan"
-                    }
+                        try {
+                            val geocoder = Geocoder(context, Locale("id", "Indonesia"))
+                            val locationList = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
+                            listText.value = locationList?.get(0)?.getAddressLine(0) ?: "Lokasi tidak ditemukan"
+                        } catch (e: Exception) {
+                            listText.value = "Tidak Ditemukan"
+                        }
                     }
 
 
                 }
-            )
-        }
+            ){
+                itemMarker.forEach{
+                    Marker(
+                        state = MarkerState(position = LatLng(it.lat as Double, it.lng as Double)),
+                        title = it.namaBengkel,
+                        snippet = it.jenisBengkel
+                    )
+                }
 
-        Text(text = listText.value)
+            }
+            Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+                Image(
+                    painter = painterResource(id = R.drawable.maps_pin),
+                    contentDescription = "marker",
+                    modifier = Modifier
+                        .width(50.dp)
+                        .height(50.dp)
+                )
+                Text(text = listText.value)
+            }
+
+        }
+            TextField(
+                value = deskripsi,
+                onValueChange = viewModel::deskripsiText,
+                placeholder = {
+                              Text(text = "Detail Permasalahan")
+                },
+                label = null, // Set label menjadi null untuk menghilangkannya
+                modifier = modifier
+                    .clip(RoundedCornerShape(40.dp))
+                    .fillMaxWidth()
+                    .padding(20.dp),
+                minLines = 5,
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = GreyLight,
+                    unfocusedContainerColor = GreyLight,
+                    disabledContainerColor = GreyLight,
+                    cursorColor = DarkCyan,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    focusedLabelColor = GreyDark,
+                    unfocusedLabelColor = GreyDark,
+                )
+            )
+        InputTextCustom(hint = "No.Hp", text = noHp, onQueryChange = viewModel::noHpText, modifier = Modifier.padding(horizontal = 20.dp))
+        Spacer(modifier = Modifier.weight(1f))
+     ButtonBig(text = "Lanjut",modifier = Modifier.padding(20.dp)) {
+        mainViewModel.setShareData(
+            SharedData(deskripsiMasalah = deskripsi,noHp = noHp,currentLat.value,currentLng.value,listText.value)
+        )
+         navigator.navigate("service/keluhan")
+     }
+        Spacer(modifier = Modifier.height(20.dp))
     }
 }
 

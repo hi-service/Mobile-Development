@@ -2,20 +2,17 @@ package com.hiservice.mobile.data.retrofit.gson
 
 import com.google.gson.annotations.SerializedName
 
-data class LoginResponse(
+data class KeluhanResponse(
 
 	@field:SerializedName("data")
-	val data: Data? = null,
+	val data: List<DataKeluhanItem?>? = null,
 
 	@field:SerializedName("status")
 	val status: String? = null
 )
 
-data class Data(
+data class DataKeluhanItem(
 
-	@field:SerializedName("id")
-	val id: String? = null,
-
-	@field:SerializedName("auth_token")
-	val authToken: String? = null
+	@field:SerializedName("text_keluhan")
+	val textKeluhan: String? = null
 )

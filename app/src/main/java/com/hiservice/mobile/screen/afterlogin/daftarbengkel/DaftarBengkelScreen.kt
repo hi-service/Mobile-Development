@@ -24,6 +24,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -33,24 +34,38 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.Navigator
+import com.hiservice.mobile.MainViewModel
+import com.hiservice.mobile.ViewModelFactory
 import com.hiservice.mobile.components.CardDaftarBengkel
 import com.hiservice.mobile.components.TopHeadBar
 import com.hiservice.mobile.data.fake_data.BengkelFakeData.listBengkel
 import com.hiservice.mobile.data.fake_data.BengkelFakeData.listBengkel2
 import com.hiservice.mobile.data.model.BengkelModel
+import com.hiservice.mobile.data.retrofit.gson.DataListBengkel
+import com.hiservice.mobile.screen.afterlogin.services.daftar_keluhan.KeluhanViewModel
 import com.hiservice.mobile.screen.afterlogin.services.daftar_keluhan.simpleVerticalScrollbar
 import com.hiservice.mobile.ui.theme.GreyDark
 import com.hiservice.mobile.ui.theme.YellowGold
+import com.services.finalsubmissionjetpackcompose.ui.navigation.Screen
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
 @Composable
-fun DaftarBengkel() {
+fun DaftarBengkel(navigator: NavHostController,mainViewModel: MainViewModel) {
     var selectedTabIndex by remember {
         mutableIntStateOf(0)
     }
-
+    val current = LocalContext.current
+    val viewModelFactory = remember { ViewModelFactory.getInstance(current) }
+    val viewModel: DaftarBengkelViewModel = viewModel(factory = viewModelFactory)
+    val listBengkelRekomendasi by viewModel.bengkelRekomendasi.collectAsState()
+    val listBengkelTerdekat by viewModel.bengkelTerdekat.collectAsState()
+    viewModel.initViewModel(mainViewModel)
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         TopHeadBar(text = "Pilih Bengkel", isBack = true)
         Row(
@@ -90,13 +105,13 @@ fun DaftarBengkel() {
                 }
 
             }
-
         }
+
         Spacer(modifier = Modifier.height(10.dp))
         val lazyListStateFake1 = rememberLazyListState()
         val lazyListStateFake2 = rememberLazyListState()
         val coroutineScope = rememberCoroutineScope()
-        val fakeDataList = if (selectedTabIndex == 0) listBengkel else listBengkel2
+        val fakeDataList = if (selectedTabIndex == 0) listBengkelRekomendasi else listBengkelTerdekat
         val fakeDataState = if (selectedTabIndex == 0) lazyListStateFake1 else lazyListStateFake2
         LaunchedEffect(fakeDataState) {
             snapshotFlow { fakeDataState.firstVisibleItemIndex }
@@ -111,13 +126,13 @@ fun DaftarBengkel() {
             modifier = Modifier
                 .padding(start = 26.dp, end = 26.dp, bottom = 26.dp)
         ) {
-            DaftarBengkelList(fakeDataState,fakeDataList)
+            DaftarBengkelList(fakeDataState,fakeDataList,navigator)
         }
     }
 }
 
 @Composable
-fun DaftarBengkelList( lazyListState: LazyListState, List : List<BengkelModel>){
+fun DaftarBengkelList( lazyListState: LazyListState, List : List<DataListBengkel>,navigator: NavHostController){
     LazyColumn (state = lazyListState,modifier = Modifier
         .fillMaxHeight(1f)
         .simpleVerticalScrollbar(lazyListState)
@@ -125,11 +140,9 @@ fun DaftarBengkelList( lazyListState: LazyListState, List : List<BengkelModel>){
         itemsIndexed(List) { index, list ->
             CardDaftarBengkel(
                 daftarBengkel = list,
-                linkPhotoBengkel = "https://media.istockphoto.com/id/1347150429/id/foto/mekanik-profesional-bekerja-pada-mesin-mobil-di-garasi.jpg?s=612x612&w=0&k=20&c=Uw7QwBTEc98rrQPg6j5lmWRe-HHmf7vbiKlZ0WphJHM=",
-                namaBengkel = "Bengkel Bapak Udin",
-                rateNumber = 4.7,
-                descBengkel = "Tenpat service motor dan ganti ban"
-            )
+                ){
+                navigator.navigate(Screen.Service_Konfirmasi_Order.createRoute(list.id as Int))
+            }
             Divider()
             Spacer(modifier = Modifier.height(5.dp))
         }

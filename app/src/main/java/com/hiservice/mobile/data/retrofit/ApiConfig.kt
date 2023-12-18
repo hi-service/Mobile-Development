@@ -14,7 +14,7 @@ class ApiConfig {
             val authInterceptor = Interceptor { chain ->
                 val req = chain.request()
                 val requestHeaders = req.newBuilder()
-                    .addHeader("Authorization", "Bearer $token")
+                    .addHeader("Authorization", "$token")
                     .build()
                 chain.proceed(requestHeaders)
             }
@@ -23,7 +23,7 @@ class ApiConfig {
                 .addInterceptor(authInterceptor)
                 .build()
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://testing-login-dot-coba-identity.et.r.appspot.com/")
+                .baseUrl("http://192.168.1.12/f-lomba/public/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()
@@ -36,7 +36,7 @@ class ApiConfig {
                 .addInterceptor(loggingInterceptor)
                 .build()
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://testing-login-dot-coba-identity.et.r.appspot.com/")
+                .baseUrl("http://192.168.1.12/f-lomba/public/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()
