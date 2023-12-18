@@ -4,12 +4,17 @@ import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hiservice.mobile.data.Repository
+import com.hiservice.mobile.data.fake_data.KeluhanFakeData.listKeluhan
 import com.hiservice.mobile.data.model.Keluhan
 import com.hiservice.mobile.data.model.UserModel
 import com.hiservice.mobile.data.retrofit.ApiConfig
+import com.hiservice.mobile.data.retrofit.gson.DataKeluhanItem
+import com.hiservice.mobile.data.retrofit.gson.DataListBengkel
+import com.hiservice.mobile.data.retrofit.gson.KeluhanResponse
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
