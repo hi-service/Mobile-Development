@@ -1,4 +1,4 @@
-package com.hiservice.mobile.screen.riwayat
+package com.hiservice.mobile.screen.afterlogin.riwayat.history
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -7,25 +7,16 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hiservice.mobile.components.ItemHistory
-import com.hiservice.mobile.components.PartSellItem
 import com.hiservice.mobile.components.SearchBarCustom
 import com.hiservice.mobile.components.TopHeadBar
-import com.hiservice.mobile.components.TopHeadBarPartShop
 import com.hiservice.mobile.data.fake_data.HistoryFakeData
-import com.hiservice.mobile.data.fake_data.PartShopFakeData
 import com.hiservice.mobile.data.model.HistoryModelWrapper
-import com.hiservice.mobile.data.model.PartShopModelWrapper
-import com.hiservice.mobile.screen.part_shop.explore_shop.ExploreShopContent
 import com.hiservice.mobile.ui.theme.HiServiceTheme
 
 @Composable
