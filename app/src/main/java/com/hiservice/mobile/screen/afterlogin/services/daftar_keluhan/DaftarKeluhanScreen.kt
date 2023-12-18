@@ -1,8 +1,10 @@
 package com.hiservice.mobile.screen.afterlogin.services.daftar_keluhan
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -22,16 +24,24 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Checkbox
 import androidx.compose.material.CheckboxDefaults
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Star
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,10 +52,13 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.hiservice.mobile.ViewModelFactory
@@ -59,6 +72,7 @@ import com.hiservice.mobile.screen.afterlogin.services.first_page_detail.FirstPa
 import com.hiservice.mobile.ui.theme.DarkCyan
 import com.hiservice.mobile.ui.theme.HiServiceTheme
 import com.hiservice.mobile.ui.theme.YellowGold
+import com.hiservice.mobile.ui.theme.myFont
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
@@ -103,6 +117,11 @@ fun DaftarKeluhan(modifier: Modifier = Modifier,navigator: NavHostController){
     val coroutineScope = rememberCoroutineScope()
     val counter = remember{mutableStateOf(0)}
     val loading by viewModel.loading
+
+    var confirmDialog by rememberSaveable {
+        mutableStateOf(false)
+    }
+
     LaunchedEffect(lazyListState) {
         snapshotFlow { lazyListState.firstVisibleItemIndex }
             .distinctUntilChanged()
@@ -133,12 +152,57 @@ fun DaftarKeluhan(modifier: Modifier = Modifier,navigator: NavHostController){
             Spacer(modifier = Modifier.height(24.dp))
 
             ButtonBig(text = "Lanjut") {
-                navigator.navigate("service/daftar-bengkel")
+                confirmDialog = true
+                //navigator.navigate("service/daftar-bengkel")
             }
             LoadingComponent(showDialog = loading, onDismiss = {})
 
         }
+        if (confirmDialog) {
+            AlertDialog(
+                title = {
+                    Text(
+                        text = "Hasil Analisa",
+                        fontSize = 20.sp,
+                        textAlign = TextAlign.Center,
+                        fontWeight = FontWeight.Medium,
+                        modifier = modifier.fillMaxWidth()
+                    )
+                },
+                text = {
+                    Text(text = "Default")
+                },
+                onDismissRequest = {},
+                confirmButton = {
+                    Button(
+                        onClick = {confirmDialog = false},
+                        modifier = modifier
+                            .height(54.dp)
+                            .clip(RoundedCornerShape(15.dp))
+                            .fillMaxWidth()
+                            .background(color = YellowGold),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.Transparent
+                        )
+                    ) {
+                        androidx.compose.material3.Text(
+                            text = "Lanjut Pilih Bengkel",
+                            style = TextStyle(
+                                fontFamily = myFont,
+                                fontWeight = FontWeight.Medium,
+                                fontSize = 16.sp
+                            ),
+                            modifier = Modifier.align(Alignment.CenterVertically),
+                            color = DarkCyan,
+                        )
+                    }
+                },
+                dismissButton = {}
+            )
+        }
+
     }
+
 }
 
 @Composable
@@ -168,8 +232,9 @@ fun DaftarKeluhanContent(
 @Preview(showBackground = true)
 @Composable
 fun DaftarKeluhanPreview(){
+    val context = LocalContext.current
     HiServiceTheme {
-        //DaftarKeluhan()
+        DaftarKeluhan(navigator = NavHostController(context))
     }
 }
 

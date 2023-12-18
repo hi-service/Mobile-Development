@@ -1,6 +1,8 @@
 package com.hiservice.mobile.screen.afterlogin.services.daftar_keluhan
 
 import android.util.Log
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Add
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -9,6 +11,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hiservice.mobile.data.Repository
 import com.hiservice.mobile.data.fake_data.KeluhanFakeData.listKeluhan
+import com.hiservice.mobile.data.model.AlertData
 import com.hiservice.mobile.data.model.Keluhan
 import com.hiservice.mobile.data.model.UserModel
 import com.hiservice.mobile.data.retrofit.ApiConfig
@@ -24,6 +27,7 @@ class KeluhanViewModel(private val repository: Repository) : ViewModel() {
     private val _itemsState = mutableStateListOf<Keluhan>()
     val itemsState: List<Keluhan> = _itemsState
     private val _itemsStateFlow = MutableStateFlow<List<Keluhan>>(mutableListOf())
+
     val itemsStateFlow: StateFlow<List<Keluhan>> get() = _itemsStateFlow
     private val _counter = mutableStateOf(0)
     private val _loading = mutableStateOf(false)

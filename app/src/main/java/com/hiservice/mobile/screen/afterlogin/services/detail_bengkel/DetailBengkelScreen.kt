@@ -1,5 +1,6 @@
 package com.hiservice.mobile.screen.afterlogin.services.detail_bengkel
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,6 +15,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Star
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -21,15 +25,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
@@ -43,9 +54,11 @@ import com.hiservice.mobile.data.fake_data.BengkelFakeData
 import com.hiservice.mobile.data.model.BengkelModel
 import com.hiservice.mobile.data.retrofit.gson.DeskripsiBengkelItem
 import com.hiservice.mobile.screen.afterlogin.services.first_page_detail.FirstPageViewModel
+import com.hiservice.mobile.ui.theme.DarkCyan
 import com.hiservice.mobile.ui.theme.GreyDark
 import com.hiservice.mobile.ui.theme.HiServiceTheme
 import com.hiservice.mobile.ui.theme.YellowGold
+import com.hiservice.mobile.ui.theme.myFont
 import kotlinx.coroutines.flow.MutableStateFlow
 
 @Composable
@@ -63,6 +76,9 @@ fun DetailBengkelScreen(
     val dataBengkelItem by viewModel.dataBengkelItem.collectAsState()
     val loading by viewModel.loading
     var iconColor = YellowGold
+    var confirmDialog by rememberSaveable {
+        mutableStateOf(false)
+    }
 
         if(dataBengkel != null){
             Column {
@@ -130,12 +146,55 @@ fun DetailBengkelScreen(
                         )
                         Spacer(modifier = modifier.height(24.dp))
                         ButtonBig(text = "Lanjut") {
-                            viewModel.setOrder(id,mainViewModel.sharedData.value!!.copy())
+                            confirmDialog = true
+                            //viewModel.setOrder(id,mainViewModel.sharedData.value!!.copy())
                         }
                         Spacer(modifier = modifier.height(24.dp))
 
                     }
                 }
+            }
+            if (confirmDialog) {
+                AlertDialog(
+                    title = {
+                        androidx.compose.material.Text(
+                            text = "Detail Order",
+                            fontSize = 20.sp,
+                            textAlign = TextAlign.Center,
+                            fontWeight = FontWeight.Medium,
+                            modifier = modifier.fillMaxWidth()
+                        )
+                    },
+                    text = {
+                        androidx.compose.material.Text(text = "Default")
+                    },
+                    onDismissRequest = {},
+                    confirmButton = {
+                        Button(
+                            onClick = {confirmDialog = false},
+                            modifier = modifier
+                                .height(54.dp)
+                                .clip(RoundedCornerShape(15.dp))
+                                .fillMaxWidth()
+                                .background(color = YellowGold),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Color.Transparent
+                            )
+                        ) {
+                            Text(
+                                text = "Lanjut Pilih Bengkel",
+                                style = TextStyle(
+                                    fontFamily = myFont,
+                                    fontWeight = FontWeight.Medium,
+                                    fontSize = 16.sp
+                                ),
+                                modifier = Modifier.align(Alignment.CenterVertically),
+                                color = DarkCyan,
+                            )
+                        }
+                    },
+                    dismissButton = {}
+                )
             }
             LoadingComponent(showDialog = loading, onDismiss = {})
         }else{
@@ -146,4 +205,6 @@ fun DetailBengkelScreen(
 @Preview(showBackground = true)
 @Composable
 fun DetailBengkelPreview() {
+    val context = LocalContext.current
+    DetailBengkelScreen(id = 1, mainViewModel = MainViewModel(), navigator = NavHostController(context))
 }
