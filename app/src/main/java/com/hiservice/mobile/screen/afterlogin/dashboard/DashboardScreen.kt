@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.hiservice.mobile.R
 import com.hiservice.mobile.ViewModelFactory
 import com.hiservice.mobile.components.TopHeadBar
@@ -240,7 +241,8 @@ fun DashboardContent(modifier : Modifier = Modifier,navigator: NavHostController
 @Preview(showBackground = true)
 @Composable
 fun GetPrev() {
+    val navController: NavHostController = rememberNavController()
     HiServiceTheme {
-
+        DashboardContent(navigator = navController, openNavDrawer = {}, orderStatus = "", buyStatus = "")
     }
 }

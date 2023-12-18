@@ -30,8 +30,9 @@ fun ExploreShopContent(
 ){
     Column (modifier = modifier){
         TopHeadBarPartShop(text = "Explore", onClickBack = {}, onClickCart = {})
+        SearchBarCustom(hint = "Cari Sparepart", onClickSearch = {})
         Column (modifier = modifier.padding(horizontal = 32.dp)){
-            SearchBarCustom(hint = "Cari Sparepart", onClickSearch = {})
+
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 contentPadding = PaddingValues(top = 16.dp, bottom = 16.dp),

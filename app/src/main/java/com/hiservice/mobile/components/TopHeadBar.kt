@@ -1,6 +1,7 @@
 package com.hiservice.mobile.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -40,16 +41,22 @@ import com.hiservice.mobile.ui.theme.HiServiceTheme
 @Composable
 fun TopHeadBar(modifier: Modifier = Modifier,onClick: ()-> Unit = {}, isBack : Boolean = false,text : String) {
     Column {
-        Spacer(modifier = modifier.width(40.dp))
-        Row(modifier = modifier
-            .fillMaxWidth()
-            .height(100.dp)
-            .padding(all = 20.dp), horizontalArrangement = Arrangement.SpaceAround, verticalAlignment = Alignment.CenterVertically){
+        Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .height(100.dp)
+                .padding(horizontal = 32.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ){
             if(isBack){
                 Icon(
                     painter = painterResource(R.drawable.back_btn),
                     contentDescription = stringResource(id = R.string.bus_content_description),
-                    modifier = modifier.clickable { onClick() }
+                    modifier = modifier
+                        .clickable { onClick() }
+                        .size(50.dp)
+                        .padding(vertical = 10.dp, horizontal = 12.dp)
                 )
             }else{
                 Box(
@@ -77,13 +84,11 @@ fun TopHeadBar(modifier: Modifier = Modifier,onClick: ()-> Unit = {}, isBack : B
                 text = text,
                 fontFamily = FontFamily(Font(R.font.poppins_bold)),
                 fontWeight = FontWeight.Bold,
-                fontSize = 24.sp,
+                fontSize = 22.sp,
                 textAlign = TextAlign.Center,
-                color = Color(0xFF263238),
-                modifier = modifier.fillMaxWidth(0.5f)
+                color = Color(0xFF263238)
             )
-                Spacer(modifier = modifier.width(0.dp))
-
+            Box(modifier = modifier.size(50.dp))
         }
     }
 }
@@ -91,33 +96,47 @@ fun TopHeadBar(modifier: Modifier = Modifier,onClick: ()-> Unit = {}, isBack : B
 @Composable
 fun TopHeadBarPartShop(modifier: Modifier = Modifier,onClickBack: ()-> Unit = {}, onClickCart: ()-> Unit = {}, text : String) {
     Column {
-        Spacer(modifier = modifier.width(40.dp))
-        Row(modifier = modifier
-            .fillMaxWidth()
-            .height(100.dp)
-            .padding(all = 20.dp), horizontalArrangement = Arrangement.SpaceAround, verticalAlignment = Alignment.CenterVertically){
-
+        Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .height(100.dp)
+                .padding(horizontal = 32.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ){
             Icon(
                 painter = painterResource(R.drawable.back_btn),
                 contentDescription = stringResource(id = R.string.bus_content_description),
-                modifier = modifier.clickable { onClickBack() }
+                modifier = modifier
+                    .clickable { onClickBack() }
+                    .size(50.dp)
+                    .padding(vertical = 10.dp, horizontal = 12.dp)
             )
             Text(
                 text = text,
                 fontFamily = FontFamily(Font(R.font.poppins_bold)),
                 fontWeight = FontWeight.Bold,
-                fontSize = 24.sp,
+                fontSize = 22.sp,
                 textAlign = TextAlign.Center,
-                color = Color(0xFF263238),
-                modifier = modifier.fillMaxWidth(0.5f)
+                color = Color(0xFF263238)
             )
             Icon(
                 painter = painterResource(R.drawable.shopping_cart),
                 contentDescription = "Icon Cart",
-                modifier = modifier.clickable{onClickCart()}
+                modifier = modifier
+                    .clickable{onClickCart()}
+                    .size(50.dp)
+                    .padding(vertical = 10.dp, horizontal = 12.dp)
             )
-
         }
+    }
+}
+
+@Composable
+@Preview(showBackground = true)
+fun TopHeadBarPreview(){
+    HiServiceTheme {
+        TopHeadBar(onClick = {}, text = "Explore", isBack = true)
     }
 }
 
