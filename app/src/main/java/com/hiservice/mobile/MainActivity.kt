@@ -37,6 +37,7 @@ import com.hiservice.mobile.screen.authentication.register.RegisterContent
 import com.hiservice.mobile.screen.no_connection.NoConnection
 import com.hiservice.mobile.screen.on_board.OnBoardingScreen
 import com.hiservice.mobile.screen.splash.SplashScreenAnimation
+import com.hiservice.mobile.screen.statusorder.AlertRating
 import com.hiservice.mobile.screen.statusorder.StatusOrderScreen
 import com.hiservice.mobile.ui.theme.HiServiceTheme
 import com.hiservice.mobile.util.Connection.Companion.isOnline
@@ -85,6 +86,9 @@ fun HiService(
                 Screen.NoConnection.route
             }
         ) {
+            composable(Screen.About.route){
+
+            }
             composable(Screen.Splash.route) {
                 SplashScreenAnimation(navController)
             }

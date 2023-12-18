@@ -25,6 +25,7 @@ import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -35,6 +36,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -42,6 +44,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -71,10 +76,27 @@ fun DashboardScreen(navigator: NavHostController) {
     val order_status by viewModel.orderStatus
     val buy_status by viewModel.buyStatus
     val loading by viewModel.loading
+    val lifecycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(Unit) {
+        val lifecycle = lifecycleOwner.lifecycle
+        val callback = object : LifecycleEventObserver {
+            override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+                if (event == Lifecycle.Event.ON_RESUME) {
+                    scope.launch {
+                        viewModel.getUserData()
+                    }
+                    lifecycle.removeObserver(this)
+                }
+            }
+        }
 
-    LaunchedEffect(Unit) {
-        viewModel.getUserData()
+        lifecycle.addObserver(callback)
+
+        onDispose {
+            lifecycle.removeObserver(callback)
+        }
     }
+
     val items = listOf(
         DrawerItem(icon = R.drawable.person_icon, label = "Account", secondaryLabel = ""){
             navigator.navigate("profile")

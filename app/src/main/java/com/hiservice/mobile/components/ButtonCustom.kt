@@ -62,7 +62,9 @@ fun ButtonNormal(
     text: String,
     enabled: Boolean = true,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    color : Color = YellowGold,
+    textColor : Color= DarkCyan
 ){
     Button(
         onClick = onClick,
@@ -71,7 +73,7 @@ fun ButtonNormal(
             .height(54.dp)
             .clip(RoundedCornerShape(15.dp))
             .fillMaxWidth()
-            .background(color = YellowGold),
+            .background(color = color),
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Transparent
         )
@@ -84,7 +86,7 @@ fun ButtonNormal(
                 fontSize = 16.sp
             ),
             modifier = Modifier.align(Alignment.CenterVertically),
-            color = DarkCyan,
+            color = textColor,
         )
     }
 }

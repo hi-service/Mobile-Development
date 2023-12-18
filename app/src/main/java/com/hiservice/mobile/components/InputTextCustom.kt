@@ -80,17 +80,20 @@ fun InputTextNoBG(hint: String,modifier: Modifier = Modifier,text: String, onQue
 }
 
 @Composable
-fun inputTextLarge(modifier: Modifier = Modifier, onQueryChange: (String) -> Unit){
-    var text by rememberSaveable  { mutableStateOf("") }
-
+fun inputTextLarge(modifier: Modifier = Modifier, onQueryChange: (String) -> Unit,text: String,hint: String =""){
     TextField(
         value = text,
-        onValueChange = { newText -> text = newText},
+        placeholder = {
+                      Text(text = hint)
+        },
+        onValueChange = { newText ->
+            onQueryChange(newText)},
         label = null, // Set label menjadi null untuk menghilangkannya
+        maxLines = 4,
         modifier = modifier
-            .height(54.dp)
+            .height(200.dp)
             .clip(RoundedCornerShape(10.dp))
-            .fillMaxWidth(),
+            .fillMaxWidth().padding(20.dp),
         colors = TextFieldDefaults.colors(
             focusedContainerColor = GreyLight,
             unfocusedContainerColor = GreyLight,

@@ -36,6 +36,7 @@ class DashboardViewModel(val repository: Repository) : ViewModel() {
                 if (_session.value != userModel) {
                     _session.value = userModel
                     getUserData()
+                    Log.d("rr",_session.value.toString())
                 }
             }
 

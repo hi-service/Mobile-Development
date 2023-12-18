@@ -16,11 +16,16 @@ import android.location.Address
 import android.location.Geocoder
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.outlined.Star
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -42,11 +47,13 @@ import androidx.compose.ui.tooling.data.UiToolingDataApi
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toBitmap
 import androidx.core.location.LocationManagerCompat.getCurrentLocation
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -89,13 +96,19 @@ fun FirstPageDetail(navigator : NavHostController,mainViewModel: MainViewModel){
         MapComponent(context  = current, viewModel = viewModel, mainViewModel = mainViewModel, navigator = navigator)
     }
 }
-
+fun bitmapDescriptorFromVector(context: Context, @DrawableRes vectorResourceId: Int): BitmapDescriptor? {
+    val vectorDrawable = ContextCompat.getDrawable(context, vectorResourceId)
+    val bitmap = vectorDrawable?.toBitmap()
+    return bitmap?.let { BitmapDescriptorFactory.fromBitmap(it) }
+}
 @Composable
 fun MapComponent(modifier: Modifier = Modifier, context: Context,viewModel: FirstPageViewModel,mainViewModel: MainViewModel,navigator: NavHostController) {
     TopHeadBar(text = "Detail Order", isBack = true, onClick = {
         navigator.popBackStack()
     })
-    val location = remember { mutableStateOf(LatLng(-6.200000, 106.816666)) }
+    val location = remember { mutableStateOf(LatLng(-7.983908, 112.621391)) }
+    val location_user_mark = remember { mutableStateOf(LatLng(-7.983908, 112.621391)) }
+
     val coroutineScope = rememberCoroutineScope()
     val currentLat = remember {
         mutableStateOf(0.0)
@@ -121,7 +134,7 @@ fun MapComponent(modifier: Modifier = Modifier, context: Context,viewModel: Firs
     if (hasLocationPermission(context)) {
         MapsUtility.getCurrentLocation(context) { lat, long ->
             location.value = LatLng(lat, long)
-            Log.d("Loca",location.value.toString())
+            location_user_mark.value = LatLng(lat, long)
         }
     } else {
         LaunchedEffect("setPermission") {
@@ -142,20 +155,23 @@ fun MapComponent(modifier: Modifier = Modifier, context: Context,viewModel: Firs
         )
     }
 
-    val listText = remember { mutableStateOf("Ricky") }
+    val listText = remember { mutableStateOf("....") }
     LaunchedEffect(cameraPositionState) {
         snapshotFlow { cameraPositionState.position.target }
             .debounce(200)
             .collect {
-                currentLat.value = it.latitude
-                currentLng.value = it.longitude
-                try {
-                val geocoder = Geocoder(context, Locale("id", "Indonesia"))
-                val locationList = geocoder.getFromLocation(it.latitude, it.longitude, 1)
-                listText.value = locationList?.get(0)?.getAddressLine(0) ?: "Lokasi tidak ditemukan"
-            } catch (e: Exception) {
-                listText.value = "Tidak Ditemukan"
-            } }
+                coroutineScope.launch {
+                    currentLat.value = it.latitude
+                    currentLng.value = it.longitude
+                    try {
+                        val geocoder = Geocoder(context, Locale("id", "Indonesia"))
+                        val locationList = geocoder.getFromLocation(it.latitude, it.longitude, 1)
+                        listText.value = locationList?.get(0)?.getAddressLine(0) ?: "Lokasi tidak ditemukan"
+                    } catch (e: Exception) {
+                        listText.value = "Tidak Ditemukan"
+                    }
+                }
+                 }
     }
     Column {
         Box(
@@ -195,7 +211,11 @@ fun MapComponent(modifier: Modifier = Modifier, context: Context,viewModel: Firs
                         snippet = it.jenisBengkel
                     )
                 }
-
+                Marker(
+                    state = MarkerState(position = location_user_mark.value),
+                    title = "Posisi anda",
+                    icon = bitmapDescriptorFromVector(context, R.drawable.baseline_person_pin_24)
+                )
             }
             Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
                 Image(

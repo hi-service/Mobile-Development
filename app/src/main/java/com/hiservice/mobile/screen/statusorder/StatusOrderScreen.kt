@@ -1,8 +1,10 @@
 package com.hiservice.mobile.screen.statusorder
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,13 +30,15 @@ import androidx.navigation.NavHostController
 import com.hiservice.mobile.R
 import com.hiservice.mobile.ViewModelFactory
 import com.hiservice.mobile.components.ButtonBig
+import com.hiservice.mobile.components.ButtonNormal
+import com.hiservice.mobile.components.ButtonNormalOutlined
 import com.hiservice.mobile.components.TopHeadBar
 import com.hiservice.mobile.data.model.StatusOrderModel
 import com.hiservice.mobile.ui.theme.DarkCyan
 import com.hiservice.mobile.ui.theme.GreyDark
 
 @Composable
-fun StatusOrderScreen(navigator : NavHostController){
+fun StatusOrderScreen(navigator : NavHostController,modifier : Modifier = Modifier){
     val current = LocalContext.current
     val viewModelFactory = remember { ViewModelFactory.getInstance(current) }
     val viewModel: StatusOrderViewModel = viewModel(factory = viewModelFactory)
@@ -50,6 +54,9 @@ fun StatusOrderScreen(navigator : NavHostController){
         buttonColor = Color.Red,
         buttonClick = {}
     ))
+    val count by viewModel.countRating
+    val ratingInput by viewModel.isFinished
+    val textRating by viewModel.textPenilaian
     Column {
         TopHeadBar(text = "Status Order", isBack = true, onClick = {navigator.popBackStack()
         })
@@ -83,11 +90,37 @@ fun StatusOrderScreen(navigator : NavHostController){
             color = GreyDark,
             modifier = Modifier.fillMaxWidth()
         )
-        if(statusOrder.isButton){
-            ButtonBig(text = statusOrder.buttonText, onClick = {
-                                                               statusOrder.buttonClick.invoke()
-            }, buttonColors = statusOrder.buttonColor, modifier = Modifier.padding(40.dp), textColor = Color.White)
+        Row (
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(20.dp),
+
+            horizontalArrangement = Arrangement.spacedBy(20.dp)
+        ){
+            ButtonNormal(
+                text = statusOrder.buttonText,
+                onClick = {statusOrder.buttonClick.invoke() },
+                modifier = modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+                color = statusOrder.buttonColor,
+                textColor = Color.White
+            )
+            ButtonNormal(
+                text = "Chat Bengkel",
+                onClick = { },
+                modifier = modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+            )
         }
 
+
     }
+    if(ratingInput){
+        AlertRating(count = count, counter = viewModel::setCountRating, onCommentChange = viewModel::setTextPenilaian, commentText = textRating, onDismiss = {
+             viewModel.inTerface()
+        })
+    }
+
 }

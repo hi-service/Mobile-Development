@@ -32,6 +32,26 @@ class StatusOrderViewModel(val repository: Repository) : ViewModel() {
 
     private val _loading = mutableStateOf(false)
     val loading: State<Boolean> get() = _loading
+
+    private val _isFinished = mutableStateOf(false)
+    val isFinished: State<Boolean> get() = _isFinished
+
+    private val _countRating = mutableStateOf(0)
+    val countRating: State<Int> get() = _countRating
+    fun setCountRating(newCount : Int){
+        _countRating.value = newCount +1
+    }
+
+    fun inTerface(){
+        _isFinished.value = false
+    }
+    private val _textPenilaian = mutableStateOf("")
+    val textPenilaian: State<String> get() = _textPenilaian
+
+    fun setTextPenilaian(newText : String){
+        _textPenilaian.value = newText
+    }
+
     val orderStatus: Flow<StatusOrderModel> get() = _orderStatus
     private val _session = MutableStateFlow<UserModel?>(null)
 
@@ -83,8 +103,8 @@ class StatusOrderViewModel(val repository: Repository) : ViewModel() {
             }else if(response.orderData!!.status == "finished"){
                 _orderStatus.value = StatusOrderModel(
                     statusOrder = response.orderData?.status!!, idOrder = response.orderData.orderId!!, time = response.orderData.waktu!!,
-                    image = R.drawable.statusorder_success, text = "Pesanan Selesai", subText = "Order diselesaikan, silahkan konfirmasi order dibawah untuk melakukan order lain", isButton = true, buttonColor = Color.LightGray, buttonText = "Selesaikan Pesanan", buttonClick = {
-                        setOrderStatusStatus("finished")
+                    image = R.drawable.statusorder_success, text = "Pesanan Selesai", subText = "Order diselesaikan, silahkan konfirmasi order dibawah untuk melakukan order lain", isButton = true, buttonColor = Color(0xFF34B580), buttonText = "Selesaikan", buttonClick = {
+                        _isFinished.value = true
                     })
             }
 
