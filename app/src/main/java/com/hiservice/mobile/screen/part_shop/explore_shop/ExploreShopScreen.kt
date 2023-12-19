@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -14,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hiservice.mobile.components.PartSellItem
 import com.hiservice.mobile.components.SearchBarCustom
+import com.hiservice.mobile.components.TopHeadBar
 import com.hiservice.mobile.components.TopHeadBarPartShop
 import com.hiservice.mobile.data.fake_data.PartShopFakeData
 import com.hiservice.mobile.data.model.PartShopModelWrapper
@@ -26,10 +28,10 @@ fun ExploreShopContent(
     navigateToDetail: (Long) -> Unit
 ){
     Column (modifier = modifier){
-        TopHeadBarPartShop(text = "Explore", onClickBack = {}, onClickCart = {})
-        SearchBarCustom(hint = "Cari Sparepart", onClickSearch = {})
-        Column (modifier = modifier.padding(horizontal = 32.dp)){
+        TopHeadBar(text = "Explore", isBack = true)
 
+        Column (modifier = modifier.padding(horizontal = 32.dp)){
+            SearchBarCustom(hint = "Cari Sparepart", onClickSearch = {})
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 contentPadding = PaddingValues(top = 16.dp, bottom = 16.dp),

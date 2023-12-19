@@ -31,6 +31,7 @@ import androidx.navigation.NavHostController
 import com.hiservice.mobile.R
 import com.hiservice.mobile.ViewModelFactory
 import com.hiservice.mobile.components.AlertDialogComponent
+import com.hiservice.mobile.components.ButtonBig
 import com.hiservice.mobile.components.ButtonNormal
 import com.hiservice.mobile.components.TopHeadBar
 import com.hiservice.mobile.data.model.StatusOrderModel
@@ -99,7 +100,9 @@ fun StatusOrderScreen(navigator : NavHostController,modifier : Modifier = Modifi
             horizontalArrangement = Arrangement.spacedBy(20.dp)
         ){
             if(!statusOrder.isButton){
-
+                ButtonBig(text = "Chat Bengkel") {
+                    navigator.navigate("service/chat-order")
+                }
             }else{
                 ButtonNormal(
                     text = statusOrder.buttonText,

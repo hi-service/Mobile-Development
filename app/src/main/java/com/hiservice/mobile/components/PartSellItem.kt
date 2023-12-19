@@ -2,6 +2,7 @@ package com.hiservice.mobile.components
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -56,6 +57,16 @@ fun PartSellItem(
                 overflow = TextOverflow.Ellipsis,
                 fontSize = 14.sp
             )
+            Row {
+                Text(
+                    //text = stringResource(R.string.part_price, amount),
+                    text = formattedAmount,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 14.sp,
+                )
+            }
             Text(
                 //text = stringResource(R.string.part_price, amount),
                 text = formattedAmount,
