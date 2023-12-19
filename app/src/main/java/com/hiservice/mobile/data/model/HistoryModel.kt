@@ -6,5 +6,9 @@ data class HistoryModel (
     val namaBengkel: String,
     val tanggalService: String,
     val jamService: String,
+    val descService: String,
+    val kmService: String,
+    val kmNext: String,
+    val statusOrder: String,
     val totalHarga: Int
 )

@@ -10,7 +10,11 @@ object HistoryFakeData {
             namaBengkel = "Bengkel Pak Budi",
             tanggalService = "Senin, 18 Desember 2023",
             jamService = "09.00",
-            totalHarga = 300000
+            totalHarga = 300000,
+            descService = "Ganti Oli, ganti ban tubeless, ganti kanvas rem",
+            kmService = "4000",
+            kmNext = "6000",
+            statusOrder = "Selesai"
         ),
         HistoryModel(
             id = 2,
@@ -18,7 +22,11 @@ object HistoryFakeData {
             namaBengkel = "Bengkel Pak Budi",
             tanggalService = "Senin, 18 Desember 2023",
             jamService = "09.00",
-            totalHarga = 300000
+            totalHarga = 300000,
+            descService = "Ganti Oli, ganti ban tubeless, ganti kanvas rem",
+            kmService = "4000",
+            kmNext = "6000",
+            statusOrder = "Ditolak"
         ),
         HistoryModel(
             id = 3,
@@ -26,7 +34,11 @@ object HistoryFakeData {
             namaBengkel = "Bengkel Pak Budi",
             tanggalService = "Senin, 18 Desember 2023",
             jamService = "09.00",
-            totalHarga = 300000
+            totalHarga = 300000,
+            descService = "Ganti Oli, ganti ban tubeless, ganti kanvas rem",
+            kmService = "4000",
+            kmNext = "6000",
+            statusOrder = "Selesai"
         ),
         HistoryModel(
             id = 4,
@@ -34,7 +46,11 @@ object HistoryFakeData {
             namaBengkel = "Bengkel Pak Budi",
             tanggalService = "Senin, 18 Desember 2023",
             jamService = "09.00",
-            totalHarga = 300000
+            totalHarga = 300000,
+            descService = "Ganti Oli, ganti ban tubeless, ganti kanvas rem",
+            kmService = "4000",
+            kmNext = "6000",
+            statusOrder = "Dibatalkan"
         ),
         HistoryModel(
             id = 5,
@@ -42,7 +58,11 @@ object HistoryFakeData {
             namaBengkel = "Bengkel Pak Budi",
             tanggalService = "Senin, 18 Desember 2023",
             jamService = "09.00",
-            totalHarga = 300000
+            totalHarga = 300000,
+            descService = "Ganti Oli, ganti ban tubeless, ganti kanvas rem",
+            kmService = "4000",
+            kmNext = "6000",
+            statusOrder = "Selesai"
         ),
         HistoryModel(
             id = 6,
@@ -50,7 +70,11 @@ object HistoryFakeData {
             namaBengkel = "Bengkel Pak Budi",
             tanggalService = "Senin, 18 Desember 2023",
             jamService = "09.00",
-            totalHarga = 300000
+            totalHarga = 300000,
+            descService = "Ganti Oli, ganti ban tubeless, ganti kanvas rem",
+            kmService = "4000",
+            kmNext = "6000",
+            statusOrder = "Dibatalkan"
         ),
         HistoryModel(
             id = 7,
@@ -58,7 +82,11 @@ object HistoryFakeData {
             namaBengkel = "Bengkel Pak Budi",
             tanggalService = "Senin, 18 Desember 2023",
             jamService = "09.00",
-            totalHarga = 300000
+            totalHarga = 300000,
+            descService = "Ganti Oli, ganti ban tubeless, ganti kanvas rem",
+            kmService = "4000",
+            kmNext = "6000",
+            statusOrder = "Selesai"
         ),
         HistoryModel(
             id = 8,
@@ -66,7 +94,11 @@ object HistoryFakeData {
             namaBengkel = "Bengkel Pak Budi",
             tanggalService = "Senin, 18 Desember 2023",
             jamService = "09.00",
-            totalHarga = 300000
+            totalHarga = 300000,
+            descService = "Ganti Oli, ganti ban tubeless, ganti kanvas rem",
+            kmService = "4000",
+            kmNext = "6000",
+            statusOrder = "Berjalan"
         )
     )
 }

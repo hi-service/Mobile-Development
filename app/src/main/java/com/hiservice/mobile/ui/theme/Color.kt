@@ -15,3 +15,6 @@ val YellowGold = Color(0xFFFFC100)
 val WhiteReal = Color(0xFFFFFFFF)
 val GreyDark = Color(0xFFA6A6A6)
 val GreyLight = Color(0xFFE0E0E0)
+
+val GreenFun = Color(0xFF009B5B)
+val RedNotFun = Color(0xFFD50000)

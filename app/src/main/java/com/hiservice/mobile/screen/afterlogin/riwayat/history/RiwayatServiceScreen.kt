@@ -41,9 +41,14 @@ fun RiwayatServiceContent(
             ){
                 items(history) { data ->
                     ItemHistory(
+                        orderID = data.history.id.toString(),
                         namaService = data.history.namaService,
                         tanggalService = data.history.tanggalService,
                         namaBengkel = data.history.namaBengkel,
+                        descService = data.history.descService,
+                        kmService = data.history.kmService,
+                        kmNext = data.history.kmNext,
+                        status = data.history.statusOrder,
                         modifier = Modifier.clickable {
                             navigateToDetailService(data.history.id)
                         }
