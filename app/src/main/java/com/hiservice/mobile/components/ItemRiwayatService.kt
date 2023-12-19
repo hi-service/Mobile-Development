@@ -39,9 +39,9 @@ fun ItemHistory(
     status: String,
     modifier: Modifier = Modifier
 ){
-    val color: Color = if (status == "Selesai") GreenFun else if (status=="Berjalan") DarkCyan else RedNotFun
-    val statusKmService: String = if (status == "Selesai") kmService else "-"
-    val statusKmNext: String = if (status == "Selesai") kmNext else "-"
+    val color: Color = if (status == "finished") GreenFun else if (status=="ongoing") DarkCyan else RedNotFun
+    val statusKmService: String = if (status == "finished") kmService else "-"
+    val statusKmNext: String = if (status == "finished") kmNext else "-"
     Box(
         modifier = modifier
             .background(color = GreyLight, RoundedCornerShape(15.dp)),

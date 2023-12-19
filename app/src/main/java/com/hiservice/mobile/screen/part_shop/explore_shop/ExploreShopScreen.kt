@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hiservice.mobile.components.PartSellItem
@@ -27,6 +28,7 @@ fun ExploreShopContent(
     modifier: Modifier = Modifier,
     navigateToDetail: (Long) -> Unit
 ){
+    val current = LocalContext.current
     Column (modifier = modifier){
         TopHeadBar(text = "Explore", isBack = true)
 
@@ -46,7 +48,9 @@ fun ExploreShopContent(
                         harga = data.partSell.harga,
                         modifier = Modifier.clickable {
                             navigateToDetail(data.partSell.id)
-                        }
+                        },
+                        context = current,
+                        phoneNumber = ""
                     )
                 }
             }

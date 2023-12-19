@@ -254,7 +254,7 @@ fun DashboardContent(modifier : Modifier = Modifier,navigator: NavHostController
             BoxMenuComponent(image = R.drawable.reminder_menu, text = "Riwayat Service", onClick =
             {
                     coroutineScope.launch {
-                        navigator.navigate("service/status-order")
+                        navigator.navigate("history")
                 }
             })
             BoxMenuComponent(image = R.drawable.consult_menu, text = "E - Consult")

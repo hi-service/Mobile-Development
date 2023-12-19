@@ -65,7 +65,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun Modifier.simpleVerticalScrollbar(
     state: LazyListState,
-    width: Dp = 8.dp
+    width: Dp = 8.dp,
+    color: Color = YellowGold
 ): Modifier {
     val targetAlpha = if (state.isScrollInProgress) 1f else 0.5f
     val duration = if (state.isScrollInProgress) 0 else 500
@@ -84,7 +85,7 @@ fun Modifier.simpleVerticalScrollbar(
             val scrollbarOffsetY = firstVisibleElementIndex * elementHeight
             val scrollbarHeight = (state.layoutInfo.visibleItemsInfo.size * elementHeight) - 20
             drawRoundRect(
-                color = YellowGold,
+                color = color,
                 topLeft = Offset(this.size.width - width.toPx(), scrollbarOffsetY),
                 size = Size(width.toPx(), scrollbarHeight),
                 cornerRadius = CornerRadius(8.dp.toPx(), 8.dp.toPx()), // Mengatur radius lengkung atas dan bawah

@@ -31,6 +31,7 @@ import com.hiservice.mobile.screen.afterlogin.daftarbengkel.DaftarBengkel
 import com.hiservice.mobile.screen.afterlogin.dashboard.DashboardScreen
 import com.hiservice.mobile.screen.afterlogin.profil.ImageSelectorAndCropper
 import com.hiservice.mobile.screen.afterlogin.profil.ProfilScreen
+import com.hiservice.mobile.screen.afterlogin.riwayat.history.RiwayatServiceContent
 import com.hiservice.mobile.screen.afterlogin.services.daftar_keluhan.DaftarKeluhan
 import com.hiservice.mobile.screen.afterlogin.services.detail_bengkel.DetailBengkelScreen
 import com.hiservice.mobile.screen.afterlogin.services.first_page_detail.FirstPageDetail
@@ -139,6 +140,9 @@ fun HiService(
             }
             composable(Screen.Setting.route) {
                 ImageSelectorAndCropper()
+            }
+            composable(Screen.History_Service.route) {
+                RiwayatServiceContent(navigator = navController)
             }
         }
     }

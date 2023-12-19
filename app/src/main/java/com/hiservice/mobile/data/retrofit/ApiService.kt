@@ -2,6 +2,7 @@ package com.hiservice.mobile.data.retrofit
 
 import com.hiservice.mobile.data.retrofit.gson.ChatOrderResponse
 import com.hiservice.mobile.data.retrofit.gson.DetailBengkel
+import com.hiservice.mobile.data.retrofit.gson.GetHistoryService
 import com.hiservice.mobile.data.retrofit.gson.GetOrderData
 import com.hiservice.mobile.data.retrofit.gson.GetUserResponse
 import com.hiservice.mobile.data.retrofit.gson.KeluhanResponse
@@ -11,6 +12,7 @@ import com.hiservice.mobile.data.retrofit.gson.OrderResponse
 import com.hiservice.mobile.data.retrofit.gson.OrderStatusPost
 import com.hiservice.mobile.data.retrofit.gson.RatingResponse
 import com.hiservice.mobile.data.retrofit.gson.RegisterResponse
+import com.hiservice.mobile.data.retrofit.gson.SendChatResponse
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -76,4 +78,15 @@ interface ApiService {
     suspend fun getChat(
         @Path("orderId") orderId : Int
     ): ChatOrderResponse
+
+    @FormUrlEncoded
+    @POST("setOrderChat")
+    suspend fun sendMessage(
+        @Field("id_order") id_order: Int,
+        @Field("message") message: String,
+    ): SendChatResponse
+
+    @GET("getOrderHistory")
+    suspend fun getOrderHistory(
+    ): GetHistoryService
 }

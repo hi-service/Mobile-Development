@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "317904973553",
-    "project_id": "coba-identity",
-    "storage_bucket": "coba-identity.appspot.com"
+    "project_number": "749418509005",
+    "project_id": "hi-service-69566",
+    "storage_bucket": "hi-service-69566.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:317904973553:android:27426859a44f33632bc350",
+        "mobilesdk_app_id": "1:749418509005:android:57cf0b31e6aae67272af84",
         "android_client_info": {
           "package_name": "com.hiservice.mobile"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyC1hL5X9agZxOPWKayKZeK3cXDN7wptmzE"
+          "current_key": "AIzaSyAcUFKREClLET6dLFKCEit5sBhB1qYXL4w"
         }
       ],
       "services": {

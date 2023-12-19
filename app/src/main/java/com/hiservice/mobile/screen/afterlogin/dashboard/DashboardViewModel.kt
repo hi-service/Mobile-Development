@@ -46,10 +46,6 @@ class DashboardViewModel(val repository: Repository) : ViewModel() {
                 _buyStatus.value = response.data.statusBuyOrder!!
                 _orderStatus.value = response.data.statusOrder!!
             } catch (e: HttpException) {
-                viewModelScope.launch {
-                    repository.logout()
-                    Firebase.auth.signOut()
-                }
             } catch (e: Exception) {
                 e.message?.let { Log.e("Exception", it) }
             }finally {

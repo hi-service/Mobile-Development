@@ -42,6 +42,13 @@ class StatusOrderViewModel(val repository: Repository) : ViewModel() {
     private val _loading = mutableStateOf(false)
     val loading: State<Boolean> get() = _loading
 
+    private val _textSend = mutableStateOf("")
+    val textSend: State<String> get() = _textSend
+
+    fun textSendChange(newText: String){
+        _textSend.value = newText
+    }
+
     private val _isFinished = mutableStateOf(false)
     val isFinished: State<Boolean> get() = _isFinished
 
@@ -168,6 +175,18 @@ class StatusOrderViewModel(val repository: Repository) : ViewModel() {
         try {
             val response = ApiConfig.getApiService(_session.value!!.token).getChat(_orderId.value)
             _chatModel.value = response.chat!!
+        } catch (e: HttpException) {
+        } catch (e: Exception) {
+            e.message?.let { Log.e("Exception", it) }
+        }finally {
+
+        }
+    }
+    suspend fun sendDataChat(){
+        try {
+            val response = ApiConfig.getApiService(_session.value!!.token).sendMessage(id_order = _orderId.value, message = _textSend.value)
+            _textSend.value = ""
+            getDataChat()
         } catch (e: HttpException) {
         } catch (e: Exception) {
             e.message?.let { Log.e("Exception", it) }

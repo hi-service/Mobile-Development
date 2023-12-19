@@ -32,6 +32,8 @@ sealed class Screen(override val route: String) : NavigationDestination {
     }
     object Service_Status_Order : Screen("service/status-order")
     object Service_Chat_Order : Screen("service/chat-order")
+    /* History Service */
+    object History_Service : Screen("history")
 }
 
 interface NavigationDestination {

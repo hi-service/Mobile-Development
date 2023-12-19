@@ -8,7 +8,6 @@ class HiServiceApps : Application() {
     val channelId = "NotificationChannel"
     private val channelName = "NotificationChannel"
     private val channelDesc = "Creating Notification Channel for versions above Oreo"
-
     override fun onCreate() {
         super.onCreate()
         val channel = NotificationChannel(channelId,channelName, NotificationManager.IMPORTANCE_HIGH)

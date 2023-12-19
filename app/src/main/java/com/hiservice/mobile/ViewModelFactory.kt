@@ -8,6 +8,7 @@ import com.hiservice.mobile.data.injection.Injection
 import com.hiservice.mobile.screen.afterlogin.daftarbengkel.DaftarBengkelViewModel
 import com.hiservice.mobile.screen.afterlogin.dashboard.DashboardViewModel
 import com.hiservice.mobile.screen.afterlogin.profil.ProfilViewModel
+import com.hiservice.mobile.screen.afterlogin.riwayat.history.RiwayatServiceViewModel
 import com.hiservice.mobile.screen.afterlogin.services.daftar_keluhan.KeluhanViewModel
 import com.hiservice.mobile.screen.afterlogin.services.detail_bengkel.DetailBengkelViewModel
 import com.hiservice.mobile.screen.afterlogin.services.first_page_detail.FirstPageViewModel
@@ -40,6 +41,8 @@ class ViewModelFactory(private val repository: Repository) :
             return DetailBengkelViewModel(repository) as T
         }else if (modelClass.isAssignableFrom(StatusOrderViewModel::class.java)) {
             return StatusOrderViewModel(repository) as T
+        }else if (modelClass.isAssignableFrom(RiwayatServiceViewModel::class.java)) {
+            return RiwayatServiceViewModel(repository) as T
         }
 
         throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)

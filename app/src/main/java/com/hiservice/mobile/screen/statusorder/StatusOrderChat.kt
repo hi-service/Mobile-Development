@@ -2,12 +2,14 @@ package com.hiservice.mobile.screen.statusorder
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -20,6 +22,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Send
+import androidx.compose.material.icons.outlined.Star
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -59,7 +65,7 @@ fun ChatOrder(modifier: Modifier = Modifier, navigator: NavHostController){
     val lazyListState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
     val chatModel by viewModel.chatModel.collectAsState()
-
+    val textSend by viewModel.textSend
     val loading by viewModel.loading
     LaunchedEffect(lazyListState) {
         snapshotFlow { lazyListState.firstVisibleItemIndex }
@@ -82,9 +88,15 @@ fun ChatOrder(modifier: Modifier = Modifier, navigator: NavHostController){
             LazyColumn (state = lazyListState,modifier = modifier
                 .height(400.dp)
                 .width(400.dp)
-                .simpleVerticalScrollbar(lazyListState)
+                .simpleVerticalScrollbar(lazyListState, color = DarkCyan)
                 .border(1.dp, DarkCyan, RoundedCornerShape(15.dp))
             ){
+                if(chatModel.isEmpty()){
+                    item{
+                            Text(text = "Chat Masih Kosong",modifier.fillMaxSize(), textAlign = TextAlign.Center)
+                    }
+                }
+
                 items(items = chatModel, key = {
                     it.id_chat!!
                 }) { item ->
@@ -100,24 +112,42 @@ fun ChatOrder(modifier: Modifier = Modifier, navigator: NavHostController){
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            Row (horizontalArrangement = Arrangement.SpaceBetween){
-                InputTextCustom(hint = "Hello", text = "Hello", onQueryChange = {})
-                Button(onClick = {}) {
-                    Text(text = "Kirim")
+            Row (horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier
+                .fillMaxWidth()
+                .height(54.dp)){
+                InputTextCustom(hint = "Kirim Pesan", text = textSend, onQueryChange = viewModel::textSendChange, modifier = Modifier.fillMaxWidth(0.8f))
+                    Spacer(modifier = Modifier.width(10.dp))
+                    Box(modifier = Modifier
+                        .fillMaxSize().clickable {
+                           coroutineScope.launch {
+                               if(textSend.isNotEmpty()){
+                                   viewModel.sendDataChat()
+                               }
+
+                           }
+                        }
+                        .background(
+                            color = YellowGold,
+                            RoundedCornerShape(15.dp)
+                        ), contentAlignment = Alignment.Center){
+                        Icon(
+                            Icons.Filled.Send,
+                            contentDescription = "Rating ",
+                            tint = DarkCyan
+                        )
+                    }
                 }
             }
             LoadingComponent(showDialog = loading, onDismiss = {})
 
         }
         LaunchedEffect(chatModel) {
-            // Ensure chatModel is not empty before scrolling
             if (chatModel.isNotEmpty()) {
-                // Scroll to the last item whenever chatModel is updated
                 lazyListState.scrollToItem(chatModel.size - 1)
             }
         }
     }
-}
+
 @Composable
 fun chatBubble(text:String, tanggal:String,textAlign: TextAlign, arrangement : Arrangement.Horizontal, alignment: Alignment.Horizontal, color: Color = YellowGold,textColor: Color,paddingStart : Dp = 0.dp,paddingEnd : Dp = 0.dp){
     Row(
