@@ -98,24 +98,29 @@ fun StatusOrderScreen(navigator : NavHostController,modifier : Modifier = Modifi
 
             horizontalArrangement = Arrangement.spacedBy(20.dp)
         ){
-            ButtonNormal(
-                text = statusOrder.buttonText,
-                onClick = {statusOrder.buttonClick.invoke() },
-                modifier = modifier
-                    .fillMaxWidth()
-                    .weight(1f),
-                color = statusOrder.buttonColor,
-                textColor = Color.White
-            )
-            ButtonNormal(
-                text = "Chat Bengkel",
-                onClick = {
-                    navigator.navigate("service/chat-order")
-                },
-                modifier = modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-            )
+            if(!statusOrder.isButton){
+
+            }else{
+                ButtonNormal(
+                    text = statusOrder.buttonText,
+                    onClick = {statusOrder.buttonClick.invoke() },
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .weight(1f),
+                    color = statusOrder.buttonColor,
+                    textColor = Color.White
+                )
+                ButtonNormal(
+                    text = "Chat Bengkel",
+                    onClick = {
+                        navigator.navigate("service/chat-order")
+                    },
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                )
+            }
+
         }
 
 

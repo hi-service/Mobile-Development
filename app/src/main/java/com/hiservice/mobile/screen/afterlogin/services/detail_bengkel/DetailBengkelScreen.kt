@@ -13,6 +13,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
@@ -35,6 +37,7 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.hiservice.mobile.MainViewModel
 import com.hiservice.mobile.ViewModelFactory
+import com.hiservice.mobile.components.AlertDialogComponent
 import com.hiservice.mobile.components.ButtonBig
 import com.hiservice.mobile.components.LoadingComponent
 import com.hiservice.mobile.components.ReviewerCard
@@ -62,6 +65,8 @@ fun DetailBengkelScreen(
     val scrollState = rememberScrollState()
     val dataBengkelItem by viewModel.dataBengkelItem.collectAsState()
     val loading by viewModel.loading
+    val success by viewModel.isSuccess
+    val message by viewModel.message
     var iconColor = YellowGold
 
         if(dataBengkel != null){
@@ -141,6 +146,19 @@ fun DetailBengkelScreen(
         }else{
             viewModel.setDataBengkel(id)
         }
+    if(success){
+        AlertDialogComponent(
+            onDismissRequest = {  },
+            onConfirmation = {
+                             navigator.navigate("dashboard"){
+                                 popUpTo("service/konfirmasi-order/$id") { inclusive = true }
+                             }
+                             },
+            dialogTitle = "Status Order",
+            dialogText = message,
+            icon = Icons.Filled.CheckCircle
+        )
+    }
     }
 
 @Preview(showBackground = true)

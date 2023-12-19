@@ -88,9 +88,6 @@ fun ChatOrder(modifier: Modifier = Modifier, navigator: NavHostController){
                 items(items = chatModel, key = {
                     it.id_chat!!
                 }) { item ->
-
-
-
                         if(item.sender=="0"){
                             chatBubble(item.message!!,formatDate(item.waktu!!), TextAlign.Start,Arrangement.Start,Alignment.Start, DarkCyan,
                                 WhiteReal,paddingEnd = 70.dp)
@@ -98,10 +95,6 @@ fun ChatOrder(modifier: Modifier = Modifier, navigator: NavHostController){
                             chatBubble(item.message!!,formatDate(item.waktu!!), TextAlign.End,Arrangement.End,Alignment.End, YellowGold,
                                 DarkCyan, paddingStart = 70.dp)
                     }
-
-
-
-
                 }
             }
 
