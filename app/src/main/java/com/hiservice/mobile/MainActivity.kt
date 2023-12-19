@@ -1,5 +1,6 @@
 package com.hiservice.mobile
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
@@ -72,6 +73,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+@SuppressLint("SuspiciousIndentation")
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun HiService(

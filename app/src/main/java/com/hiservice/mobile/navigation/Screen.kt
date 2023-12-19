@@ -14,6 +14,10 @@ sealed class Screen(override val route: String) : NavigationDestination {
     //After Login Page
     object Dashboard : Screen("dashboard")
 
+    object DetailArticle : Screen("dashboard/{articleID}"){
+        fun createRoute(articleID: Int) = "dashboard/$articleID"
+    }
+
     /*Navigation Drawer Screen*/
     object Profile : Screen("profile")
     object About : Screen("about")

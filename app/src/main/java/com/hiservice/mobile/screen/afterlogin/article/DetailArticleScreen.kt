@@ -15,23 +15,56 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.hiservice.mobile.R
+import com.hiservice.mobile.ViewModelFactory
 import com.hiservice.mobile.components.TopHeadBar
+import com.hiservice.mobile.data.injection.Injection
+import com.hiservice.mobile.ui.state.UiState
 import com.hiservice.mobile.ui.theme.HiServiceTheme
+import okhttp3.internal.threadFactory
 
 @Composable
 fun DetailArticleScreen(
+    articleID: Int,
+    viewModel: DetailArticleViewModel = viewModel(
+        factory = ViewModelFactory(
+            Injection.provideRepository(LocalContext.current)
+        )
+    ),
+    navigateBack: () -> Unit,
     modifier: Modifier = Modifier
 ){
-
+    viewModel.uiState.collectAsState(initial = UiState.Loading).value.let{ uiState ->
+        when(uiState){
+            is UiState.Loading -> {
+                viewModel.getArticleById(articleID)
+            }
+            is UiState.Success -> {
+                val data = uiState.data
+                DetailArticleContent(
+                    articleImg = data.articleDatas.articleImg,
+                    articleTitle = data.articleDatas.articleTitle,
+                    publisherImg = data.articleDatas.publisherImg,
+                    publisherName = data.articleDatas.publisherName,
+                    publishDate = data.articleDatas.publishDate,
+                    articleDesc = data.articleDatas.articleDesc,
+                    onBackClick = { navigateBack}
+                )
+            }
+            is UiState.Error -> {}
+        }
+    }
 }
 
 

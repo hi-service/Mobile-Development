@@ -107,10 +107,9 @@ fun ChatOrder(modifier: Modifier = Modifier, navigator: NavHostController){
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            Row {
-                InputTextCustom(hint = "Hello", text = "Hello", onQueryChange = {
-                })
-                Button(onClick = { /*TODO*/ }) {
+            Row (horizontalArrangement = Arrangement.SpaceBetween){
+                InputTextCustom(hint = "Hello", text = "Hello", onQueryChange = {})
+                Button(onClick = {}) {
                     Text(text = "Kirim")
                 }
             }

@@ -4,6 +4,7 @@ package com.hiservice.mobile.screen.afterlogin.dashboard
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -28,6 +29,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.size.Scale
@@ -38,16 +41,22 @@ import com.hiservice.mobile.R
 import com.hiservice.mobile.ui.theme.DarkCyan
 import com.hiservice.mobile.ui.theme.HiServiceTheme
 import com.hiservice.mobile.ui.theme.WhiteReal
+import com.services.finalsubmissionjetpackcompose.ui.navigation.Screen
 import kotlin.math.absoluteValue
 
 @Composable
-fun CarouselCard(){
+fun CarouselCard(navController: NavHostController = rememberNavController()){
     val pagerState = rememberPagerState(initialPage = 0)
-
     val sliderList = listOf(
         R.drawable.imgarticle_ganti_oli,
         R.drawable.imgarticle_handle_rem,
         R.drawable.imgarticle_cvt_masalah
+    )
+
+    val sliderListID = listOf(
+        1,
+        2,
+        3
     )
 
     val sliderListTitle = listOf(
@@ -107,7 +116,8 @@ fun CarouselCard(){
                         .border(width = 1.dp, color = DarkCyan, RoundedCornerShape(15.dp))
                 ){
                     Box(
-                        modifier = Modifier,
+                        modifier = Modifier
+                            .clickable { navController.navigate(Screen.DetailArticle.createRoute(sliderListID[page])) },
                         Alignment.BottomStart
                     ){
                         AsyncImage(
