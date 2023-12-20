@@ -45,7 +45,7 @@ import com.services.finalsubmissionjetpackcompose.ui.navigation.Screen
 import kotlin.math.absoluteValue
 
 @Composable
-fun CarouselCard(navController: NavHostController = rememberNavController()){
+fun CarouselCard(navController: NavHostController){
     val pagerState = rememberPagerState(initialPage = 0)
     val sliderList = listOf(
         R.drawable.imgarticle_ganti_oli,
@@ -167,6 +167,6 @@ fun CarouselCard(navController: NavHostController = rememberNavController()){
 @Composable
 fun CarouselCardPreview(){
     HiServiceTheme {
-        CarouselCard()
+
     }
 }

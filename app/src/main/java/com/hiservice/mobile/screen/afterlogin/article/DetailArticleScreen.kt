@@ -16,6 +16,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -30,6 +31,7 @@ import com.hiservice.mobile.R
 import com.hiservice.mobile.ViewModelFactory
 import com.hiservice.mobile.components.TopHeadBar
 import com.hiservice.mobile.data.injection.Injection
+import com.hiservice.mobile.screen.afterlogin.daftarbengkel.DaftarBengkelViewModel
 import com.hiservice.mobile.ui.state.UiState
 import com.hiservice.mobile.ui.theme.HiServiceTheme
 import okhttp3.internal.threadFactory
@@ -37,14 +39,12 @@ import okhttp3.internal.threadFactory
 @Composable
 fun DetailArticleScreen(
     articleID: Int,
-    viewModel: DetailArticleViewModel = viewModel(
-        factory = ViewModelFactory(
-            Injection.provideRepository(LocalContext.current)
-        )
-    ),
     navigateBack: () -> Unit,
     modifier: Modifier = Modifier
 ){
+    val current = LocalContext.current
+    val viewModelFactory = remember { ViewModelFactory.getInstance(current) }
+    val viewModel: DetailArticleViewModel = viewModel(factory = viewModelFactory)
     viewModel.uiState.collectAsState(initial = UiState.Loading).value.let{ uiState ->
         when(uiState){
             is UiState.Loading -> {
@@ -53,13 +53,13 @@ fun DetailArticleScreen(
             is UiState.Success -> {
                 val data = uiState.data
                 DetailArticleContent(
-                    articleImg = data.articleDatas.articleImg,
-                    articleTitle = data.articleDatas.articleTitle,
-                    publisherImg = data.articleDatas.publisherImg,
-                    publisherName = data.articleDatas.publisherName,
-                    publishDate = data.articleDatas.publishDate,
-                    articleDesc = data.articleDatas.articleDesc,
-                    onBackClick = { navigateBack}
+                    articleImg = data.articleImg,
+                    articleTitle = data.articleTitle,
+                    publisherImg = data.publisherImg,
+                    publisherName = data.publisherName,
+                    publishDate = data.publishDate,
+                    articleDesc = data.articleDesc,
+                    onBackClick = { navigateBack()}
                 )
             }
             is UiState.Error -> {}
@@ -82,7 +82,7 @@ fun DetailArticleContent(
     val scrollState = rememberScrollState()
     Column(modifier = modifier.fillMaxSize()) {
         TopHeadBar(text = "Article", onClick = {
-
+            onBackClick()
         }, isBack = true)
         Column(
             modifier = modifier

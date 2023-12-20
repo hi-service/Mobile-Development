@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -27,8 +28,12 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.hiservice.mobile.data.model.SharedData
+import com.hiservice.mobile.data.model.ShopSharedData
+import com.hiservice.mobile.screen.afterlogin.about.AboutScreen
+import com.hiservice.mobile.screen.afterlogin.article.DetailArticleScreen
 import com.hiservice.mobile.screen.afterlogin.daftarbengkel.DaftarBengkel
 import com.hiservice.mobile.screen.afterlogin.dashboard.DashboardScreen
+import com.hiservice.mobile.screen.afterlogin.faq.FAQScreen
 import com.hiservice.mobile.screen.afterlogin.profil.ImageSelectorAndCropper
 import com.hiservice.mobile.screen.afterlogin.profil.ProfilScreen
 import com.hiservice.mobile.screen.afterlogin.riwayat.history.RiwayatServiceContent
@@ -108,8 +113,10 @@ fun HiService(
                 RegisterContent(navigator = navController)
             }
             composable(Screen.Dashboard.route) {
-                DashboardScreen(navigator = navController)
                 viewModel.setShareData(SharedData("","",0.0,0.0,""))
+                viewModel.setShopShareData(ShopSharedData(0.0,0.0))
+                DashboardScreen(navigator = navController)
+
             }
             composable(Screen.Service_Status_Order.route) {
                 StatusOrderScreen(navigator = navController)
@@ -141,9 +148,7 @@ fun HiService(
                     navController.navigate("splash")
                 }
             }
-            composable(Screen.Setting.route) {
-                ImageSelectorAndCropper()
-            }
+
             composable(Screen.History_Service.route) {
                 RiwayatServiceContent(navigator = navController)
             }
@@ -160,6 +165,19 @@ fun HiService(
             ) {
                 val id = it.arguments?.getInt("idBengkel") ?: 1
                 ExploreShopContent(id = id)
+            }
+            composable(Screen.Faq.route) {
+                FAQScreen(navigator = navController)
+            }
+            composable(Screen.About.route) {
+                AboutScreen(navController)
+            }
+            composable(
+                route = Screen.DetailArticle.route,
+                arguments = listOf(navArgument("articleID") { type = NavType.IntType }),
+            ) {
+                val id = it.arguments?.getInt("articleID") ?: 1
+                DetailArticleScreen(articleID = id, navigateBack = { navController.popBackStack() })
             }
         }
     }

@@ -1,9 +1,11 @@
 package com.hiservice.mobile.data
 
 import com.hiservice.mobile.data.localstorage.UserPref
+import com.hiservice.mobile.data.model.ArticleModel
 import com.hiservice.mobile.data.model.ArticleModelWrapper
 import com.hiservice.mobile.data.model.PartShopModelWrapper
 import com.hiservice.mobile.data.model.UserModel
+import com.hiservice.mobile.data.real_data.ArticleData.articleData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
@@ -13,7 +15,7 @@ class Repository private constructor(
 ) {
 
     private val orderSparePart = mutableListOf<PartShopModelWrapper>()
-    private val article = mutableListOf<ArticleModelWrapper>()
+    private val article = articleData
 
     suspend fun saveSession(user: UserModel) {
         preference.saveSession(user)
@@ -27,9 +29,9 @@ class Repository private constructor(
         preference.logout()
     }
 
-    fun getClickedArticleByID(articleID: Int): ArticleModelWrapper{
+    fun getClickedArticleByID(articleID: Int): ArticleModel{
         return article.first{
-            it.articleDatas.id == articleID
+            it.id == articleID
         }
     }
 

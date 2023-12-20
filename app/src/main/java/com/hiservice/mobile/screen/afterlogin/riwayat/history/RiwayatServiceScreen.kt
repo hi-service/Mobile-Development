@@ -46,7 +46,7 @@ fun RiwayatServiceContent(
     Column (
         modifier = modifier.fillMaxSize()
     ){
-        TopHeadBar(text = "Riwayat Service", isBack = true, onClick = {})
+        TopHeadBar(text = "Riwayat Service", isBack = true, onClick = {navigator.popBackStack()})
         Column (
             modifier = modifier
                 .padding(horizontal = 32.dp)

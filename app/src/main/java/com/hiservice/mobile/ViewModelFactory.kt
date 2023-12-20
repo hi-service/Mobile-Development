@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.hiservice.mobile.data.Repository
 import com.hiservice.mobile.data.injection.Injection
+import com.hiservice.mobile.screen.afterlogin.article.DetailArticleViewModel
 import com.hiservice.mobile.screen.afterlogin.daftarbengkel.DaftarBengkelViewModel
 import com.hiservice.mobile.screen.afterlogin.dashboard.DashboardViewModel
 import com.hiservice.mobile.screen.afterlogin.profil.ProfilViewModel
@@ -52,6 +53,8 @@ class ViewModelFactory(private val repository: Repository) :
             return DaftarBengkelShopViewModel(repository) as T
         }else if (modelClass.isAssignableFrom(ExploreShopViewModel::class.java)) {
             return ExploreShopViewModel(repository) as T
+        }else if (modelClass.isAssignableFrom(DetailArticleViewModel::class.java)) {
+            return DetailArticleViewModel(repository) as T
         }
 
         throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)

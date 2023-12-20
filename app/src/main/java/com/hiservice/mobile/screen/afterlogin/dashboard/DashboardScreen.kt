@@ -1,6 +1,7 @@
 package com.hiservice.mobile.screen.afterlogin.dashboard
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -100,12 +101,12 @@ fun DashboardScreen(navigator: NavHostController) {
             navigator.navigate("profile")
         },
         DrawerItem(icon = R.drawable.info, label = "About", secondaryLabel = ""){
-            navigator.navigate("")
+            navigator.navigate("about")
         },
         DrawerItem(icon = 0, label = "", secondaryLabel = ""){
         },
         DrawerItem(icon = R.drawable.settings, label = "Settings", secondaryLabel = ""){
-            navigator.navigate("settings")
+            Toast.makeText(current,"Coming soon", Toast.LENGTH_LONG).show()
         },
         DrawerItem(icon = R.drawable.logout, label = "Logout", secondaryLabel = ""){
             viewModel.logout()
@@ -261,13 +262,17 @@ fun DashboardContent(modifier : Modifier = Modifier,navigator: NavHostController
                         navigator.navigate("history")
                 }
             })
-            BoxMenuComponent(image = R.drawable.consult_menu, text = "E - Consult")
+            BoxMenuComponent(image = R.drawable.consult_menu, text = "E - Consult"){
+                coroutineScope.launch {
+                    navigator.navigate("faq")
+                }
+            }
         }
 
         Spacer(modifier = modifier.height(24.dp))
         Text(text = "Artikel Terkait", fontWeight = FontWeight.SemiBold, fontSize = 22.sp, modifier = Modifier.padding(start = 32.dp, end = 32.dp))
         Spacer(modifier = modifier.height(6.dp))
-        CarouselCard()
+        CarouselCard(navigator)
     }
 }
 

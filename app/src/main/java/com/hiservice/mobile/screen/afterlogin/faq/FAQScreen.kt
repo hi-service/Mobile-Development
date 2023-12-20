@@ -14,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.hiservice.mobile.components.ItemExpandedList
 import com.hiservice.mobile.components.SearchBarCustomFAQ
 import com.hiservice.mobile.components.TopHeadBar
@@ -21,11 +22,11 @@ import com.hiservice.mobile.data.fake_data.generateItemList
 import com.hiservice.mobile.ui.theme.HiServiceTheme
 
 @Composable
-fun FAQScreen() {
+fun FAQScreen(navigator:NavHostController) {
     val itemList = generateItemList()
     val searchQuery = remember { mutableStateOf("") }
     Column {
-        TopHeadBar(text = "Pertanyaan Umum", isBack = true, onClick = {})
+        TopHeadBar(text = "Pertanyaan Umum", isBack = true, onClick = {navigator.popBackStack()})
         Column(Modifier.padding(horizontal = 32.dp)) {
             SearchBarCustomFAQ(
                 hint = "Cari pertanyaan",
@@ -51,6 +52,6 @@ fun FAQScreen() {
 @Preview
 fun FAQScreenPreview(){
     HiServiceTheme {
-        FAQScreen()
+
     }
 }

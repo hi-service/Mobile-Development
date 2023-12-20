@@ -14,8 +14,8 @@ sealed class Screen(override val route: String) : NavigationDestination {
     //After Login Page
     object Dashboard : Screen("dashboard")
 
-    object DetailArticle : Screen("dashboard/{articleID}"){
-        fun createRoute(articleID: Int) = "dashboard/$articleID"
+    object DetailArticle : Screen("article/{articleID}"){
+        fun createRoute(articleID: Int) = "article/$articleID"
     }
 
     /*Navigation Drawer Screen*/
@@ -41,6 +41,10 @@ sealed class Screen(override val route: String) : NavigationDestination {
     object Shop_Data_Item : Screen("shop/data_item/{idBengkel}"){
         fun createRoute(idBengkel: Int) = "shop/data_item/$idBengkel"
     }
+
+
+    /* Dashboard Menu */
+    object Faq : Screen("faq")
 }
 
 interface NavigationDestination {

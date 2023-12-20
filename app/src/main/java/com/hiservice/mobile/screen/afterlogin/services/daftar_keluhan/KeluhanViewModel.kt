@@ -29,6 +29,14 @@ class KeluhanViewModel(private val repository: Repository) : ViewModel() {
     private val _loading = mutableStateOf(false)
     val loading: State<Boolean> get() = _loading
     private val _session = MutableStateFlow<UserModel?>(null)
+    private val _dataGejala = mutableStateOf("")
+    val dataGejala: State<String> get() = _dataGejala
+
+    private val _gejalaDitemukan = mutableStateOf(false)
+    val gejalaDitemukan: State<Boolean> get() = _gejalaDitemukan
+
+    private val _btnEnabled = mutableStateOf(false)
+    val btnEnabled: State<Boolean> get() = _btnEnabled
 
     init {
         viewModelScope.launch {
@@ -42,37 +50,69 @@ class KeluhanViewModel(private val repository: Repository) : ViewModel() {
         }
     }
 
-    private suspend fun getDataKeluhan(){
+    private suspend fun getDataKeluhan() {
         try {
             var count = 0
             val response = ApiConfig.getApiService(_session.value!!.token).getKeluhan()
-            response.data!!.forEach{
+            response.data!!.forEach {
                 count++
                 _itemsState.add(
-                    Keluhan(id = count.toString(), namaKeluhan = it!!.textKeluhan.toString(),false)
+                    Keluhan(id = count.toString(), namaKeluhan = it!!.textKeluhan.toString(), false)
                 )
             }
         } catch (e: HttpException) {
             e.message?.let { Log.e("Exception", it) }
         } catch (e: Exception) {
             e.message?.let { Log.e("Exception", it) }
-        }finally {
+        } finally {
 
         }
     }
+
+    fun setDataCancel() {
+        _gejalaDitemukan.value = false
+    }
+
+    fun getDataGejala() {
+        val joinedKeluhan = _itemsState
+            .filter { it.isChecklist }
+            .joinToString(";") { it.namaKeluhan.toLowerCase() }
+        Log.d("Rick", joinedKeluhan)
+        viewModelScope.launch {
+            setDataKeluhan(joinedKeluhan)
+        }
+
+    }
+
+    private suspend fun setDataKeluhan(gejala: String) {
+        _loading.value = true
+        try {
+            val response = ApiConfig.getMlService().getAIGejala(gejala)
+            _dataGejala.value = response.data!!
+            _gejalaDitemukan.value = true
+        } catch (e: HttpException) {
+            e.message?.let { Log.e("Exception", it) }
+        } catch (e: Exception) {
+            e.message?.let { Log.e("Exception", it) }
+        } finally {
+            _loading.value = false
+        }
+    }
+
     fun changeData(index: Int) {
-            if(_itemsState[index].isChecklist){
-                _counter.value--
-                _itemsState[index] = _itemsState[index].copy(isChecklist = false)
-            }else{
-                if(_counter.value > 2){
-                }else{
-                    _counter.value++
-                    _itemsState[index] = _itemsState[index].copy(isChecklist = true)
-                    val currentList = _itemsStateFlow.value.toMutableList()
-                    currentList.add(_itemsState[index])
-                    _itemsStateFlow.value = currentList
-                }
+        if (_itemsState[index].isChecklist) {
+            _counter.value--
+            _itemsState[index] = _itemsState[index].copy(isChecklist = false)
+        } else {
+            if (_counter.value > 2) {
+            } else {
+                _counter.value++
+                _itemsState[index] = _itemsState[index].copy(isChecklist = true)
+                val currentList = _itemsStateFlow.value.toMutableList()
+                currentList.add(_itemsState[index])
+                _itemsStateFlow.value = currentList
             }
+        }
+        _btnEnabled.value = _counter.value == 3
     }
 }

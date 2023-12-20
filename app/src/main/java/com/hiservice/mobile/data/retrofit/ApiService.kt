@@ -12,6 +12,7 @@ import com.hiservice.mobile.data.retrofit.gson.OrderResponse
 import com.hiservice.mobile.data.retrofit.gson.OrderStatusPost
 import com.hiservice.mobile.data.retrofit.gson.RatingResponse
 import com.hiservice.mobile.data.retrofit.gson.RegisterResponse
+import com.hiservice.mobile.data.retrofit.gson.ResponseDataML
 import com.hiservice.mobile.data.retrofit.gson.ResponseItemData
 import com.hiservice.mobile.data.retrofit.gson.ResponseShopBengkel
 import com.hiservice.mobile.data.retrofit.gson.SendChatResponse
@@ -100,4 +101,10 @@ interface ApiService {
     suspend fun getItemsData(
         @Path("bengkelID") bengkelId : Int
     ): ResponseItemData
+
+    @FormUrlEncoded
+    @POST("/")
+    suspend fun getAIGejala(
+        @Field("gejala") message: String,
+    ): ResponseDataML
 }

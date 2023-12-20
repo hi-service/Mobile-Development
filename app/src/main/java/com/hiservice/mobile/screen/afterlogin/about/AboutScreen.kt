@@ -30,6 +30,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.hiservice.mobile.R
 import com.hiservice.mobile.components.TopHeadBar
 import com.hiservice.mobile.ui.theme.GreyDark
@@ -37,9 +38,9 @@ import com.hiservice.mobile.ui.theme.HiServiceTheme
 import com.hiservice.mobile.ui.theme.YellowGold
 
 @Composable
-fun AboutScreen(){
+fun AboutScreen(navigator : NavHostController){
     Column {
-        TopHeadBar(text = "Tentang Aplikasi", isBack = true, onClick = {})
+        TopHeadBar(text = "Tentang Aplikasi", isBack = true, onClick = {navigator.popBackStack()})
         Column (
             Modifier
                 .verticalScroll(rememberScrollState())
@@ -341,6 +342,6 @@ fun AboutScreen(){
 @Preview(showBackground = true)
 fun AboutScreenPreview(){
     HiServiceTheme {
-        AboutScreen()
+
     }
 }
