@@ -12,6 +12,8 @@ import com.hiservice.mobile.data.retrofit.gson.OrderResponse
 import com.hiservice.mobile.data.retrofit.gson.OrderStatusPost
 import com.hiservice.mobile.data.retrofit.gson.RatingResponse
 import com.hiservice.mobile.data.retrofit.gson.RegisterResponse
+import com.hiservice.mobile.data.retrofit.gson.ResponseItemData
+import com.hiservice.mobile.data.retrofit.gson.ResponseShopBengkel
 import com.hiservice.mobile.data.retrofit.gson.SendChatResponse
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -89,4 +91,13 @@ interface ApiService {
     @GET("getOrderHistory")
     suspend fun getOrderHistory(
     ): GetHistoryService
+
+    @GET("getBengkelShop")
+    suspend fun getBengkelShop(@Query("lat") lat: Double,@Query("lng") lng: Double
+    ): ResponseShopBengkel
+
+    @GET("getItemsData/{bengkelID}")
+    suspend fun getItemsData(
+        @Path("bengkelID") bengkelId : Int
+    ): ResponseItemData
 }

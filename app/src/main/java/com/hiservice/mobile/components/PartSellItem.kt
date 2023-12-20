@@ -32,19 +32,20 @@ import com.hiservice.mobile.ui.theme.HiServiceTheme
 fun PartSellItem(
     image: String,
     title: String,
-    harga: Int,
-    phoneNumber : String,
+    harga: String?,
+    phoneNumber: String,
 
     modifier: Modifier = Modifier,
-    context : Context
+    context: Context
 ){
-    val formattedAmount = String.format("Rp%,d", harga)
+    val hargaValue = harga!!.toInt()
+    val formattedAmount = String.format("Rp%,d", hargaValue)
     Column(
         modifier = modifier
             .border(width = 1.dp, color = DarkCyan, RoundedCornerShape(15.dp))
     ){
         AsyncImage(
-            model = image,
+            model = "http://192.168.1.21/f-lomba/public/uploads/img/items/" + image,
             contentDescription = "Foto Part yang Dijual",
             contentScale = ContentScale.Crop,
             modifier = Modifier

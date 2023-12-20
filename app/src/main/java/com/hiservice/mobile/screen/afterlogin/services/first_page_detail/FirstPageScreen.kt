@@ -84,7 +84,7 @@ fun bitmapDescriptorFromVector(context: Context, @DrawableRes vectorResourceId: 
     return bitmap?.let { BitmapDescriptorFactory.fromBitmap(it) }
 }
 @Composable
-fun MapComponent(modifier: Modifier = Modifier, context: Context,viewModel: FirstPageViewModel,mainViewModel: MainViewModel,navigator: NavHostController) {
+fun MapComponent(modifier: Modifier = Modifier, context: Context, viewModel: FirstPageViewModel, mainViewModel: MainViewModel, navigator: NavHostController) {
     TopHeadBar(text = "Detail Order", isBack = true, onClick = {
         navigator.popBackStack()
     })

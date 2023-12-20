@@ -245,7 +245,11 @@ fun DashboardContent(modifier : Modifier = Modifier,navigator: NavHostController
                 }
             }
 
-            BoxMenuComponent(image = R.drawable.shop_menu, text = "Part Shop")
+            BoxMenuComponent(image = R.drawable.shop_menu, text = "Part Shop"){
+                coroutineScope.launch {
+                    navigator.navigate("shop/detail")
+                }
+            }
         }
         Spacer(modifier = modifier.height(16.dp))
         Row(modifier = modifier

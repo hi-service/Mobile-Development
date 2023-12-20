@@ -14,6 +14,9 @@ import com.hiservice.mobile.screen.afterlogin.services.detail_bengkel.DetailBeng
 import com.hiservice.mobile.screen.afterlogin.services.first_page_detail.FirstPageViewModel
 import com.hiservice.mobile.screen.authentication.login.LoginViewModel
 import com.hiservice.mobile.screen.authentication.register.RegisterViewModel
+import com.hiservice.mobile.screen.part_shop.daftarbengkel.DaftarBengkelShopViewModel
+import com.hiservice.mobile.screen.part_shop.detail_pengguna.UserShopDetailViewModel
+import com.hiservice.mobile.screen.part_shop.explore_shop.ExploreShopViewModel
 import com.hiservice.mobile.screen.splash.SplashScreenViewModel
 import com.hiservice.mobile.screen.statusorder.StatusOrderViewModel
 
@@ -31,8 +34,8 @@ class ViewModelFactory(private val repository: Repository) :
             return ProfilViewModel(repository) as T
         }else if (modelClass.isAssignableFrom(DashboardViewModel::class.java)) {
             return DashboardViewModel(repository) as T
-        }else if (modelClass.isAssignableFrom(FirstPageViewModel::class.java)) {
-            return FirstPageViewModel(repository) as T
+        }else if (modelClass.isAssignableFrom(UserShopDetailViewModel::class.java)) {
+            return UserShopDetailViewModel(repository) as T
         }else if (modelClass.isAssignableFrom(KeluhanViewModel::class.java)) {
             return KeluhanViewModel(repository) as T
         }else if (modelClass.isAssignableFrom(DaftarBengkelViewModel::class.java)) {
@@ -43,6 +46,12 @@ class ViewModelFactory(private val repository: Repository) :
             return StatusOrderViewModel(repository) as T
         }else if (modelClass.isAssignableFrom(RiwayatServiceViewModel::class.java)) {
             return RiwayatServiceViewModel(repository) as T
+        }else if (modelClass.isAssignableFrom(FirstPageViewModel::class.java)) {
+            return FirstPageViewModel(repository) as T
+        }else if (modelClass.isAssignableFrom(DaftarBengkelShopViewModel::class.java)) {
+            return DaftarBengkelShopViewModel(repository) as T
+        }else if (modelClass.isAssignableFrom(ExploreShopViewModel::class.java)) {
+            return ExploreShopViewModel(repository) as T
         }
 
         throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)

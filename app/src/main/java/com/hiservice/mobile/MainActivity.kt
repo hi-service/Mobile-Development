@@ -39,6 +39,9 @@ import com.hiservice.mobile.screen.authentication.login.LoginContent
 import com.hiservice.mobile.screen.authentication.register.RegisterContent
 import com.hiservice.mobile.screen.no_connection.NoConnection
 import com.hiservice.mobile.screen.on_board.OnBoardingScreen
+import com.hiservice.mobile.screen.part_shop.daftarbengkel.DaftarBengkelShop
+import com.hiservice.mobile.screen.part_shop.detail_pengguna.DetailPenggunaShop
+import com.hiservice.mobile.screen.part_shop.explore_shop.ExploreShopContent
 import com.hiservice.mobile.screen.splash.SplashScreenAnimation
 import com.hiservice.mobile.screen.statusorder.ChatOrder
 import com.hiservice.mobile.screen.statusorder.StatusOrderScreen
@@ -143,6 +146,20 @@ fun HiService(
             }
             composable(Screen.History_Service.route) {
                 RiwayatServiceContent(navigator = navController)
+            }
+
+            composable(Screen.Shop_User_Detail.route) {
+                DetailPenggunaShop(navigator = navController, mainViewModel = viewModel)
+            }
+            composable(Screen.Shop_Bengkel_List.route) {
+                DaftarBengkelShop(navigator = navController, mainViewModel = viewModel)
+            }
+            composable(
+                route = Screen.Shop_Data_Item.route,
+                arguments = listOf(navArgument("idBengkel") { type = NavType.IntType }),
+            ) {
+                val id = it.arguments?.getInt("idBengkel") ?: 1
+                ExploreShopContent(id = id)
             }
         }
     }

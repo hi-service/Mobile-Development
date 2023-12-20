@@ -40,7 +40,6 @@ class FirstPageViewModel(val repository: Repository) : ViewModel() {
                     getDataBengkel()
                 }
             }
-
         }
     }
     private suspend fun getDataBengkel(){

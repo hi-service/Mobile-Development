@@ -7,3 +7,8 @@ data class SharedData(
     val lng : Double,
     val alamat : String,
 )
+
+data class ShopSharedData(
+    val lat : Double,
+    val lng : Double,
+)

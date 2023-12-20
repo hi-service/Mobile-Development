@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.hiservice.mobile.data.retrofit.gson.DataBengkelShopItem
 import com.hiservice.mobile.data.retrofit.gson.DataListBengkel
 import com.hiservice.mobile.ui.theme.GreyDark
 import com.hiservice.mobile.ui.theme.HiServiceTheme
@@ -77,7 +78,39 @@ fun CardDaftarBengkel(
         }
     }
 }
-
+@Composable
+fun CardDaftarBengkelShop(
+    daftarBengkel: DataBengkelShopItem,
+    modifier:Modifier = Modifier,
+    OnClick : () -> Unit
+){
+    var iconColor = YellowGold
+    Row(Modifier.clickable{
+        OnClick.invoke()
+    }) {
+        AsyncImage(
+            model = daftarBengkel.urlPhoto,
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = modifier
+                .width(100.dp)
+                .height(100.dp)
+                .clip(RoundedCornerShape(15))
+        )
+        Spacer(modifier = modifier.width(8.dp))
+        Column {
+            Text(
+                text = daftarBengkel.namaBengkel!!,
+                fontWeight = FontWeight.Medium,
+                fontSize = 18.sp
+            )
+            Text(text = "Total Barang Dimiliki : ${daftarBengkel.totalBarang!!}", color = GreyDark)
+            Text(text = "Alamat :", color = GreyDark)
+            Text(text = daftarBengkel.alamat_bengkel!!, color = GreyDark)
+            Text(text = "Jarak : ${daftarBengkel.jarak!!} Km", color = GreyDark)
+        }
+    }
+}
 @Preview(showBackground = true)
 @Composable
 fun CardDaftarBengkelPreview() {
