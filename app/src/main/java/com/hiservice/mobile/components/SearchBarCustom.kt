@@ -73,51 +73,55 @@ fun SearchBarCustom(modifier: Modifier = Modifier, hint: String, onClickSearch: 
         ),
         textStyle = mediumTextStyle
     )
-//        TextField(
-//            value = text,
-//            onValueChange = { newText ->
-//                onQueryChange(newText)
-//            },
-//            modifier = Modifier
-//                .height(50.dp)
-//                .clip(RoundedCornerShape(10.dp)),
-//            trailingIcon = {
-//                IconButton(
-//                    onClick = {onClickSearch()}
-//                ) {
-//                   Icon(
-//                       painter = painterResource(R.drawable.icon_search),
-//                       contentDescription = "Search Button"
-//                   )
-//                }
-//            },
-//            colors = TextFieldDefaults.colors(
-//                focusedContainerColor = Color.Transparent,
-//                unfocusedContainerColor = Color.Transparent,
-//                disabledContainerColor = Color.Transparent,
-//                cursorColor = DarkCyan,
-//                focusedIndicatorColor = Color.Transparent,
-//                unfocusedIndicatorColor = Color.Transparent,
-//                focusedLabelColor = Color.Transparent,
-//                unfocusedLabelColor = Color.Transparent,
-//                unfocusedTextColor = DarkCyan,
-//                focusedTextColor = DarkCyan,
-//            )
-//        )
-//        IconButton(onClick = {onClickSearch()}) {
-//            Box(modifier = modifier
-//                .size(height = 50.dp, width = 50.dp)
-//                .background(color = YellowGold)
-//                .clip(RectangleShape)
-//                .clip(RoundedCornerShape(10.dp)),
-//                Alignment.Center
-//            ) {
-//                Icon(
-//                    painter = painterResource(R.drawable.icon_search),
-//                    contentDescription = "Toggle password visibility"
-//                )
-//            }
-//        }
+}
+
+@Composable
+fun SearchBarCustomFAQ(
+    modifier: Modifier = Modifier,
+    hint: String,
+    value: String,
+    onValueChange: (String) -> Unit,
+    onClickSearch: () -> Unit = {}
+) {
+    val mediumTextStyle = tipografi.bodyLarge
+    TextField(
+        modifier = modifier
+            .fillMaxWidth()
+            .border(width = 1.dp, color = DarkCyan, RoundedCornerShape(10.dp))
+            .height(64.dp)
+            .padding(end = 8.dp),
+        value = value,
+        placeholder = { Text(text = hint) },
+        onValueChange = { onValueChange(it) },
+        trailingIcon = {
+            IconButton(onClick = onClickSearch,
+                modifier
+                    .background(color = YellowGold, RoundedCornerShape(10.dp))
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.icon_search),
+                    contentDescription = "Search Button"
+                )
+            }
+        },
+        singleLine = true,
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = WhiteReal,
+            unfocusedContainerColor = WhiteReal,
+            cursorColor = DarkCyan,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            focusedLabelColor = Color.Transparent,
+            unfocusedLabelColor = Color.Transparent,
+            unfocusedTextColor = DarkCyan,
+            focusedTextColor = DarkCyan,
+            unfocusedPlaceholderColor = DarkCyan,
+            focusedPlaceholderColor = Color.Transparent,
+            focusedTrailingIconColor = DarkCyan,
+            unfocusedTrailingIconColor = DarkCyan
+        ),
+        textStyle = mediumTextStyle
+    )
 }
 
 @Composable
