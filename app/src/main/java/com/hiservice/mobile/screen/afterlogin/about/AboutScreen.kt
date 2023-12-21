@@ -103,7 +103,7 @@ fun AboutScreen(navigator : NavHostController){
             Row (horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()){
                 Column{
                     Image(
-                        painter = painterResource(id = R.drawable.img_contoh_pria),
+                        painter = painterResource(id = R.drawable.ricky),
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
@@ -132,7 +132,7 @@ fun AboutScreen(navigator : NavHostController){
                 }
                 Column{
                     Image(
-                        painter = painterResource(id = R.drawable.img_contoh_pria),
+                        painter = painterResource(id = R.drawable.rizki),
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
@@ -171,7 +171,7 @@ fun AboutScreen(navigator : NavHostController){
             Row (horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()){
                 Column{
                     Image(
-                        painter = painterResource(id = R.drawable.img_contoh_pria),
+                        painter = painterResource(id = R.drawable.dhoni),
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
@@ -200,7 +200,7 @@ fun AboutScreen(navigator : NavHostController){
                 }
                 Column{
                     Image(
-                        painter = painterResource(id = R.drawable.img_contoh_pria),
+                        painter = painterResource(id = R.drawable.rizal),
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
@@ -239,7 +239,7 @@ fun AboutScreen(navigator : NavHostController){
             Row (horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()){
                 Column{
                     Image(
-                        painter = painterResource(id = R.drawable.img_contoh_wanita),
+                        painter = painterResource(id = R.drawable.dina),
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
@@ -268,7 +268,7 @@ fun AboutScreen(navigator : NavHostController){
                 }
                 Column{
                     Image(
-                        painter = painterResource(id = R.drawable.img_contoh_wanita),
+                        painter = painterResource(id = R.drawable.sarla),
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
@@ -299,7 +299,7 @@ fun AboutScreen(navigator : NavHostController){
             Row (horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()){
                 Column{
                     Image(
-                        painter = painterResource(id = R.drawable.img_contoh_wanita),
+                        painter = painterResource(id = R.drawable.nadiyah),
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier

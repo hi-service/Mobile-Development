@@ -164,7 +164,7 @@ fun HiService(
                 arguments = listOf(navArgument("idBengkel") { type = NavType.IntType }),
             ) {
                 val id = it.arguments?.getInt("idBengkel") ?: 1
-                ExploreShopContent(id = id)
+                ExploreShopContent(id = id, navigator = navController)
             }
             composable(Screen.Faq.route) {
                 FAQScreen(navigator = navController)

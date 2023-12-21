@@ -16,6 +16,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.hiservice.mobile.ViewModelFactory
 import com.hiservice.mobile.components.PartSellItem
 import com.hiservice.mobile.components.SearchBarCustom
@@ -26,6 +27,7 @@ import com.hiservice.mobile.ui.theme.HiServiceTheme
 
 @Composable
 fun ExploreShopContent(
+    navigator:NavHostController,
     id : Int,
     modifier: Modifier = Modifier,
 ) {
@@ -37,7 +39,9 @@ fun ExploreShopContent(
         viewModel.setDataBengkel(id)
     } else {
         Column(modifier = modifier) {
-            TopHeadBar(text = "Explore", isBack = true)
+            TopHeadBar(text = "Explore", isBack = true, onClick = {
+                navigator.popBackStack()
+            })
 
             Column(modifier = modifier.padding(horizontal = 32.dp)) {
                 SearchBarCustom(hint = "Cari Sparepart", onClickSearch = {})
